@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="floatingicon.css" rel="stylesheet">
+    <title>Book Your Appointment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 150vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+        .form-container img {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 100%;
+        }
+        .form-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 25px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group button {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 40px;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            background-color: #070935;;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #0b214d;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+   
+    
+    
+    <img src="images/download.png" width="620" height="100" alt="Form Logo" />
+    <h1>Book Your Appointment</h1>
+    
+    <form action="your_form_submission_url" method="post" accept-charset="utf-8" autocomplete="on">
+        <div class="form-group">
+            <label for="name">Patient Name:</label>
+            <input type="text" id="name" name="Patient name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="age" >Age:</label>
+            <input type="number" id="age" name="age" required>
+        </div>
+
+        <div class="form-group">
+            <label for="gender" style="margin-top: 20px;">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="">Please Select</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Transgender">Transgender</option>
+            </select>
+        </div>
+
+        <div class="form-group" style="margin-top: 20px;">
+            <label for="phone" style="margin-top: 20px;">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" placeholder="" required>
+        </div>
+
+        <div class="form-group">
+            <label for="reason" style="margin-top: 20px;">Reason For Your Appointment:</label>
+            <select id="reason" name="reason" required>
+                <option value="">Please Select</option>
+                <option value="Fever">Fever</option>
+                <option value="Vomiting">Vomiting</option>
+                <option value="Diarrhoea/Dysentery">Diarrhoea/Dysentery</option>
+                <option value="Stomach Pain">Stomach Pain</option>
+                <option value="Body pain/Joint pain">Body pain/Joint pain</option>
+                <option value="Others">Others</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="appointment_date"style="margin-top: 20px;">Appointment Date:</label>
+            <input type="date" id="appointment_date" name="appointment_date" required>
+        </div>
+
+        <div class="form-group">
+            <label for="time_slot" style="margin-top: 20px;">Time Slot:</label>
+            <select id="time_slot" name="time_slot" required>
+                <option value="">Please Select</option>
+                <option value="07:00">07:00</option>
+                <option value="07:15">07:15</option>
+                <option value="07:30">07:30</option>
+                <option value="07:45">07:45</option>
+                <option value="08:00">08:00</option>
+                <option value="08:15">08:15</option>
+                <option value="08:30">08:30</option>
+                <option value="08:45">08:45</option>
+                <option value="09:00">09:00</option>
+                <option value="09:15">09:15</option>
+                <option value="09:30">09:30</option>
+                <option value="09:45">09:45</option>
+                <option value="10:00">10:00</option>
+                <option value="10:15">10:15</option>
+                <option value="10:30">10:30</option>
+                <option value="10:45">10:45</option>
+                <option value="11:00">11:00</option>
+                <option value="11:15">11:15</option>
+                <option value="11:30">11:30</option>
+                <option value="11:45">11:45</option>
+                <option value="12:00">12:00</option>
+                <option value="12:15">12:15</option>
+                <option value="12:30">12:30</option>
+                <option value="12:45">12:45</option>
+                <option value="13:00">13:00</option>
+                <option value="13:15">13:15</option>
+                <option value="13:30">13:30</option>
+                <option value="13:45">13:45</option>
+                <option value="14:00">14:00</option>
+                <option value="14:15">14:15</option>
+                <option value="14:30">14:30</option>
+                <option value="14:45">14:45</option>
+                <option value="15:00">15:00</option>
+                <option value="15:15">15:15</option>
+                <option value="15:30">15:30</option>
+                <option value="15:45">15:45</option>
+                <option value="16:00">16:00</option>
+                <option value="16:15">16:15</option>
+                <option value="16:30">16:30</option>
+                <option value="16:45">16:45</option>
+                <option value="17:00">17:00</option>
+                <option value="17:15">17:15</option>
+                <option value="17:30">17:30</option>
+                <option value="17:45">17:45</option>
+                <option value="18:00">18:00</option>
+                <option value="18:15">18:15</option>
+                <option value="18:30">18:30</option>
+                <option value="18:45">18:45</option>
+                <option value="19:00">19:00</option>
+                <option value="19:15">19:15</option>
+                <option value="19:30">19:30</option>
+                <option value="19:45">19:45</option>
+                <option value="20:00">20:00</option>
+                <option value="20:15">20:15</option>
+                <option value="20:30">20:30</option>
+                <option value="20:45">20:45</option>
+                <option value="21:00">21:00</option>
+                <option value="21:15">21:15</option>
+                <option value="21:30">21:30</option>
+                <option value="21:45">21:45</option>
+               
+            </select>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" style="margin-top: 20px;">Submit</button>
+        </div>
+    </form>
+</div>
+<div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <!-- Left floating icons -->
+        <div class="floating-contact left">
+          <a href="https://wa.me/8148086997" target="blank">
+            <img src="images/whats.png" alt="WhatsApp Icon">
+          </a>
+        </div>
+       
+      </div>
+      <div class="col-lg-6">
+        <!-- Right floating icons -->
+       
+        <div class="floating-contact right">
+            <a href="sms:8148086997?body=Hello%20there!" target="_blank">
+              <img src="images/message.png" alt="Message Icon">
+            </a>
+          </div>
+          
+      </div>
+    </div>
+  </div>
+  
+  
+         
+
+
+</body>
+</html>

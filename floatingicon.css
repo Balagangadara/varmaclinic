@@ -1,0 +1,27 @@
+/* Style for the floating contact icons */
+.floating-contact {
+  position: fixed; /* Fixes the position */
+  bottom: 20px; /* Adjust the distance from the bottom */
+  transition: transform 0.3s ease; /* Add smooth transition effect */
+}
+
+/* Style for the left floating contact */
+.floating-contact.left {
+  left: 20px; /* Adjust the distance from the left */
+}
+
+/* Style for the right floating contact */
+.floating-contact.right {
+  right: 20px; /* Adjust the distance from the right */
+}
+
+/* Style for the WhatsApp and Mail icons */
+.floating-contact img {
+  width: 50px; /* Adjust the width of the icons */
+  height: auto; /* Maintain aspect ratio */
+}
+
+/* Hover effect */
+.floating-contact:hover {
+  transform: translateY(-5px); /* Move the icon slightly upwards on hover */
+}
