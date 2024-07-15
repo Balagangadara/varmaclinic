@@ -98,8 +98,8 @@
         </div>
 
         <div class="form-group" style="margin-top: 20px;">
-            <label for="phone" style="margin-top: 20px;">Phone Number:</label>
-            <input type="tel" class="form-control" name="Phone number" id="phone" placeholder="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" pattern="[6-9]{1}[0-9]{9}" maxlength="10" required>
+            <label for="phone" style="margin-top: 20px;">Mobile Number:</label>
+            <input type="tel" class="form-control" name="Mobile number" id="phone" placeholder="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" pattern="[6-9]{1}[0-9]{9}" maxlength="10" required>
         </div>
 
         <div class="form-group">
@@ -125,7 +125,68 @@
             <select id="time_slot" name="time_slot" required>
                 <option value="">Please Select</option>
                 <!-- ... all time slot options ... -->
-                <option value="21:45">21:45</option>
+                <option value="07:00">07:00</option>
+                <option value="07:15">07:15</option>
+                <option value="07:30">07:30</option>
+                <option value="07:45">07:45</option>
+                <option value="08:00">08:00</option>
+               <option value="08:15">08:15</option>
+                <option value="08:30">08:30</option>
+                <option value="08:45">08:45</option>
+                <option value="09:00">09:00</option>
+                <option value="09:15">09:15</option>
+                <option value="09:30">09:30</option>
+                <option value="09:45">09:45</option>
+                <option value="10:00">10:00</option>
+                <option value="10:15">10:15</option>
+                <option value="10:30">10:30</option>
+                <option value="10:45">10:45</option>
+                <option value="11:00">11:00</option>
+                <option value="11:15">11:15</option>
+                <option value="11:30">11:30</option>
+                <option value="11:45">11:45</option>
+                <option value="12:00">12:00</option>
+                <option value="12:15">12:15</option>
+                <option value="12:30">12:30</option>
+                <option value="12:45">12:45</option>
+                <option value="13:00">13:00</option>
+                <option value="13:15">13:15</option>
+                <option value="13:30">13:30</option>
+                <option value="13:45">13:45</option>
+                <option value="14:00">14:00</option>
+                <option value="14:15">14:15</option>
+                <option value="14:30">14:30</option>
+                <option value="14:45">14:45</option>
+                <option value="15:00">15:00</option>
+                <option value="15:15">15:15</option>
+                <option value="15:30">15:30</option>
+                <option value="15:45">15:45</option>
+                <option value="16:00">16:00</option>
+                <option value="16:15">16:15</option>
+                <option value="16:30">16:30</option>
+                <option value="16:45">16:45</option>
+                <option value="17:00">17:00</option>
+                <option value="17:15">17:15</option>
+                <option value="17:30">17:30</option>
+                <option value="17:45">17:45</option>
+                <option value="18:00">18:00</option>
+                <option value="18:15">18:15</option>
+                <option value="18:30">18:30</option>
+                <option value="18:45">18:45</option>
+                <option value="19:00">19:00</option>
+                <option value="19:15">19:15</option>
+                <option value="19:30">19:30</option>
+                <option value="19:45">19:45</option>
+                <option value="20:00">20:00</option>
+                <option value="20:15">20:15</option>
+                <option value="20:30">20:30</option>
+                <option value="20:45">20:45</option>
+                <option value="21:00">21:00</option>
+                <option value="21:15">21:15</option>
+                <option value="22:30">22:30</option>
+                <option value="22:45">22:45</option>
+             
+                
             </select>
         </div>
 
@@ -187,27 +248,37 @@
                 <img src="images/call.png" alt="Call Icon">
             </a>
         </div>
-    </div><script>
+    </div>
+    <script>
         document.getElementById('age').addEventListener('input', function () {
             const ageInput = document.getElementById('age');
             const ageValue = parseInt(ageInput.value);
     
-            if (ageValue < 1 || ageValue > 150) {
-                ageInput.setCustomValidity('Age must be between 1 and 150.');
-                disableUpDownButtons(true);
+            if (ageValue < 1 || ageValue > 110) {
+                ageInput.setCustomValidity('Age must be between 1 and 110.');
+                disableButtons(true);
             } else {
                 ageInput.setCustomValidity('');
-                disableUpDownButtons(false);
+                checkFormValidity();
             }
         });
     
-        function disableUpDownButtons(disable) {
-            const ageInput = document.getElementById('age');
-            const upDownButtons = ageInput.parentNode.querySelectorAll('input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button');
+        document.getElementById('phone').addEventListener('input', function () {
+            const phoneInput = document.getElementById('phone');
+            const phoneValue = phoneInput.value;
     
-            upDownButtons.forEach(button => {
-                button.style.pointerEvents = disable ? 'none' : 'auto';
-                button.style.opacity = disable ? '0.5' : '1';
+            if (phoneValue.length !== 10 || !/^[6789]\d{9}$/.test(phoneValue)) {
+                phoneInput.setCustomValidity('Phone number must be exactly 10 digits and start with 6, 7, 8, or 9.');
+                disableButtons(true);
+            } else {
+                phoneInput.setCustomValidity('');
+                checkFormValidity();
+            }
+        });
+    
+        function disableButtons(disable) {
+            buttons.forEach(button => {
+                button.disabled = disable;
             });
         }
     
@@ -224,7 +295,7 @@
             let allFieldsFilled = true;
             requiredFields.forEach(fieldId => {
                 const field = document.getElementById(fieldId);
-                if (!field || !field.value) {
+                if (!field || !field.value || (fieldId === 'age' && (field.value < 1 || field.value > 110)) || (fieldId === 'phone' && (!/^[6789]\d{9}$/.test(field.value)))) {
                     allFieldsFilled = false;
                 }
             });
@@ -267,19 +338,19 @@
                 'Name': document.getElementById('name').value,
                 'Age': document.getElementById('age').value,
                 'Gender': document.getElementById('gender').value,
-                'Phone Number': document.getElementById('phone').value,
+                'Mobile Number': document.getElementById('phone').value,
                 'Reason For Appointment': document.getElementById('reason').value,
                 'Appointment Date': formatDate(document.getElementById('appointment_date').value),
                 'Time Slot': document.getElementById('time_slot').value
             };
     
             const maxLength = Math.max(...Object.keys(fieldValues).map(key => key.length));
-            const colonPosition = maxLength + 2;
-            const valueStartPosition = 30; // Adjust this value as needed to ensure right alignment
+            const colonPosition = maxLength + 1;
+            const valueStartPosition = 15; // Adjust this value as needed to ensure right alignment
     
             return Object.entries(fieldValues)
                 .map(([key, value]) => 
-                    `${padRight(key, colonPosition)}: ${padLeft(value, valueStartPosition - colonPosition - 2)}`)
+                    `${padRight(key, colonPosition)}: ${padLeft(value, valueStartPosition - colonPosition - 1)}`)
                 .join('\n');
         }
     
@@ -348,8 +419,6 @@
             });
         });
     </script>
-    
-    
     
     
 <script>
