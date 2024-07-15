@@ -187,8 +187,30 @@
                 <img src="images/call.png" alt="Call Icon">
             </a>
         </div>
-    </div>
-    <script>
+    </div><script>
+        document.getElementById('age').addEventListener('input', function () {
+            const ageInput = document.getElementById('age');
+            const ageValue = parseInt(ageInput.value);
+    
+            if (ageValue < 1 || ageValue > 150) {
+                ageInput.setCustomValidity('Age must be between 1 and 150.');
+                disableUpDownButtons(true);
+            } else {
+                ageInput.setCustomValidity('');
+                disableUpDownButtons(false);
+            }
+        });
+    
+        function disableUpDownButtons(disable) {
+            const ageInput = document.getElementById('age');
+            const upDownButtons = ageInput.parentNode.querySelectorAll('input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button');
+    
+            upDownButtons.forEach(button => {
+                button.style.pointerEvents = disable ? 'none' : 'auto';
+                button.style.opacity = disable ? '0.5' : '1';
+            });
+        }
+    
         const requiredFields = ['name', 'age', 'gender', 'phone', 'reason', 'appointment_date', 'time_slot'];
         const buttons = [
             document.getElementById('whatsappButton'),
@@ -232,6 +254,14 @@
             return ' '.repeat(Math.max(0, length - str.length)) + str;
         }
     
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear().toString();
+            return `${day}/${month}/${year}`;
+        }
+    
         function getFormData() {
             const fieldValues = {
                 'Name': document.getElementById('name').value,
@@ -239,17 +269,17 @@
                 'Gender': document.getElementById('gender').value,
                 'Phone Number': document.getElementById('phone').value,
                 'Reason For Appointment': document.getElementById('reason').value,
-                'Appointment Date': document.getElementById('appointment_date').value,
+                'Appointment Date': formatDate(document.getElementById('appointment_date').value),
                 'Time Slot': document.getElementById('time_slot').value
             };
     
             const maxLength = Math.max(...Object.keys(fieldValues).map(key => key.length));
-            const colonPosition = maxLength + 8;
-            const valueStartPosition = 60; // Adjust this value as needed to ensure right alignment
+            const colonPosition = maxLength + 2;
+            const valueStartPosition = 30; // Adjust this value as needed to ensure right alignment
     
             return Object.entries(fieldValues)
                 .map(([key, value]) => 
-                    `${padRight(key, colonPosition)}: ${padLeft(value, valueStartPosition - colonPosition - 20)}`)
+                    `${padRight(key, colonPosition)}: ${padLeft(value, valueStartPosition - colonPosition - 2)}`)
                 .join('\n');
         }
     
@@ -298,7 +328,7 @@
             formData.append('Gender', document.getElementById('gender').value);
             formData.append('Phone number', document.getElementById('phone').value);
             formData.append('Reason For Appointment', document.getElementById('reason').value);
-            formData.append('Appointment Date', document.getElementById('appointment_date').value);
+            formData.append('Appointment Date', formatDate(document.getElementById('appointment_date').value));
             formData.append('Time Slot', document.getElementById('time_slot').value);
     
             fetch(formspreeUrl, {
@@ -318,6 +348,7 @@
             });
         });
     </script>
+    
     
     
     
