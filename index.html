@@ -81,10 +81,9 @@
             <label for="name">Patient Name:</label>
             <input type="text" name="Name" class="form-control" id="name" placeholder="Your Name" required>
         </div>
-
         <div class="form-group">
             <label for="age">Age:</label>
-            <input type="number" id="age" name="age" required min="1" max="3"  required>
+            <input type="number" id="age" name="age" required min="1" max="999">
         </div>
 
         <div class="form-group">
@@ -250,6 +249,20 @@
         </div>
     </div>
     <script>
+        document.getElementById('age').addEventListener('input', function (e) {
+            if (this.value.length > 3) {
+                this.value = this.value.slice(0, 3);
+            }
+
+            // Ensure age is within range 1 to 110
+            if (parseInt(this.value) > 110) {
+                this.value = '110';
+            } else if (parseInt(this.value) < 1) {
+                this.value = '1';
+            }
+        });
+    </script>
+    <script>
         document.getElementById('age').addEventListener('input', function () {
             const ageInput = document.getElementById('age');
             const ageValue = parseInt(ageInput.value);
@@ -345,12 +358,12 @@
             };
     
             const maxLength = Math.max(...Object.keys(fieldValues).map(key => key.length));
-            const colonPosition = maxLength + 1;
-            const valueStartPosition = 15; // Adjust this value as needed to ensure right alignment
+            const colonPosition = 4;
+            const valueStartPosition = 0; // Adjust this value as needed to ensure right alignment
     
             return Object.entries(fieldValues)
                 .map(([key, value]) => 
-                    `${padRight(key, colonPosition)}: ${padLeft(value, valueStartPosition - colonPosition - 1)}`)
+                    `${padRight(key, colonPosition)}: ${padLeft(value, valueStartPosition - colonPosition - 5)}`)
                 .join('\n');
         }
     
