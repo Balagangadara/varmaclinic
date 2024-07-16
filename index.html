@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="floatingicon.css" rel="stylesheet">
+    
     <title>Varma Clinic</title>
     <style>
         body {
@@ -21,7 +22,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 350px;
+            width: 450px;
         }
         .form-container img {
             display: block;
@@ -63,18 +64,35 @@
             background-color: grey;
             cursor: not-allowed;
         }
+        .next-button {
+            position: absolute;
+            top: 10px; /* Adjust as needed */
+            right: 10px; /* Adjust as needed */
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Adjust as needed */
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px; /* Adjust as needed */
+        }
+
+        .next-button:hover {
+            background-color: #45a049; /* Adjust as needed */
+        }
     
     </style>
      </head>
-
+     <body>
 
 <div class="form-container">
+    <a href="index1.html" class="next-button">Appointment Via calendely</a>
     <img src="images/logo.png" width="620" height="100" alt="Form Logo" />
     <h1>Book Your Appointment</h1>
          <!-- Your form fields here -->
         
     
-<body>
+
     <div class="container">
         <!-- Common Form Fields -->
         <div class="form-group">
@@ -220,19 +238,12 @@
         <!-- Form for Formspree -->
         <form action="https://formspree.io/f/mblrlylw" method="post" id="formspreeForm">
             <div class="form-group">
-                <button type="submit" id="formspreeButton" style="margin-top: 20px;" disabled>Submit via Formspree and Email</button>
+                <button type="submit" id="formspreeButton" style="margin-top: 20px; margin-bottom: 20px;" disabled>Submit via Formspree and Email</button>
             </div>
         </form>
     </div>
-
-   
-
-
-    
-           
-         
+</div>
     <div class="container">
-        
         <div class="floating-contact right">
             <a href="https://wa.me/8148086997" target="_blank">
                 <img src="images/whats.png" alt="WhatsApp Icon">
@@ -248,6 +259,7 @@
             </a>
         </div>
     </div>
+
     <script>
         document.getElementById('age').addEventListener('input', function (e) {
             if (this.value.length > 3) {
@@ -452,7 +464,7 @@
 </script>
 
       
-           </body>
+ </body>
 
 
 </html>
