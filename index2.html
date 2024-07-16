@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Booking</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .appointment-buttons {
+            display: inline-flexbox; /* Initially hide the buttons */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Calendly Widget -->
+        <div class="calendly-inline-widget" data-url="https://calendly.com/balavarmaclinic/15min" style="width:400px;height:700px;"></div>
+        
+        <!-- Appointment Buttons (hidden initially) -->
+        <div class="appointment-buttons">
+            <!-- Form for WhatsApp -->
+            <form id="submit_form_whatsapp">
+                <div class="form-group">
+                    <button type="button" id="whatsappButton" style="margin-top: 20px;" disabled>Book an Appointment via WhatsApp</button>
+                </div>
+            </form>
+
+            <!-- Form for SMS -->
+            <form id="submit_form_sms">
+                <div class="form-group">
+                    <button type="button" id="smsButton" style="margin-top: 20px;" disabled>Book an Appointment via SMS</button>
+                </div>
+            </form>
+
+            <!-- Form for Email -->
+            <form id="submit_form_email">
+                <div class="form-group">
+                    <button type="button" id="emailButton" style="margin-top: 20px;" disabled>Book an Appointment via Email</button>
+                </div>
+            </form>
+
+            <!-- Form for Phone Call -->
+            <form id="submit_form_call">
+                <div class="form-group">
+                    <button type="button" id="callButton" style="margin-top: 20px;" disabled>Book an Appointment via Phone Call</button>
+                </div>
+            </form>
+
+            <!-- Form for Formspree -->
+            <form action="https://formspree.io/f/mblrlylw" method="post" id="formspreeForm">
+                <div class="form-group">
+                    <button type="submit" id="formspreeButton" style="margin-top: 20px; margin-bottom: 20px;" disabled>Submit via Formspree and Email</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS (optional) -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <!-- Include Calendly Widget Script -->
+    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            window.addEventListener('message', function(event) {
+                if (event.data.event && event.data.event === 'calendly.event_scheduled') {
+                    // Show and enable appointment buttons
+                    document.querySelector('.appointment-buttons').style.display = 'block';
+                    document.getElementById('whatsappButton').disabled = false;
+                    document.getElementById('smsButton').disabled = false;
+                    document.getElementById('emailButton').disabled = false;
+                    document.getElementById('callButton').disabled = false;
+                    document.getElementById('formspreeButton').disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
