@@ -1,82 +1,51 @@
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Appointment Booking</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <style>
-        .appointment-buttons {
-            display: inline-flexbox; /* Initially hide the buttons */
-        }
-    </style>
+<title>
+Calendly - Dr. Varma
+</title>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="2024-07-18T14:12:19Z" name="page-rendered-at">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="BOOK YOUR APPOINTMENT - Dr. Varma">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calendly.com/balavarmaclinic/15min">
+<meta property="og:site_name" content="Calendly">
+<meta property="og:author" content="Dr. Varma">
+<meta property="og:image" content="https://assets.calendly.com/assets/booking/ogimage-453957c3679200e19fcc84e079b5e55cfb26ae5a3aa2504d75b5aedaaf37aa0c.png?source=opengraph">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:title" content="BOOK YOUR APPOINTMENT - Dr. Varma">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@Calendly">
+<meta name="twitter:url" content="https://calendly.com/balavarmaclinic/15min">
+<meta name="twitter:image" content="https://assets.calendly.com/assets/booking/ogimage-twitter-5e62f2112d04553b20c43d1f085d90dcd9bf541e1a348cba314e9e4621a5ca5f.png?source=opengraph">
+<meta name="twitter:image:width" content="600">
+<meta name="twitter:image:height" content="600">
+<meta name="slack-app-id" content="A01L99LFRD1">
+<script>
+  window.BackendData = {"locale":"en","modules":{"booking":{"custom_theme_allowed":true}},"components":[]}
+</script>
+<link rel="icon" type="image/x-icon" href="https://assets.calendly.com/assets/favicon-bfb0492a754bdf44a0a58b969963f44235653cca09a1c0110309c1e03077e368.ico" />
+<link rel="apple-touch-icon" type="image/png" href="https://assets.calendly.com/assets/touch-icon-iphone-260067382323ed52661bd79f4fa22edee49175d0d5b1cfc96cdc28eabbea159a.png" />
+<link rel="apple-touch-icon" type="image/png" href="https://assets.calendly.com/assets/touch-icon-ipad-260067382323ed52661bd79f4fa22edee49175d0d5b1cfc96cdc28eabbea159a.png" sizes="76x76" />
+<link rel="apple-touch-icon" type="image/png" href="https://assets.calendly.com/assets/touch-icon-iphone-retina-260067382323ed52661bd79f4fa22edee49175d0d5b1cfc96cdc28eabbea159a.png" sizes="120x120" />
+<link rel="apple-touch-icon" type="image/png" href="https://assets.calendly.com/assets/touch-icon-ipad-retina-260067382323ed52661bd79f4fa22edee49175d0d5b1cfc96cdc28eabbea159a.png" sizes="152x152" />
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="y8KpnOaxKmt334Y1rotqB8RUQWhbIUriBl5C4F5wAg-gvsfrZQ5y-4Vd7XgykG13nDrhTaiXJ-nrJqHwwk8wAg" />
+<script>
+  window.WEBPACK_PUBLIC_PATH = '//assets.calendly.com/assets/'
+</script>
+<link rel="stylesheet" href="https://assets.calendly.com/assets/booking/css/booking-d8c7d0da.css" media="screen" />
+<script src="https://assets.calendly.com/assets/booking/js/booking-runtime-6ccbef68.js" defer="defer"></script>
+<script src="https://assets.calendly.com/assets/booking/js/booking-9f010ea3.js" defer="defer"></script>
 </head>
 <body>
-    <div class="container mt-5">
-        <!-- Calendly Widget -->
-        <div class="calendly-inline-widget" data-url="https://calendly.com/balavarmaclinic/15min" style="width:400px;height:700px;"></div>
-        
-        <!-- Appointment Buttons (hidden initially) -->
-        <div class="appointment-buttons">
-            <!-- Form for WhatsApp -->
-            <form id="submit_form_whatsapp">
-                <div class="form-group">
-                    <button type="button" id="whatsappButton" style="margin-top: 20px;" disabled>Book an Appointment via WhatsApp</button>
-                </div>
-            </form>
-
-            <!-- Form for SMS -->
-            <form id="submit_form_sms">
-                <div class="form-group">
-                    <button type="button" id="smsButton" style="margin-top: 20px;" disabled>Book an Appointment via SMS</button>
-                </div>
-            </form>
-
-            <!-- Form for Email -->
-            <form id="submit_form_email">
-                <div class="form-group">
-                    <button type="button" id="emailButton" style="margin-top: 20px;" disabled>Book an Appointment via Email</button>
-                </div>
-            </form>
-
-            <!-- Form for Phone Call -->
-            <form id="submit_form_call">
-                <div class="form-group">
-                    <button type="button" id="callButton" style="margin-top: 20px;" disabled>Book an Appointment via Phone Call</button>
-                </div>
-            </form>
-
-            <!-- Form for Formspree -->
-            <form action="https://formspree.io/f/mblrlylw" method="post" id="formspreeForm">
-                <div class="form-group">
-                    <button type="submit" id="formspreeButton" style="margin-top: 20px; margin-bottom: 20px;" disabled>Submit via Formspree and Email</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Include Bootstrap JS (optional) -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-    <!-- Include Calendly Widget Script -->
-    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            window.addEventListener('message', function(event) {
-                if (event.data.event && event.data.event === 'calendly.event_scheduled') {
-                    // Show and enable appointment buttons
-                    document.querySelector('.appointment-buttons').style.display = 'block';
-                    document.getElementById('whatsappButton').disabled = false;
-                    document.getElementById('smsButton').disabled = false;
-                    document.getElementById('emailButton').disabled = false;
-                    document.getElementById('callButton').disabled = false;
-                    document.getElementById('formspreeButton').disabled = false;
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+<div id="root">
+</div>
+<div id="gdpr-region"></div>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'8a5310e1afb08001',t:'MTcyMTMxMTkzOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html> -->
