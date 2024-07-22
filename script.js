@@ -119,7 +119,7 @@
         document.getElementById('whatsappButton').addEventListener('click', function () {
             const message = getFormData();
             const encodedMessage = encodeURIComponent(message);
-            const phoneNumber = '8148086997'; // Replace with the actual WhatsApp number
+            const phoneNumber = '9094852653'; // Replace with the actual WhatsApp number
             const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     
             window.open(whatsappUrl, '_blank');
@@ -128,7 +128,7 @@
         document.getElementById('smsButton').addEventListener('click', function () {
             const message = getFormData();
             const encodedMessage = encodeURIComponent(message);
-            const phoneNumber = '814808997'; // Replace with the actual SMS number
+            const phoneNumber = '9094852653'; // Replace with the actual SMS number
             const smsUrl = `sms:${phoneNumber}?body=${encodedMessage}`;
     
             window.open(smsUrl, '_blank');
@@ -145,7 +145,7 @@
         });
     
         document.getElementById('callButton').addEventListener('click', function () {
-            const phoneNumber = '8148086997'; // Replace with the actual phone number for the call
+            const phoneNumber = '9094852653'; // Replace with the actual phone number for the call
             const callUrl = `tel:${phoneNumber}`;
     
             window.open(callUrl, '_self');
