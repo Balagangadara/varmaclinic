@@ -1,0 +1,92 @@
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+     
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        .form-container img {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 100%;
+        }
+        .form-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 25px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group button {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 40px;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            background-color: #070935;;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #0b214d;
+        }
+ 
+        button:disabled {
+            background-color: grey;
+            cursor: not-allowed;
+        }
+        .next-button {
+            position: absolute;
+            top: 10px; /* Adjust as needed */
+            right: 10px; /* Adjust as needed */
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Adjust as needed */
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px; /* Adjust as needed */
+        }
+
+        .next-button:hover {
+            background-color: #45a049; /* Adjust as needed */
+        }
+        .previous-button {
+            position: absolute;
+            top: 10px; /* Adjust as needed */
+            right: 10px; /* Adjust as needed */
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Adjust as needed */
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px; /* Adjust as needed */
+        }
+
+        .previous-button:hover {
+            background-color: #45a049; /* Adjust as needed */
+        }
+
+    

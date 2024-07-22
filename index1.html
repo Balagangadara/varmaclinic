@@ -7,77 +7,11 @@
     <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
     <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
     <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+    <script type="text/javascript" src="script.js" async></script>
+    <link href="index.css" rel="stylesheet">
+    
     <title>Varma Clinic</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            background-color: #f4f4f4;
-            margin: 0;
-        }
-        .form-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 380px;
-        }
-        .form-container img {
-            display: block;
-            margin: 0 auto 20px;
-            max-width: 100%;
-        }
-        .form-container h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 25px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-group input,
-        .form-group select,
-        .form-group button {
-            width: 50%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 40px;
-            box-sizing: border-box;
-        }
-        .form-group button {
-            background-color: #070935;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .form-group button:hover {
-            background-color: #0b214d;
-        }
-       
-        .previous-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 5px;
-        }
-        .previous-button:hover {
-            background-color: #45a049;
-        }
-     
-    </style>
+    
 </head>
 <body>
     <div class="form-container">
@@ -92,7 +26,7 @@
             <a href="https://wa.me/8148086997" target="_blank">
                 <img src="images/whats.png" alt="WhatsApp Icon">
             </a>
-            <a href="mailto:pozhilansolutions@gmail.com?subject=Appointment%20Request" target="_blank">
+            <a href="mailto:balavarmaclinic@gmail.com?subject=Appointment%20Request" target="_blank">
                 <img src="images/mail.png" alt="Email Icon">
             </a>
             <a href="sms:8148086997?body=Hello%20there!" target="_blank">
@@ -104,102 +38,5 @@
         </div>
     </div>
 
-    <script>
-        document.getElementById('age').addEventListener('input', function (e) {
-            if (this.value.length > 3) {
-                this.value = this.value.slice(0, 3);
-            }
-            if (parseInt(this.value) > 110) {
-                this.value = '110';
-            } else if (parseInt(this.value) < 1) {
-                this.value = '1';
-            }
-        });
-
-        document.getElementById('age').addEventListener('input', function () {
-            const ageInput = document.getElementById('age');
-            const ageValue = parseInt(ageInput.value);
-            if (ageValue < 1 || ageValue > 110) {
-                ageInput.setCustomValidity('Age must be between 1 and 110.');
-                disableButtons(true);
-            } else {
-                ageInput.setCustomValidity('');
-                disableButtons(false);
-            }
-        });
-
-        document.getElementById('phone').addEventListener('input', function () {
-            const phoneInput = document.getElementById('phone');
-            const phonePattern = /^[6-9][0-9]{9}$/;
-            if (!phonePattern.test(phoneInput.value)) {
-                phoneInput.setCustomValidity('Please enter a valid 10-digit phone number starting with 6-9.');
-                disableButtons(true);
-            } else {
-                phoneInput.setCustomValidity('');
-                disableButtons(false);
-            }
-        });
-
-        document.getElementById('submit_form_whatsapp').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const phoneInput = document.getElementById('phone').value;
-            const nameInput = document.getElementById('name').value;
-            const ageInput = document.getElementById('age').value;
-            const genderInput = document.getElementById('gender').value;
-            const reasonInput = document.getElementById('reason').value;
-            const message = `Name: ${nameInput}\nAge: ${ageInput}\nGender: ${genderInput}\nReason: ${reasonInput}`;
-            const url = `https://wa.me/${phoneInput}?text=${encodeURIComponent(message)}`;
-            window.open(url, '_blank');
-        });
-
-        document.getElementById('submit_form_sms').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const phoneInput = document.getElementById('phone').value;
-            const nameInput = document.getElementById('name').value;
-            const ageInput = document.getElementById('age').value;
-            const genderInput = document.getElementById('gender').value;
-            const reasonInput = document.getElementById('reason').value;
-            const message = `Name: ${nameInput}\nAge: ${ageInput}\nGender: ${genderInput}\nReason: ${reasonInput}`;
-            const url = `sms:${phoneInput}?body=${encodeURIComponent(message)}`;
-            window.open(url, '_blank');
-        });
-
-        document.getElementById('submit_form_email').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const email = 'pozhilansolutions@gmail.com';
-            const subject = 'Appointment Request';
-            const nameInput = document.getElementById('name').value;
-            const ageInput = document.getElementById('age').value;
-            const genderInput = document.getElementById('gender').value;
-            const reasonInput = document.getElementById('reason').value;
-            const body = `Name: ${nameInput}\nAge: ${ageInput}\nGender: ${genderInput}\nReason: ${reasonInput}`;
-            const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            window.open(url, '_blank');
-        });
-
-        document.getElementById('submit_form_call').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const phoneInput = '8148086997';
-            const url = `tel:${phoneInput}`;
-            window.open(url, '_blank');
-        });
-
-        function disableButtons(disabled) {
-            document.getElementById('whatsappButton').disabled = disabled;
-            document.getElementById('smsButton').disabled = disabled;
-            document.getElementById('emailButton').disabled = disabled;
-            document.getElementById('callButton').disabled = disabled;
-            document.getElementById('formspreeButton').disabled = disabled;
-        }
-
-        function addToGoogleCalendar() {
-            const nameInput = document.getElementById('name').value;
-            const ageInput = document.getElementById('age').value;
-            const genderInput = document.getElementById('gender').value;
-            const reasonInput = document.getElementById('reason').value;
-            const calendarLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=Appointment+with+${nameInput}&details=Age:${ageInput}+Gender:${genderInput}+Reason:${reasonInput}`;
-            window.open(calendarLink, '_blank');
-        }
-    </script>
-</body>
+    </body>
 </html>
