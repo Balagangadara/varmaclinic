@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latest Article</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            padding-top: 60px;
+        }
+        .navbar {
+            background-color: rgb(2, 7, 55);
+            color: white;
+            padding: 10px 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5em;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links li {
+            margin: 0 15px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1em;
+            display: block;
+            padding: 10px 15px;
+        }
+        
+        .nav-links a:hover {
+            background-color: #575757;
+            border-radius: 5px;
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        
+        .hamburger .bar {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 3px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                right: 20px;
+                background-color: #333333;
+                flex-direction: column;
+                width: 200px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+        }
+
+        #pdfViewer {
+            width: 100%;
+            height: 600px;
+            border: none;
+            margin-top: 20px;
+        }
+
+        #fileContent a {
+            display: block;
+            margin-top: 10px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a href="#" class="logo">
+                    <img src="images/logo1.jpeg" alt="MyLogo" style="height: 60px; width: 250px;">
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li>
+                        <a id="latest-pdf-link" href="#" class="pdf-link" target="_blank">
+                            <i class="fas fa-file-pdf" style="color: red;"></i> Latest Articles
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index3.html" class="pdf-link">
+                            <i class="fas fa-list" style="color: blue;"></i> All Articles
+                        </a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+<style>
+    @media (max-width:1000px){
+        .navbar {
+           margin-left: -28px;
+
+             } 
+
+           }
+    @media (max-width:1400px){
+        h1 {
+       margin-top: 50px;
+       margin-left: 10px;
+
+        } 
+
+    }
+</style>
+    <main>
+        <h1>Latest File Content</h1>
+        <ul id="fileList">Loading...</ul>
+    </main>
+ 
+    <script>
+        async function fetchAllFiles() {
+            const repoOwner = 'Balagangadara';
+            const repoName = 'Articles';
+            const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/latestfile`;
+    
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+    
+                // Log API response to debug
+                console.log('API response:', data);
+    
+                // Filter PDF files
+                const pdfFiles = data.filter(file => file.name.endsWith('.pdf'));
+    
+                const fileList = document.getElementById('fileList');
+                if (pdfFiles.length > 0) {
+                    fileList.innerHTML = pdfFiles.map(file => {
+                        // Use download_url for direct access to the file if available
+                        const fileUrl = file.download_url || `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/latestfile/${file.path}`;
+                        return `<li><a href="${fileUrl}" target="_blank" download><i class="fas fa-file-pdf" style="color: red;"></i> ${file.name}</a></li>`;
+                    }).join('');
+                } else {
+                    fileList.innerHTML = 'No PDF files found.';
+                }
+            } catch (error) {
+                console.error('Error fetching files:', error);
+                document.getElementById('fileList').innerHTML = 'Error loading files. Please check the console for details.';
+            }
+        }
+    
+        window.onload = fetchAllFiles;
+    </script>
+    
+</body>
+</html>

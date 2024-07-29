@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Latest PDF</title>
+    <style>
+        #fileContent {
+            margin-bottom: 10px;
+        }
+        #pdfViewer {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="fileContent"></div>
+    <iframe id="pdfViewer" type="application/pdf"></iframe>
+
+    <script>
+        async function fetchLatestFile() {
+            const repoOwner = 'Balagangadara'; // Replace with your GitHub username
+            const repoName = 'Articles'; // Replace with your repository name
+            const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/`;
+
+            try {
+                // Fetch the repository contents
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('Repository contents:', data);
+
+                // Filter PDF files
+                const pdfFiles = data.filter(file => file.name.endsWith('.pdf'));
+                console.log('PDF files:', pdfFiles);
+
+                if (pdfFiles.length === 0) {
+                    throw new Error('No PDF files found.');
+                }
+
+                // Fetch commit data for each PDF file to find the latest one
+                const pdfFilesWithCommits = await Promise.all(
+                    pdfFiles.map(async (file) => {
+                        try {
+                            const commitsUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/commits?path=${file.path}`;
+                            const commitResponse = await fetch(commitsUrl);
+                            if (!commitResponse.ok) {
+                                throw new Error(`Error fetching commit data for file: ${file.name}`);
+                            }
+                            const commitData = await commitResponse.json();
+                            return {
+                                ...file,
+                                commitDate: new Date(commitData[0].commit.committer.date)
+                            };
+                        } catch (error) {
+                            console.error(`Error fetching commit data for ${file.name}: ${error.message}`);
+                            return null; // Continue even if one file's commit data fetch fails
+                        }
+                    })
+                );
+
+                // Filter out files with errors
+                const validPdfFiles = pdfFilesWithCommits.filter(file => file !== null);
+                console.log('Valid PDF files with commit dates:', validPdfFiles);
+
+                if (validPdfFiles.length === 0) {
+                    throw new Error('No valid PDF files found after fetching commit data.');
+                }
+
+                // Sort files by commit date
+                validPdfFiles.sort((a, b) => b.commitDate - a.commitDate);
+
+                // Get the latest file
+                const latestFile = validPdfFiles[0];
+                console.log('Latest PDF file:', latestFile);
+
+                // Display the latest file in the iframe
+                if (latestFile) {
+                    const rawUrl = `https://github.com/${repoOwner}/${repoName}/raw/main/${latestFile.path}`;
+                    document.getElementById('fileContent').innerHTML = `
+                        <p>Viewing Latest PDF: ${latestFile.name}</p>
+                    `;
+                    document.getElementById('pdfViewer').src = rawUrl;
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.getElementById('fileContent').textContent = `Error: ${error.message}`;
+            }
+        }
+
+        window.onload = fetchLatestFile;
+    </script>
+</body>
+</html>
