@@ -437,21 +437,23 @@ button:focus {
           window.location.href = url; // Use window.location.href for SMS
         }
       
-        function redirectToEmail() {
-          const name = encodeURIComponent(document.getElementById("name").value.trim());
-          const age = encodeURIComponent(document.getElementById("age").value.trim());
-          const gender = encodeURIComponent(document.getElementById("gender").value);
-          const phone = encodeURIComponent(document.getElementById("phone").value.trim());
-          const reason = encodeURIComponent(document.getElementById("reason").value);
-          const date = formatDateToDDMMYYYY(document.getElementById("appointment_date").value);
-          const time = encodeURIComponent(document.getElementById("time_slot").value);
-      
-          const subject = encodeURIComponent('Appointment Request');
-          const body = encodeURIComponent(`Hi, I am ${name}, age ${age}, gender ${gender}. My phone number is ${phone}. I would like to book an appointment for ${reason} on ${date} at ${time}.`);
-          
-          const url = `mailto:balavarmaclinic@gmail.com?subject=${subject}&body=${body}`;
-          window.location.href = url; // Use window.location.href for mailto
-        }
+       
+  function redirectToEmail() {
+    const name = encodeURIComponent(document.getElementById("name").value.trim());
+    const age = encodeURIComponent(document.getElementById("age").value.trim());
+    const gender = encodeURIComponent(document.getElementById("gender").value);
+    const phone = encodeURIComponent(document.getElementById("phone").value.trim());
+    const reason = encodeURIComponent(document.getElementById("reason").value);
+    const date = formatDateToDDMMYYYY(document.getElementById("appointment_date").value);
+    const time = encodeURIComponent(document.getElementById("time_slot").value);
+
+    const subject = encodeURIComponent('Appointment Request');
+    const body = `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
+    
+    const url = `mailto:balavarmaclinic@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href = url; // Use window.location.href for mailto
+  }
+
       
         function redirectToCall() {
           const name = encodeURIComponent(document.getElementById("name").value.trim());
@@ -521,7 +523,6 @@ button:focus {
       
 
 
-</script>
 
 </body>
 </html>
