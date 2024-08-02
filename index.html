@@ -733,14 +733,21 @@ document.addEventListener('DOMContentLoaded', updateTimeSlots);
         // Implement redirection logic
         alert('Redirecting to Phone Call...');
     }
-</script>
-<script>
+</script><script>
+    // Function to format date to DD-MM-YYYY
     function formatDateToDDMMYYYY(dateInput) {
         const date = new Date(dateInput);
+        if (isNaN(date.getTime())) return 'Invalid Date'; // Handle invalid dates
         const day = ('0' + date.getDate()).slice(-2);
         const month = ('0' + (date.getMonth() + 1)).slice(-2);
         const year = date.getFullYear();
         return `${day}-${month}-${year}`;
+    }
+
+    // Function to get selected time slot
+    function getSelectedTimeSlot() {
+        const selectedButton = document.querySelector('#available-slots button:not([disabled])');
+        return selectedButton ? encodeURIComponent(selectedButton.textContent.trim()) : 'Not Selected';
     }
 
     function redirectToWhatsApp() {
@@ -750,11 +757,12 @@ document.addEventListener('DOMContentLoaded', updateTimeSlots);
         const phone = encodeURIComponent(document.getElementById("phone").value.trim());
         const reason = encodeURIComponent(document.getElementById("reason").value);
         const date = formatDateToDDMMYYYY(document.getElementById("date").value);
-        const time = encodeURIComponent(document.querySelector('#available-slots button:not([disabled])').textContent.trim());
+        const time = getSelectedTimeSlot();
 
         const message = `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
         const url = `https://wa.me/9094852653?text=${message}`;
         
+        console.log('WhatsApp URL:', url); // Debugging line
         window.open(url, '_blank');
     }
 
@@ -765,11 +773,12 @@ document.addEventListener('DOMContentLoaded', updateTimeSlots);
         const phone = encodeURIComponent(document.getElementById("phone").value.trim());
         const reason = encodeURIComponent(document.getElementById("reason").value);
         const date = formatDateToDDMMYYYY(document.getElementById("date").value);
-        const time = encodeURIComponent(document.querySelector('#available-slots button:not([disabled])').textContent.trim());
+        const time = getSelectedTimeSlot();
 
         const message = `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
         const url = `sms:9094852653?body=${message}`;
-        
+
+        console.log('SMS URL:', url); // Debugging line
         window.location.href = url; // Use window.location.href for SMS
     }
 
@@ -780,12 +789,13 @@ document.addEventListener('DOMContentLoaded', updateTimeSlots);
         const phone = encodeURIComponent(document.getElementById("phone").value.trim());
         const reason = encodeURIComponent(document.getElementById("reason").value);
         const date = formatDateToDDMMYYYY(document.getElementById("date").value);
-        const time = encodeURIComponent(document.querySelector('#available-slots button:not([disabled])').textContent.trim());
+        const time = getSelectedTimeSlot();
 
         const subject = encodeURIComponent('Appointment Request');
         const body = `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
-        
+
         const url = `mailto:balavarmaclinic@gmail.com?subject=${subject}&body=${body}`;
+        console.log('Email URL:', url); // Debugging line
         window.location.href = url; // Use window.location.href for mailto
     }
 
@@ -796,15 +806,15 @@ document.addEventListener('DOMContentLoaded', updateTimeSlots);
         const phone = encodeURIComponent(document.getElementById("phone").value.trim());
         const reason = encodeURIComponent(document.getElementById("reason").value);
         const date = formatDateToDDMMYYYY(document.getElementById("date").value);
-        const time = encodeURIComponent(document.querySelector('#available-slots button:not([disabled])').textContent.trim());
+        const time = getSelectedTimeSlot();
 
         const message = `Hi, I am ${name}, age ${age}, gender ${gender}. My phone number is ${phone}. I would like to book an appointment for ${reason} on ${date} at ${time}.`;
         const url = `tel:9094852653`; // Tel links do not support body content
         
+        console.log('Call URL:', url); // Debugging line
         window.location.href = url; // Use window.location.href for tel
     }
 </script>
-
 
 
 </body>
