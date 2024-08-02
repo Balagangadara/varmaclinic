@@ -791,7 +791,8 @@ document.addEventListener('DOMContentLoaded', updateTimeSlots);
         // Implement redirection logic
         alert('Redirecting to Phone Call...');
     }
-</script><script>
+</script>
+<script>
     // Function to format date to DD-MM-YYYY
     function formatDateToDDMMYYYY(dateInput) {
         const date = new Date(dateInput);
@@ -809,68 +810,70 @@ document.addEventListener('DOMContentLoaded', updateTimeSlots);
     }
 
     function redirectToWhatsApp() {
-        const name = encodeURIComponent(document.getElementById("name").value.trim());
-        const age = encodeURIComponent(document.getElementById("age").value.trim());
-        const gender = encodeURIComponent(document.getElementById("gender").value);
-        const phone = encodeURIComponent(document.getElementById("phone").value.trim());
-        const reason = encodeURIComponent(document.getElementById("reason").value);
-        const date = formatDateToDDMMYYYY(document.getElementById("date").value);
-        const time = getSelectedTimeSlot();
+    const name = encodeURIComponent(document.getElementById("name").value.trim());
+    const age = encodeURIComponent(document.getElementById("age").value.trim());
+    const gender = encodeURIComponent(document.getElementById("gender").value);
+    const phone = encodeURIComponent(document.getElementById("phone").value.trim());
+    const reason = encodeURIComponent(document.getElementById("reason").value);
+    const date = formatDateToDDMMYYYY(document.getElementById("date").value);
+    const time = getSelectedTimeSlot();
 
-        const message = `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
-        const url = `https://wa.me/9094852653?text=${message}`;
-        
-        console.log('WhatsApp URL:', url); // Debugging line
-        window.open(url, '_blank');
-    }
+    const message = `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
+    const url = `https://wa.me/9094852653?text=${message}`;
+    
+    console.log('WhatsApp URL:', url); // Debugging line
+    window.open(url, '_blank');
+}
 
-    function redirectToSMS() {
-        const name = encodeURIComponent(document.getElementById("name").value.trim());
-        const age = encodeURIComponent(document.getElementById("age").value.trim());
-        const gender = encodeURIComponent(document.getElementById("gender").value);
-        const phone = encodeURIComponent(document.getElementById("phone").value.trim());
-        const reason = encodeURIComponent(document.getElementById("reason").value);
-        const date = formatDateToDDMMYYYY(document.getElementById("date").value);
-        const time = getSelectedTimeSlot();
+function redirectToSMS() {
+    const name = encodeURIComponent(document.getElementById("name").value.trim());
+    const age = encodeURIComponent(document.getElementById("age").value.trim());
+    const gender = encodeURIComponent(document.getElementById("gender").value);
+    const phone = encodeURIComponent(document.getElementById("phone").value.trim());
+    const reason = encodeURIComponent(document.getElementById("reason").value);
+    const date = formatDateToDDMMYYYY(document.getElementById("date").value);
+    const time = getSelectedTimeSlot();
 
-        const message = `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
-        const url = `sms:9094852653?body=${message}`;
+    const message = `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
+    const url = `sms:9094852653?body=${message}`;
 
-        console.log('SMS URL:', url); // Debugging line
-        window.location.href = url; // Use window.location.href for SMS
-    }
+    console.log('SMS URL:', url); // Debugging line
+    window.location.href = url; // Use window.location.href for SMS
+}
 
-    function redirectToEmail() {
-        const name = encodeURIComponent(document.getElementById("name").value.trim());
-        const age = encodeURIComponent(document.getElementById("age").value.trim());
-        const gender = encodeURIComponent(document.getElementById("gender").value);
-        const phone = encodeURIComponent(document.getElementById("phone").value.trim());
-        const reason = encodeURIComponent(document.getElementById("reason").value);
-        const date = formatDateToDDMMYYYY(document.getElementById("date").value);
-        const time = getSelectedTimeSlot();
+function redirectToEmail() {
+    const name = encodeURIComponent(document.getElementById("name").value.trim());
+    const age = encodeURIComponent(document.getElementById("age").value.trim());
+    const gender = encodeURIComponent(document.getElementById("gender").value);
+    const phone = encodeURIComponent(document.getElementById("phone").value.trim());
+    const reason = encodeURIComponent(document.getElementById("reason").value);
+    const date = formatDateToDDMMYYYY(document.getElementById("date").value);
+    const time = getSelectedTimeSlot();
 
-        const subject = encodeURIComponent('Appointment Request');
-        const body = `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
+    const subject = encodeURIComponent('Appointment Request');
+    const body = `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
 
-        const url = `mailto:balavarmaclinic@gmail.com?subject=${subject}&body=${body}`;
-        console.log('Email URL:', url); // Debugging line
-        window.location.href = url; // Use window.location.href for mailto
-    }
+    const url = `mailto:balavarmaclinic@gmail.com?subject=${subject}&body=${body}`;
+    console.log('Email URL:', url); // Debugging line
+    window.location.href = url; // Use window.location.href for mailto
+}
 
-    function redirectToCall() {
-        const name = encodeURIComponent(document.getElementById("name").value.trim());
-        const age = encodeURIComponent(document.getElementById("age").value.trim());
-        const gender = encodeURIComponent(document.getElementById("gender").value);
-        const phone = encodeURIComponent(document.getElementById("phone").value.trim());
-        const reason = encodeURIComponent(document.getElementById("reason").value);
-        const date = formatDateToDDMMYYYY(document.getElementById("date").value);
-        const time = getSelectedTimeSlot();
+function redirectToCall() {
+    const name = encodeURIComponent(document.getElementById("name").value.trim());
+    const age = encodeURIComponent(document.getElementById("age").value.trim());
+    const gender = encodeURIComponent(document.getElementById("gender").value);
+    const phone = encodeURIComponent(document.getElementById("phone").value.trim());
+    const reason = encodeURIComponent(document.getElementById("reason").value);
+    const date = formatDateToDDMMYYYY(document.getElementById("date").value);
+    const time = getSelectedTimeSlot();
 
-        const message = `Hi, I am ${name}, age ${age}, gender ${gender}. My phone number is ${phone}. I would like to book an appointment for ${reason} on ${date} at ${time}.`;
-        const url = `tel:9094852653`; // Tel links do not support body content
-        
-        console.log('Call URL:', url); // Debugging line
-        window.location.href = url; // Use window.location.href for tel
+    const message = `Hi, I am ${name}, age ${age}, gender ${gender}. My phone number is ${phone}. I would like to book an appointment for ${reason} on ${date} at ${time}.`;
+    const url = `tel:9094852653`; // Tel links do not support body content
+
+    console.log('Call URL:', url); // Debugging line
+    window.location.href = url; // Use window.location.href for tel
+
+
     }
 </script>
 </body>
