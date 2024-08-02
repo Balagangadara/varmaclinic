@@ -733,11 +733,11 @@ document.addEventListener('DOMContentLoaded', updateTimeSlots);
         // Implement redirection logic
         alert('Redirecting to Phone Call...');
     }
-</script>
-<script>
+</script><script>
     // Function to format date to DD-MM-YYYY
     function formatDateToDDMMYYYY(dateInput) {
         const date = new Date(dateInput);
+        if (isNaN(date.getTime())) return 'Invalid Date'; // Handle invalid dates
         const day = ('0' + date.getDate()).slice(-2);
         const month = ('0' + (date.getMonth() + 1)).slice(-2);
         const year = date.getFullYear();
@@ -815,6 +815,7 @@ document.addEventListener('DOMContentLoaded', updateTimeSlots);
         window.location.href = url; // Use window.location.href for tel
     }
 </script>
+
 
 </body>
 </html>
