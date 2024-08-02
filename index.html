@@ -809,7 +809,16 @@ document.addEventListener('DOMContentLoaded', updateTimeSlots);
         return selectedButton ? encodeURIComponent(selectedButton.textContent.trim()) : 'Not Selected';
     }
 
-    function redirectToWhatsApp() {
+    function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        console.log('Text copied to clipboard');
+        // No alert or further action needed here
+    }).catch(err => {
+        console.error('Failed to copy text: ', err);
+    });
+}
+
+function getMessage() {
     const name = encodeURIComponent(document.getElementById("name").value.trim());
     const age = encodeURIComponent(document.getElementById("age").value.trim());
     const gender = encodeURIComponent(document.getElementById("gender").value);
@@ -818,44 +827,36 @@ document.addEventListener('DOMContentLoaded', updateTimeSlots);
     const date = formatDateToDDMMYYYY(document.getElementById("date").value);
     const time = getSelectedTimeSlot();
 
-    const message = `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
+    return `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
+}
+
+function redirectToWhatsApp() {
+    const message = getMessage();
     const url = `https://wa.me/9094852653?text=${message}`;
     
-    console.log('WhatsApp URL:', url); // Debugging line
+    copyToClipboard(message);
+    console.log('WhatsApp URL:', url);
     window.open(url, '_blank');
 }
 
 function redirectToSMS() {
-    const name = encodeURIComponent(document.getElementById("name").value.trim());
-    const age = encodeURIComponent(document.getElementById("age").value.trim());
-    const gender = encodeURIComponent(document.getElementById("gender").value);
-    const phone = encodeURIComponent(document.getElementById("phone").value.trim());
-    const reason = encodeURIComponent(document.getElementById("reason").value);
-    const date = formatDateToDDMMYYYY(document.getElementById("date").value);
-    const time = getSelectedTimeSlot();
-
-    const message = `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
+    const message = getMessage();
     const url = `sms:9094852653?body=${message}`;
 
-    console.log('SMS URL:', url); // Debugging line
-    window.location.href = url; // Use window.location.href for SMS
+    copyToClipboard(message);
+    console.log('SMS URL:', url);
+    window.location.href = url;
 }
 
 function redirectToEmail() {
-    const name = encodeURIComponent(document.getElementById("name").value.trim());
-    const age = encodeURIComponent(document.getElementById("age").value.trim());
-    const gender = encodeURIComponent(document.getElementById("gender").value);
-    const phone = encodeURIComponent(document.getElementById("phone").value.trim());
-    const reason = encodeURIComponent(document.getElementById("reason").value);
-    const date = formatDateToDDMMYYYY(document.getElementById("date").value);
-    const time = getSelectedTimeSlot();
-
+    const message = getMessage();
     const subject = encodeURIComponent('Appointment Request');
-    const body = `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
-
+    const body = message;
     const url = `mailto:balavarmaclinic@gmail.com?subject=${subject}&body=${body}`;
-    console.log('Email URL:', url); // Debugging line
-    window.location.href = url; // Use window.location.href for mailto
+
+    copyToClipboard(message);
+    console.log('Email URL:', url);
+    window.location.href = url;
 }
 
 function redirectToCall() {
@@ -868,13 +869,12 @@ function redirectToCall() {
     const time = getSelectedTimeSlot();
 
     const message = `Hi, I am ${name}, age ${age}, gender ${gender}. My phone number is ${phone}. I would like to book an appointment for ${reason} on ${date} at ${time}.`;
-    const url = `tel:9094852653`; // Tel links do not support body content
+    const url = `tel:9094852653`;
 
-    console.log('Call URL:', url); // Debugging line
-    window.location.href = url; // Use window.location.href for tel
-
-
-    }
+    copyToClipboard(message);
+    console.log('Call URL:', url);
+    window.location.href = url;
+}
 </script>
 </body>
 </html>
