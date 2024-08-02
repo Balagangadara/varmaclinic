@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Latest Article</title>
+    <title>Latest Articles</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -22,19 +22,16 @@
             z-index: 1000;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        
         .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
         .logo {
             font-size: 1.5em;
             color: white;
             text-decoration: none;
         }
-        
         .nav-links {
             list-style: none;
             margin: 0;
@@ -42,11 +39,9 @@
             display: flex;
             align-items: center;
         }
-        
         .nav-links li {
             margin: 0 15px;
         }
-        
         .nav-links a {
             color: white;
             text-decoration: none;
@@ -54,25 +49,21 @@
             display: block;
             padding: 10px 15px;
         }
-        
         .nav-links a:hover {
             background-color: #575757;
             border-radius: 5px;
         }
-        
         .hamburger {
             display: none;
             flex-direction: column;
             cursor: pointer;
         }
-        
         .hamburger .bar {
             width: 25px;
             height: 3px;
             background-color: white;
             margin: 3px 0;
         }
-        
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
@@ -85,45 +76,84 @@
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
                 border-radius: 5px;
             }
-            
             .nav-links.active {
                 display: flex;
             }
-            
             .hamburger {
                 display: flex;
             }
         }
-
-        #pdfViewer {
+        #fileList {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            list-style: none;
+            padding: 0;
+        }
+        #fileList li {
+            width: 250px;
+            text-align: center;
+            position: relative;
+        }
+        .file-thumbnail {
+            width: 250px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: block;
+        }
+        .file-thumbnail:hover {
+            transform: scale(1.05);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 600px;
-            border: none;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            overflow: auto; /* Allows scrolling if content overflows */
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 1200px; /* Increased max-width for larger PDFs */
+            max-height: 90vh; /* Set max height to make sure it fits within the viewport */
+            overflow-y: auto; /* Allows scrolling if content exceeds the height */
+            position: relative;
+        }
+        .modal-content canvas {
+            display: block;
+            margin: 0 auto; /* Center canvas */
+        }
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 1.5em;
+        }
+        .modal-download {
             margin-top: 20px;
         }
-
-        #fileContent a {
-            display: block;
-            margin-top: 10px;
-            font-size: 1.2em;
-        }
-
         @media (max-width: 1000px) {
             .navbar {
                 margin-left: -28px;
             } 
         }
-
         @media (max-width: 1400px) {
             h1 {
                 margin-top: 50px;
                 margin-left: 10px;
             } 
-        }
-
-        /* New CSS rule for the Latest Articles link */
-        .latest-articles-link {
-            color: black;
         }
     </style>
 </head>
@@ -134,13 +164,11 @@
                 <a href="#" class="logo">
                     <img src="images/logo1.jpeg" alt="MyLogo" style="height: 60px; width: 250px;">
                 </a>
-                
                 <ul class="nav-links">
                     <li><a href="index.html">Appointment Form</a></li>
                     <li><a href="index1.html">Calendly</a></li>
-                    
                     <li>
-                        <a id="latest-pdf-link" href="index2.html" class="pdf-link latest-articles-link" target="_blank">
+                        <a id="latest-articles-link" href="index2.html" class="pdf-link latest-articles-link" target="_blank">
                             <i class="fas fa-file-pdf" style="color: red;"></i> Latest Articles
                         </a>
                     </li>
@@ -162,50 +190,133 @@
         <h1>Latest File Content</h1>
         <ul id="fileList">Loading...</ul>
     </main>
- 
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div id="modal-body"></div>
+            <a id="download-link" class="modal-download" href="#" download>Download</a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.0.279/pdf.min.js"></script>
     <script>
+        const pdfjsLib = window['pdfjs-dist/build/pdf'];
+
         async function fetchAllFiles() {
             const repoOwner = 'Balagangadara';
             const repoName = 'Articles';
             const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/latestfiles`;
-    
+
             try {
                 const response = await fetch(apiUrl);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-    
-                // Log API response to debug
-                console.log('API response:', data);
-    
-                // Filter PDF files
-                const pdfFiles = data.filter(file => file.name.endsWith('.pdf'));
-    
+
                 const fileList = document.getElementById('fileList');
-                if (pdfFiles.length > 0) {
-                    fileList.innerHTML = pdfFiles.map(file => {
-                        // Use download_url for direct access to the file if available
-                        const fileUrl = file.download_url || `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/latestfiles/${file.path}`;
-                        return `<li><a href="${fileUrl}" target="_blank" download><i class="fas fa-file-pdf" style="color: red;"></i> ${file.name}</a></li>`;
+                if (data.length > 0) {
+                    fileList.innerHTML = data.map(file => {
+                        if (file.name.endsWith('.pdf')) {
+                            const fileUrl = file.download_url || `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/latestfiles/${file.path}`;
+                            return `<li>
+                                <canvas class="file-thumbnail" data-file-url="${fileUrl}" data-file-name="${file.name}"></canvas>
+                                <br><a href="#" data-file-url="${fileUrl}" data-file-name="${file.name}" class="view-link">${file.name}</a>
+                            </li>`;
+                        }
                     }).join('');
+                    renderPDFThumbnails();
                 } else {
-                    fileList.innerHTML = 'No PDF files found.';
+                    fileList.innerHTML = 'No files found.';
                 }
             } catch (error) {
                 console.error('Error fetching files:', error);
                 document.getElementById('fileList').innerHTML = 'Error loading files. Please check the console for details.';
             }
         }
-    
+
+        async function renderPDFThumbnails() {
+            const canvases = document.querySelectorAll('.file-thumbnail');
+            for (const canvas of canvases) {
+                const url = canvas.getAttribute('data-file-url');
+                try {
+                    const loadingTask = pdfjsLib.getDocument(url);
+                    const pdf = await loadingTask.promise;
+                    const page = await pdf.getPage(1);
+                    const scale = 0.5; // Adjusted scale factor for better fitting
+                    const viewport = page.getViewport({ scale: scale });
+                    const context = canvas.getContext('2d');
+                    
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    
+                    const renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
+                    await page.render(renderContext).promise;
+                } catch (error) {
+                    console.error('Error rendering PDF:', error);
+                }
+            }
+        }
+
+        async function showPDFInModal(fileUrl) {
+            const modalBody = document.getElementById('modal-body');
+            modalBody.innerHTML = ''; // Clear previous content
+            
+            try {
+                const loadingTask = pdfjsLib.getDocument(fileUrl);
+                const pdf = await loadingTask.promise;
+                const totalPages = pdf.numPages;
+
+                for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
+                    const page = await pdf.getPage(pageNumber);
+                    const scale = 1.5; // Increased scale factor for better resolution
+                    const viewport = page.getViewport({ scale: scale });
+
+                    const canvas = document.createElement('canvas');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    const context = canvas.getContext('2d');
+                    const renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
+                    await page.render(renderContext).promise;
+                    
+                    modalBody.appendChild(canvas);
+                }
+            } catch (error) {
+                console.error('Error rendering PDF:', error);
+            }
+        }
+
+        document.addEventListener('click', function(event) {
+            const fileUrl = event.target.getAttribute('data-file-url');
+            if (event.target.classList.contains('view-link') || event.target.classList.contains('file-thumbnail')) {
+                event.preventDefault();
+                showPDFInModal(fileUrl);
+
+                const downloadLink = document.getElementById('download-link');
+                downloadLink.href = fileUrl;
+                downloadLink.download = event.target.getAttribute('data-file-name');
+                
+                document.getElementById('modal').style.display = 'flex';
+            }
+        });
+
+        document.querySelector('.modal-close').addEventListener('click', function() {
+            document.getElementById('modal').style.display = 'none';
+        });
+
         window.onload = fetchAllFiles;
-    
-        // JavaScript to toggle the hamburger menu
+
         document.getElementById('hamburger').addEventListener('click', function() {
             const navLinks = document.querySelector('.nav-links');
             navLinks.classList.toggle('active');
         });
     </script>
-    
 </body>
 </html>
