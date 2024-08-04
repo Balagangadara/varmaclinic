@@ -607,6 +607,7 @@ button:focus {
         document.getElementById('available-slots').innerHTML = ''; // Clear available slots
     }
 
+    // Function to format the date to DD/MM/YYYY
     function formatDateToDDMMYYYY(dateInput) {
         const date = new Date(dateInput);
         if (isNaN(date.getTime())) return 'Invalid Date'; // Handle invalid dates
@@ -616,11 +617,13 @@ button:focus {
         return `${day}/${month}/${year}`;
     }
 
+    // Function to get the selected time slot from available slots
     function getSelectedTimeSlot() {
         const selectedButton = document.querySelector('#available-slots button:not([disabled])');
         return selectedButton ? selectedButton.textContent.trim() : 'Not Selected';
     }
 
+    // Function to build the message for communication
     function getMessage() {
         const name = encodeURIComponent(document.getElementById("name").value.trim());
         const age = encodeURIComponent(document.getElementById("age").value.trim());
@@ -628,56 +631,49 @@ button:focus {
         const phone = encodeURIComponent(document.getElementById("phone").value.trim());
         const reason = encodeURIComponent(document.getElementById("reason").value);
         const date = formatDateToDDMMYYYY(document.getElementById("date").value);
-        const time = getSelectedTimeSlot();
+        const time = encodeURIComponent(getSelectedTimeSlot());
 
-        return `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0AMobile Number: ${phone}%0AReason For Appointment: ${reason}%0AAppointment Date: ${date}%0ATime Slot: ${time}`;
+        return `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
     }
 
+    // Redirect to WhatsApp
     function redirectToWhatsApp() {
         const message = getMessage();
         const url = `https://wa.me/9094852653?text=${message}`;
-
-        copyToClipboard(message);
-        console.log('WhatsApp URL:', url);
         window.open(url, '_blank');
     }
 
+    // Redirect to SMS
     function redirectToSMS() {
         const message = getMessage();
         const url = `sms:9094852653?body=${message}`;
-
-        copyToClipboard(message);
-        console.log('SMS URL:', url);
-        window.location.href = url;
+        window.location.href = url; // Use window.location.href for SMS
     }
 
+    // Redirect to Email
     function redirectToEmail() {
         const message = getMessage();
         const subject = encodeURIComponent('Appointment Request');
         const body = message;
         const url = `mailto:balavarmaclinic@gmail.com?subject=${subject}&body=${body}`;
-
-        copyToClipboard(message);
-        console.log('Email URL:', url);
-        window.location.href = url;
+        window.location.href = url; // Use window.location.href for mailto
     }
 
+    // Redirect to Call
     function redirectToCall() {
-        const message = getMessage();
-        const url = `tel:9094852653`;
+        const name = encodeURIComponent(document.getElementById("name").value.trim());
+        const age = encodeURIComponent(document.getElementById("age").value.trim());
+        const gender = encodeURIComponent(document.getElementById("gender").value);
+        const phone = encodeURIComponent(document.getElementById("phone").value.trim());
+        const reason = encodeURIComponent(document.getElementById("reason").value);
+        const date = formatDateToDDMMYYYY(document.getElementById("date").value);
+        const time = encodeURIComponent(getSelectedTimeSlot());
 
-        copyToClipboard(message);
-        console.log('Call URL:', url);
-        window.location.href = url;
+        const message = `Hi, I am ${name}, age ${age}, gender ${gender}. My phone number is ${phone}. I would like to book an appointment for ${reason} on ${date} at ${time}.`;
+        const url = `tel:9094852653`; // Tel links do not support body content
+        window.location.href = url; // Use window.location.href for tel
     }
+    </script>
 
-    function copyToClipboard(text) {
-        navigator.clipboard.writeText(text).then(() => {
-            console.log('Text copied to clipboard');
-        }).catch(err => {
-            console.error('Failed to copy text: ', err);
-        });
-    }
-</script>
 </body>
 </html>
