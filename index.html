@@ -500,252 +500,87 @@ button:focus {
         }
 
     </style>
-    <script>
-        function redirectToWhatsApp() {
-          const name = encodeURIComponent(document.getElementById("name").value.trim());
-          const age = encodeURIComponent(document.getElementById("age").value.trim());
-          const gender = encodeURIComponent(document.getElementById("gender").value);
-          const phone = encodeURIComponent(document.getElementById("phone").value.trim());
-          const reason = encodeURIComponent(document.getElementById("reason").value);
-          const date = formatDateToDDMMYYYY(document.getElementById("appointment_date").value);
-          const time = encodeURIComponent(document.getElementById("time_slot").value);
-      
-          const message = `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
-          const url = `https://wa.me/9094852653?text=${message}`;
-          
-          window.open(url, '_blank');
-        }
-      
-        function redirectToSMS() {
-          const name = encodeURIComponent(document.getElementById("name").value.trim());
-          const age = encodeURIComponent(document.getElementById("age").value.trim());
-          const gender = encodeURIComponent(document.getElementById("gender").value);
-          const phone = encodeURIComponent(document.getElementById("phone").value.trim());
-          const reason = encodeURIComponent(document.getElementById("reason").value);
-          const date = formatDateToDDMMYYYY(document.getElementById("appointment_date").value);
-          const time = encodeURIComponent(document.getElementById("time_slot").value);
-      
-          const message = `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
-          const url = `sms:9094852653?body=${message}`;
-          
-          window.location.href = url; // Use window.location.href for SMS
-        }
-      
-       
-  function redirectToEmail() {
-    const name = encodeURIComponent(document.getElementById("name").value.trim());
-    const age = encodeURIComponent(document.getElementById("age").value.trim());
-    const gender = encodeURIComponent(document.getElementById("gender").value);
-    const phone = encodeURIComponent(document.getElementById("phone").value.trim());
-    const reason = encodeURIComponent(document.getElementById("reason").value);
-    const date = formatDateToDDMMYYYY(document.getElementById("appointment_date").value);
-    const time = encodeURIComponent(document.getElementById("time_slot").value);
-
-    const subject = encodeURIComponent('Appointment Request');
-    const body = `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
-    
-    const url = `mailto:balavarmaclinic@gmail.com?subject=${subject}&body=${body}`;
-    window.location.href = url; // Use window.location.href for mailto
-  }
-
-      
-        function redirectToCall() {
-          const name = encodeURIComponent(document.getElementById("name").value.trim());
-          const age = encodeURIComponent(document.getElementById("age").value.trim());
-          const gender = encodeURIComponent(document.getElementById("gender").value);
-          const phone = encodeURIComponent(document.getElementById("phone").value.trim());
-          const reason = encodeURIComponent(document.getElementById("reason").value);
-          const date = formatDateToDDMMYYYY(document.getElementById("appointment_date").value);
-          const time = encodeURIComponent(document.getElementById("time_slot").value);
-      
-          const message = `Hi, I am ${name}, age ${age}, gender ${gender}. My phone number is ${phone}. I would like to book an appointment for ${reason} on ${date} at ${time}.`;
-          const url = `tel:9094852653`; // Tel links do not support body content
-          
-          window.location.href = url; // Use window.location.href for tel
-        }
-      
-        function formatDateToDDMMYYYY(dateString) {
-          const [year, month, day] = dateString.split('-');
-          return `${day}-${month}-${year}`;
-        }
-      
-        document.addEventListener('DOMContentLoaded', function() {
-          async function fetchBlockedDates() {
-            try {
-              const response = await fetch('https://raw.githubusercontent.com/Balagangadara/calender/main/unavailable-dates.json');
-              if (!response.ok) {
-                throw new Error('Network response was not ok.');
-              }
-              const data = await response.json();
-              return data.dates; // Ensure this matches the JSON structure
-            } catch (error) {
-              console.error('Error fetching blocked dates:', error);
-              return [];
-            }
-          }
-      
-          function formatDate(date) {
-            return date.toISOString().split('T')[0];
-          }
-      
-          async function initializeDatePicker() {
-            const blockedDates = await fetchBlockedDates();
-            const today = new Date();
-            const nextSevenDays = new Date(today);
-            nextSevenDays.setDate(today.getDate() + 7);
-      
-            const datePicker = flatpickr("#appointment_date", {
-              dateFormat: "Y-m-d", // Internal date format
-              altFormat: "d-m-Y", // Display format
-              altInput: true, // Show alternative input
-              minDate: formatDate(today),
-              maxDate: formatDate(nextSevenDays),
-              disable: blockedDates,
-              onChange: function(selectedDates) {
-                validateForm();
-              },
-            });
-      
-            document.getElementById('calendar-icon').addEventListener('click', () => {
-              datePicker.open();
-            });
-          }
-      
-          initializeDatePicker();
-        });
-      </script>
-      <script>
-        async function fetchBlockedTimes() {
-    try {
-        // Fetch the JSON file from GitHub
-        const response = await fetch('https://raw.githubusercontent.com/Balagangadara/timeblock/main/time.json');
-        if (!response.ok) {
-            throw new Error('Network response was not ok.');
-        }
-        const data = await response.json();
-        return data.blockedTimes || {}; // Use blockedTimes key
-    } catch (error) {
-        console.error('Error fetching blocked times:', error);
-        return {};
-    }
-}
-
-async function updateTimeSlots() {
-    const blockedTimes = await fetchBlockedTimes();
-    const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-
-    const select = document.getElementById('time_slot');
-    select.innerHTML = '<option value="">Please Select</option>'; // Reset options
-
-    // Define all possible time slots
-    const allTimes = [
-        '09:00', '09:15', '09:30', '09:45', '10:00', '10:15', '10:30', '10:45',
-        '11:00', '11:15', '11:30', '11:45', '18:30', '18:45', '19:00', '19:15',
-        '19:30', '19:45', '20:00', '20:15', '20:30', '20:45', '21:00', '21:15',
-        '21:30', '21:45'
-    ];
-
-    // Filter out blocked times for today's date
-    const availableTimes = blockedTimes[today] 
-        ? allTimes.filter(time => !blockedTimes[today].includes(time))
-        : allTimes;
-
-    // Populate the dropdown with available times
-    availableTimes.forEach(time => {
-        const option = document.createElement('option');
-        option.value = time;
-        option.textContent = time;
-        select.appendChild(option);
-    });
-}
-
-document.addEventListener('DOMContentLoaded', updateTimeSlots);
- </script>
+   
  <script>
-    
     async function loadSlots() {
-            const date = document.getElementById('date').value;
+        const date = document.getElementById('date').value;
 
-            if (!date) {
-                alert('Please select a date.');
-                return;
-            }
-
-            try {
-                // Fetch the JSON data from GitHub
-                const response = await fetch('https://raw.githubusercontent.com/Balagangadara/timeblock/main/time.json');
-                if (!response.ok) throw new Error('Network response was not ok');
-
-                const data = await response.json();
-                const dayData = data[date];
-
-                if (!dayData) {
-                    document.getElementById('available-slots').innerHTML = '<p>No data available for this date.</p>';
-                    return;
-                }
-
-                // Clear previous slots
-                const container = document.getElementById('available-slots');
-                container.innerHTML = '';
-
-                // Load booked slots from local storage
-                let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
-                bookedSlots = bookedSlots[date] || [];
-
-                console.log('Booked Slots:', bookedSlots); // Debugging
-
-                // Render available and booked slots
-                dayData.forEach(slot => {
-                    const slotDiv = document.createElement('div');
-                    slotDiv.className = 'slot';
-
-                    // Determine if the slot is booked
-                    const isBooked = slot.booked || bookedSlots.includes(slot.id);
-                    console.log(`Slot ${slot.time} - Booked: ${isBooked}`); // Debugging
-
-                    slotDiv.innerHTML = `
-                        ${slot.time}
-                        <button onclick="bookSlot('${date}', ${slot.id})" ${isBooked ? 'disabled' : ''}>
-                            ${isBooked ? 'Booked' : 'Book'}
-                        </button>
-                    `;
-                    container.appendChild(slotDiv);
-                });
-            } catch (error) {
-                console.error('Error loading slots:', error);
-                document.getElementById('available-slots').innerHTML = '<p>Error loading slots. Please try again later.</p>';
-            }
+        if (!date) {
+            alert('Please select a date.');
+            return;
         }
 
-        function bookSlot(date, slotId) {
-            // Check if the form is complete before booking
-            if (!isFormComplete()) {
-                alert('Please complete all fields in the form before booking.');
+        try {
+            // Fetch the JSON data from GitHub
+            const response = await fetch('https://raw.githubusercontent.com/Balagangadara/timeblock/main/time.json');
+            if (!response.ok) throw new Error('Network response was not ok');
+
+            const data = await response.json();
+            const dayData = data[date];
+
+            if (!dayData) {
+                document.getElementById('available-slots').innerHTML = '<p>No data available for this date.</p>';
                 return;
             }
 
-            // Get existing booked slots from local storage
+            // Clear previous slots
+            const container = document.getElementById('available-slots');
+            container.innerHTML = '';
+
+            // Load booked slots from local storage
             let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
-            bookedSlots[date] = bookedSlots[date] || [];
+            bookedSlots = bookedSlots[date] || [];
 
-            // Add the slot to the booked slots
-            if (!bookedSlots[date].includes(slotId)) {
-                bookedSlots[date].push(slotId);
-                localStorage.setItem('bookedSlots', JSON.stringify(bookedSlots));
+            // Render available and booked slots
+            dayData.forEach(slot => {
+                const slotDiv = document.createElement('div');
+                slotDiv.className = 'slot';
 
-                // Reload slots to update UI
-                loadSlots();
+                // Determine if the slot is booked
+                const isBooked = slot.booked || bookedSlots.includes(slot.id);
 
-                // Clear the form
-                clearForm();
+                slotDiv.innerHTML = `
+                    ${slot.time}
+                    <button onclick="bookSlot('${date}', ${slot.id})" ${isBooked ? 'disabled' : ''}>
+                        ${isBooked ? 'Booked' : 'Book'}
+                    </button>
+                `;
+                container.appendChild(slotDiv);
+            });
+        } catch (error) {
+            console.error('Error loading slots:', error);
+            document.getElementById('available-slots').innerHTML = '<p>Error loading slots. Please try again later.</p>';
+        }
+    }
 
-                // Enable communication buttons
-                enableCommunicationButtons();
-            } else {
-                alert('Slot is already booked.');
-            }
+    function bookSlot(date, slotId) {
+        // Check if the form is complete before booking
+        if (!isFormComplete()) {
+            alert('Please complete all fields in the form before booking.');
+            return;
         }
 
+        // Get existing booked slots from local storage
+        let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
+        bookedSlots[date] = bookedSlots[date] || [];
+
+        // Add the slot to the booked slots
+        if (!bookedSlots[date].includes(slotId)) {
+            bookedSlots[date].push(slotId);
+            localStorage.setItem('bookedSlots', JSON.stringify(bookedSlots));
+
+            // Reload slots to update UI
+            loadSlots();
+
+            // Clear the form
+            clearForm();
+
+            // Enable communication buttons
+            enableCommunicationButtons();
+        } else {
+            alert('Slot is already booked.');
+        }
+    }
 
     function isFormComplete() {
         const name = document.getElementById('name').value.trim();
@@ -772,109 +607,77 @@ document.addEventListener('DOMContentLoaded', updateTimeSlots);
         document.getElementById('available-slots').innerHTML = ''; // Clear available slots
     }
 
-    function redirectToWhatsApp() {
-        // Implement redirection logic
-        alert('Redirecting to WhatsApp...');
-    }
-
-    function redirectToSMS() {
-        // Implement redirection logic
-        alert('Redirecting to SMS...');
-    }
-
-    function redirectToEmail() {
-        // Implement redirection logic
-        alert('Redirecting to Email...');
-    }
-
-    function redirectToCall() {
-        // Implement redirection logic
-        alert('Redirecting to Phone Call...');
-    }
-</script>
-<script>
-    // Function to format date to DD-MM-YYYY
     function formatDateToDDMMYYYY(dateInput) {
         const date = new Date(dateInput);
         if (isNaN(date.getTime())) return 'Invalid Date'; // Handle invalid dates
         const day = ('0' + date.getDate()).slice(-2);
         const month = ('0' + (date.getMonth() + 1)).slice(-2);
         const year = date.getFullYear();
-        return `${day}-${month}-${year}`;
+        return `${day}/${month}/${year}`;
     }
 
-    // Function to get selected time slot
     function getSelectedTimeSlot() {
         const selectedButton = document.querySelector('#available-slots button:not([disabled])');
-        return selectedButton ? encodeURIComponent(selectedButton.textContent.trim()) : 'Not Selected';
+        return selectedButton ? selectedButton.textContent.trim() : 'Not Selected';
+    }
+
+    function getMessage() {
+        const name = encodeURIComponent(document.getElementById("name").value.trim());
+        const age = encodeURIComponent(document.getElementById("age").value.trim());
+        const gender = encodeURIComponent(document.getElementById("gender").value);
+        const phone = encodeURIComponent(document.getElementById("phone").value.trim());
+        const reason = encodeURIComponent(document.getElementById("reason").value);
+        const date = formatDateToDDMMYYYY(document.getElementById("date").value);
+        const time = getSelectedTimeSlot();
+
+        return `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0AMobile Number: ${phone}%0AReason For Appointment: ${reason}%0AAppointment Date: ${date}%0ATime Slot: ${time}`;
+    }
+
+    function redirectToWhatsApp() {
+        const message = getMessage();
+        const url = `https://wa.me/9094852653?text=${message}`;
+
+        copyToClipboard(message);
+        console.log('WhatsApp URL:', url);
+        window.open(url, '_blank');
+    }
+
+    function redirectToSMS() {
+        const message = getMessage();
+        const url = `sms:9094852653?body=${message}`;
+
+        copyToClipboard(message);
+        console.log('SMS URL:', url);
+        window.location.href = url;
+    }
+
+    function redirectToEmail() {
+        const message = getMessage();
+        const subject = encodeURIComponent('Appointment Request');
+        const body = message;
+        const url = `mailto:balavarmaclinic@gmail.com?subject=${subject}&body=${body}`;
+
+        copyToClipboard(message);
+        console.log('Email URL:', url);
+        window.location.href = url;
+    }
+
+    function redirectToCall() {
+        const message = getMessage();
+        const url = `tel:9094852653`;
+
+        copyToClipboard(message);
+        console.log('Call URL:', url);
+        window.location.href = url;
     }
 
     function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-        console.log('Text copied to clipboard');
-        // No alert or further action needed here
-    }).catch(err => {
-        console.error('Failed to copy text: ', err);
-    });
-}
-
-function getMessage() {
-    const name = encodeURIComponent(document.getElementById("name").value.trim());
-    const age = encodeURIComponent(document.getElementById("age").value.trim());
-    const gender = encodeURIComponent(document.getElementById("gender").value);
-    const phone = encodeURIComponent(document.getElementById("phone").value.trim());
-    const reason = encodeURIComponent(document.getElementById("reason").value);
-    const date = formatDateToDDMMYYYY(document.getElementById("date").value);
-    const time = getSelectedTimeSlot();
-
-    return `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
-}
-
-function redirectToWhatsApp() {
-    const message = getMessage();
-    const url = `https://wa.me/9094852653?text=${message}`;
-    
-    copyToClipboard(message);
-    console.log('WhatsApp URL:', url);
-    window.open(url, '_blank');
-}
-
-function redirectToSMS() {
-    const message = getMessage();
-    const url = `sms:9094852653?body=${message}`;
-
-    copyToClipboard(message);
-    console.log('SMS URL:', url);
-    window.location.href = url;
-}
-
-function redirectToEmail() {
-    const message = getMessage();
-    const subject = encodeURIComponent('Appointment Request');
-    const body = message;
-    const url = `mailto:balavarmaclinic@gmail.com?subject=${subject}&body=${body}`;
-
-    copyToClipboard(message);
-    console.log('Email URL:', url);
-    window.location.href = url;
-}
-
-function redirectToCall() {
-    const name = encodeURIComponent(document.getElementById("name").value.trim());
-    const age = encodeURIComponent(document.getElementById("age").value.trim());
-    const gender = encodeURIComponent(document.getElementById("gender").value);
-    const phone = encodeURIComponent(document.getElementById("phone").value.trim());
-    const reason = encodeURIComponent(document.getElementById("reason").value);
-    const date = formatDateToDDMMYYYY(document.getElementById("date").value);
-    const time = getSelectedTimeSlot();
-
-    const message = `Hi, I am ${name}, age ${age}, gender ${gender}. My phone number is ${phone}. I would like to book an appointment for ${reason} on ${date} at ${time}.`;
-    const url = `tel:9094852653`;
-
-    copyToClipboard(message);
-    console.log('Call URL:', url);
-    window.location.href = url;
-}
+        navigator.clipboard.writeText(text).then(() => {
+            console.log('Text copied to clipboard');
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+    }
 </script>
 </body>
 </html>
