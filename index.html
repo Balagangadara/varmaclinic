@@ -631,7 +631,9 @@ button:focus {
         const phone = encodeURIComponent(document.getElementById("phone").value.trim());
         const reason = encodeURIComponent(document.getElementById("reason").value);
         const date = formatDateToDDMMYYYY(document.getElementById("date").value);
-        const time = encodeURIComponent(getSelectedTimeSlot());
+        const time = formatDateToDDMMYYYY(document.getElementById("available-slots").value);
+        // const time = encodeURIComponent(getSelectedTimeSlot());
+        
 
         return `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
     }
