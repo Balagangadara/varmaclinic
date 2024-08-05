@@ -690,7 +690,6 @@ button:focus {
             slotButton.disabled = isBooked;
             slotButton.textContent = isBooked ? `Booked (${slot.time})` : `Available (${slot.time})`;
     
-            // Prevent default click behavior and handle slot selection
             slotButton.addEventListener('click', function (event) {
                 event.preventDefault(); // Prevent default behavior
                 event.stopPropagation(); // Prevent event bubbling
@@ -848,51 +847,62 @@ button:focus {
     
             const { name, age, gender, phone, reason, date } = formData;
             const formattedDate = formatDateToDDMMYYYY(date);
-            const time = getSelectedTimeSlot();
-    
-            return `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0AMobile Number: ${phone}%0AReason For Appointment: ${reason}%0AAppointment Date: ${formattedDate}%0ATime Slot: ${time}`;
-        }
-    
-        function redirectToWhatsApp() {
-            const message = getFormattedMessage();
-            if (message) {
-                const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
-                window.open(url, '_blank');
-            }
-        }
-    
-        function redirectToSMS() {
-            const message = getFormattedMessage();
-            if (message) {
-                const phone = document.getElementById('phone').value.trim();
-                if (phone) {
-                    const url = `sms:${phone}?body=${encodeURIComponent(message)}`;
-                    window.location.href = url; // Use window.location.href for SMS
-                } else {
-                    alert('Phone number is missing.');
-                }
-            }
-        }
-    
-        function redirectToEmail() {
-            const message = getFormattedMessage();
-            if (message) {
-                const subject = 'Appointment Details';
-                const url = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
-                window.location.href = url; // Use window.location.href for email
-            }
-        }
-    
-        function redirectToCall() {
-            const phone = document.getElementById('phone').value.trim();
-            if (phone) {
-                const url = `tel:${phone}`;
-                window.location.href = url; // Use window.location.href for phone call
-            } else {
-                alert('Phone number is missing.');
-            }
-        }
-    </script>
-    
-                   </body>
+        const time = getSelectedTimeSlot();
+
+        // Formatting message horizontally with new line separators
+        return `Name: ${name}\nAge: ${age}\nGender: ${gender}\nMobile Number: ${phone}\nReason For Appointment: ${reason}\nAppointment Date: ${formattedDate}\nTime Slot: ${time}`;
+    }
+
+    function redirectToWhatsApp() {
+    const message = getFormattedMessage();
+    if (message) {
+        const url = `https://wa.me/8148086997?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank'); // Open WhatsApp in a new tab
+    }
+}
+
+function redirectToSMS() {
+    const message = getFormattedMessage();
+    const defaultPhoneNumber = '8148086997'; // Replace with your default phone number
+
+    if (message) {
+        const url = `sms:${defaultPhoneNumber}?body=${encodeURIComponent(message)}`;
+        window.open(url, '_blank'); // Open SMS app in a new tab or window
+    }
+}
+
+
+
+function redirectToEmail() {
+    const message = getFormattedMessage();
+    if (message) {
+        const subject = 'Appointment Details';
+        const url = `mailto:balavarmaclinic@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+        window.open(url, '_blank'); // Open Email client in a new tab
+    }
+}
+
+
+function redirectToCall() {
+    const phoneInput = document.getElementById('phone').value.trim(); // Retrieve phone number from input field
+    const defaultPhoneNumber = '8148086997'; // Replace with your default phone number
+
+    // Use the phone input if available, otherwise use the default phone number
+    const phone = phoneInput || defaultPhoneNumber;
+
+    if (phone) {
+        // Format the URL with the phone number
+        const url = `tel:${phone}`;
+        // Attempt to open in a new tab (this will generally not work for `tel:` URLs)
+        window.open(url, '_blank');
+    } else {
+        alert('Phone number is missing. Please enter a valid phone number.');
+    }
+}
+
+
+
+
+</script>
+</body>
 </html>
