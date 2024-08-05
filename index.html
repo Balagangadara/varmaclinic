@@ -155,6 +155,25 @@
         button:disabled {
             background-color: #ccc;
         }
+        #available-slots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between buttons */
+}
+
+.slot {
+    flex: 1 1 calc(20% - 10px); /* 5 items per row, adjust the percentage as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slot button {
+    font-size: 12px; /* Adjust font size as needed */
+    padding: 8px 12px; /* Adjust button size as needed */
+    margin: 0; /* Remove default margin */
+}
+
     </style>
 </head>
 <body>
@@ -210,7 +229,54 @@
                 </div>
             </div>
             
-            
+            <script>
+            function getSelectedTimeSlot() {
+                const slotButton = document.querySelector('#available-slots button:not([disabled])');
+                return slotButton ? slotButton.previousElementSibling.textContent.trim() : 'No time selected';
+            }
+        </script>
+<script>
+function getFormattedMessage() {
+    const formData = JSON.parse(localStorage.getItem('formData'));
+    if (!formData) {
+        alert('Form data is missing.');
+        return '';
+    }
+
+    const name = formData.name;
+    const age = formData.age;
+    const gender = formData.gender;
+    const phone = formData.phone;
+    const reason = formData.reason;
+    const date = formatDateToDDMMYYYY(formData.date);
+    const time = getSelectedTimeSlot();
+
+    return `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0AMobile Number: ${phone}%0AReason For Appointment: ${reason}%0AAppointment Date: ${date}%0ATime Slot: ${time}`;
+}function bookSlot(event, date, slotId) {
+    event.preventDefault();
+
+    saveFormData();
+
+    if (!isFormComplete()) {
+        alert('Please complete all fields in the form before booking.');
+        return;
+    }
+
+    let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
+    bookedSlots[date] = bookedSlots[date] || [];
+
+    if (!bookedSlots[date].includes(slotId)) {
+        bookedSlots[date].push(slotId);
+        localStorage.setItem('bookedSlots', JSON.stringify(bookedSlots));
+
+        updateSlotButtons(date, slotId);
+        enableCommunicationButtons();
+    } else {
+        alert('Slot is already booked.');
+    }
+}
+
+</script>
   
 <!-- Communication Options -->
 <form id="submit_form_whatsapp">
@@ -236,8 +302,6 @@
         <button type="button" id="callButton" style="margin-top: 20px;" onclick="redirectToCall()" disabled>Book an Appointment via Phone Call</button>
     </div>
 </form>
-
-
 
 <div class="container">
     <div class="floating-contact right">
@@ -454,228 +518,381 @@ button:focus {
             gap: 10px; /* Space between slots */
         }
 
-        /* Slot styling */
+    
+    /* Container for slots */
+    .slots-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px; /* Reduced space between slots */
+        padding: 8px; /* Reduced padding around the container */
+    }
+
+    /* Individual slot styling */
+    .slot {
+        flex: 1 1 calc(25% - 8px); /* 4 slots in a row minus the gap */
+        box-sizing: border-box;
+        padding: 8px; /* Reduced padding inside slots */
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        text-align: center;
+        font-size: 12px; /* Reduced font size */
+        /* Optional: Add a background color for better visibility */
+        background-color: #f8f9fa;
+    }
+
+    /* Button styling */
+    .slot button {
+        width: 100%;
+        padding: 4px; /* Reduced padding inside button */
+        font-size: 10px; /* Reduced font size */
+        box-sizing: border-box; /* Include padding in button's width */
+    }
+
+    /* Media queries for responsive design */
+    @media (max-width: 1200px) {
         .slot {
-            flex: 1 1 18%; /* Adjust size as needed */
-            box-sizing: border-box;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            text-align: center;
-            font-size: 14px;
+            flex: 1 1 calc(25% - 8px); /* 4 slots in a row */
         }
+    }
 
-        /* Button styling */
-        .slot button {
-            width: 100%;
-            padding: 5px;
-            font-size: 12px;
+    @media (max-width: 900px) {
+        .slot {
+            flex: 1 1 calc(25% - 8px); /* 4 slots in a row */
         }
+    }
 
-        /* Media queries for responsive design */
-        @media (max-width: 1200px) {
-            .slot {
-                flex: 1 1 20%; /* 5 slots in a row */
-            }
+    @media (max-width: 600px) {
+        .slot {
+            flex: 1 1 calc(25% - 8px); /* 4 slots in a row */
         }
+    }
 
-        @media (max-width: 900px) {
-            .slot {
-                flex: 1 1 20%; /* 5 slots in a row */
-            }
+    @media (max-width: 400px) {
+        .slot {
+            flex: 1 1 calc(50% - 8px); /* 2 slots in a row */
         }
-        
+    }
 
-        @media (max-width: 600px) {
-            .slot {
-                flex: 1 1 20%; /* 5 slots in a row */
-            }
-        }
-        
+    /* Style for available slots */
+    .slot button.available {
+        background-color: #28a745; /* Green */
+        color: white;
+    }
 
-        @media (max-width: 400px) {
-            .slot {
-                flex: 1 1 20%; /* 5 slots in a row */
-            }
-        }
+    /* Style for booked slots */
+    .slot button.booked {
+        background-color: #dc3545; /* Red */
+        color: white;
+        cursor: not-allowed;
+    }
 
-    </style>
+    /* Style for unavailable slots */
+    .slot button.unavailable {
+        background-color: #6c757d; /* Grey */
+        color: white;
+        cursor: not-allowed;
+    }
+</style>
+
+    
    
- <script>
-    async function loadSlots() {
-        const date = document.getElementById('date').value;
-
-        if (!date) {
-            alert('Please select a date.');
-            return;
-        }
-
-        try {
-            // Fetch the JSON data from GitHub
-            const response = await fetch('https://raw.githubusercontent.com/Balagangadara/timeblock/main/time.json');
-            if (!response.ok) throw new Error('Network response was not ok');
-
-            const data = await response.json();
-            const dayData = data[date];
-
-            if (!dayData) {
-                document.getElementById('available-slots').innerHTML = '<p>No data available for this date.</p>';
+   <style>
+    /* General button style */
+    .slot button {
+        padding: 10px 20px;
+        border: none;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        margin: 5px;
+    }
+    
+    /* Style for available slots */
+    .slot button.available {
+        background-color: #28a745; /* Green */
+    }
+    
+    /* Style for booked slots */
+    .slot button.booked {
+        background-color: #dc3545; /* Red */
+        cursor: not-allowed;
+    }
+    
+    /* Disabled class for booked slots */
+    .slot button.disabled {
+        background-color: #dc3545; /* Red */
+        cursor: not-allowed;
+    }
+    </style>
+    <script>
+        async function loadSlots() {
+            const dateInput = document.getElementById('date').value;
+            if (!dateInput) {
+                alert('Please select a date.');
                 return;
             }
-
-            // Clear previous slots
-            const container = document.getElementById('available-slots');
-            container.innerHTML = '';
-
-            // Load booked slots from local storage
-            let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
-            bookedSlots = bookedSlots[date] || [];
-
-            // Render available and booked slots
-            dayData.forEach(slot => {
-                const slotDiv = document.createElement('div');
-                slotDiv.className = 'slot';
-
-                // Determine if the slot is booked
-                const isBooked = slot.booked || bookedSlots.includes(slot.id);
-
-                slotDiv.innerHTML = `
-                    ${slot.time}
-                    <button onclick="bookSlot('${date}', ${slot.id})" ${isBooked ? 'disabled' : ''}>
-                        ${isBooked ? 'Booked' : 'Book'}
-                    </button>
-                `;
-                container.appendChild(slotDiv);
+    
+            const formattedDate = formatDateToYYYYMMDD(dateInput);
+            console.log(`Fetching slots for date: ${formattedDate}`); // Debug log
+    
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/Balagangadara/timeblock/main/time.json');
+                
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
+                }
+    
+                const data = await response.json();
+                console.log('Data fetched:', data); // Debug log
+    
+                const dayData = data[formattedDate];
+                if (!dayData || !Array.isArray(dayData)) {
+                    document.getElementById('available-slots').innerHTML = '<p>No time slots available for this date.</p>';
+                    return;
+                }
+    
+                const container = document.getElementById('available-slots');
+                container.innerHTML = '';
+    
+                let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
+                bookedSlots = bookedSlots[formattedDate] || [];
+    
+                dayData.forEach(slot => {
+                    if (!slot || typeof slot !== 'object') {
+                        console.warn('Invalid slot data:', slot);
+                        return;
+                    }
+    
+                    const slotDiv = document.createElement('div');
+                    slotDiv.className = 'slot';
+    
+                    const slotButton = createSlotButton(slot);
+                    slotDiv.appendChild(slotButton);
+                    container.appendChild(slotDiv);
+                });
+    
+                loadFormData();
+                updateButtonStates();
+    
+            } catch (error) {
+                console.error('Error loading slots:', error);
+                document.getElementById('available-slots').innerHTML = `<p>Error loading slots: ${error.message}. Please try again later.</p>`;
+            }
+        }
+    
+        function createSlotButton(slot) {
+            const slotButton = document.createElement('button');
+            const isBooked = slot.booked || JSON.parse(localStorage.getItem('bookedSlots') || '{}')[formatDateToYYYYMMDD(document.getElementById('date').value)]?.includes(slot.id);
+            const buttonClass = isBooked ? 'booked' : 'available';
+    
+            slotButton.className = buttonClass;
+            slotButton.disabled = isBooked;
+            slotButton.textContent = isBooked ? `Booked (${slot.time})` : `Available (${slot.time})`;
+    
+            // Prevent default click behavior and handle slot selection
+            slotButton.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent default behavior
+                event.stopPropagation(); // Prevent event bubbling
+    
+                if (!isBooked) {
+                    handleSlotClick(slot.id, slot.time);
+                }
             });
-        } catch (error) {
-            console.error('Error loading slots:', error);
-            document.getElementById('available-slots').innerHTML = '<p>Error loading slots. Please try again later.</p>';
+    
+            return slotButton;
         }
-    }
-
-    function bookSlot(date, slotId) {
-        // Check if the form is complete before booking
-        if (!isFormComplete()) {
-            alert('Please complete all fields in the form before booking.');
-            return;
+    
+        function handleSlotClick(slotId, slotTime) {
+            const dateInput = document.getElementById('date').value;
+            if (!dateInput) {
+                alert('Please select a date.');
+                return;
+            }
+    
+            const formattedDate = formatDateToYYYYMMDD(dateInput);
+            let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
+            bookedSlots = bookedSlots[formattedDate] || [];
+    
+            if (!bookedSlots.includes(slotId)) {
+                bookedSlots.push(slotId);
+                localStorage.setItem('bookedSlots', JSON.stringify({ ...JSON.parse(localStorage.getItem('bookedSlots') || '{}'), [formattedDate]: bookedSlots }));
+                updateSlotButtons(formattedDate, slotId, slotTime);
+                saveFormData(); // Save form data whenever a slot is booked
+            }
         }
-
-        // Get existing booked slots from local storage
-        let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
-        bookedSlots[date] = bookedSlots[date] || [];
-
-        // Add the slot to the booked slots
-        if (!bookedSlots[date].includes(slotId)) {
-            bookedSlots[date].push(slotId);
-            localStorage.setItem('bookedSlots', JSON.stringify(bookedSlots));
-
-            // Reload slots to update UI
-            loadSlots();
-
-            // Clear the form
-            clearForm();
-
-            // Enable communication buttons
-            enableCommunicationButtons();
-        } else {
-            alert('Slot is already booked.');
+    
+        function updateSlotButtons(date, slotId, slotTime) {
+            const slots = document.querySelectorAll('#available-slots .slot button');
+            slots.forEach(button => {
+                const buttonIdMatch = button.getAttribute('onclick')?.match(/(\d+)/);
+                if (buttonIdMatch) {
+                    const currentSlotId = parseInt(buttonIdMatch[1], 10);
+                    if (currentSlotId === slotId) {
+                        button.disabled = true;
+                        button.className = 'booked'; // Apply booked class
+                        button.textContent = `Booked (${slotTime})`;
+                    }
+                }
+            });
         }
-    }
-
-    function isFormComplete() {
-        const name = document.getElementById('name').value.trim();
-        const age = document.getElementById('age').value.trim();
-        const gender = document.getElementById('gender').value;
-        const phone = document.getElementById('phone').value.trim();
-        const reason = document.getElementById('reason').value;
-        const date = document.getElementById('date').value;
-        const selectedSlot = document.querySelector('#available-slots button:not([disabled])');
-
-        // Check if all fields are valid
-        return name && age && gender && phone && reason && date && selectedSlot;
-    }
-
-    function enableCommunicationButtons() {
-        document.getElementById('whatsappButton').disabled = false;
-        document.getElementById('smsButton').disabled = false;
-        document.getElementById('emailButton').disabled = false;
-        document.getElementById('callButton').disabled = false;
-    }
-
-    function clearForm() {
-        document.getElementById('appointmentForm').reset(); // Clear form fields
-        document.getElementById('available-slots').innerHTML = ''; // Clear available slots
-    }
-
-    // Function to format the date to DD/MM/YYYY
-    function formatDateToDDMMYYYY(dateInput) {
-        const date = new Date(dateInput);
-        if (isNaN(date.getTime())) return 'Invalid Date'; // Handle invalid dates
-        const day = ('0' + date.getDate()).slice(-2);
-        const month = ('0' + (date.getMonth() + 1)).slice(-2);
-        const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
-    }
-
-    // Function to get the selected time slot from available slots
-    function getSelectedTimeSlot() {
-        const selectedButton = document.querySelector('#available-slots button:not([disabled])');
-        return selectedButton ? selectedButton.textContent.trim() : 'Not Selected';
-    }
-
-    // Function to build the message for communication
-    function getMessage() {
-        const name = encodeURIComponent(document.getElementById("name").value.trim());
-        const age = encodeURIComponent(document.getElementById("age").value.trim());
-        const gender = encodeURIComponent(document.getElementById("gender").value);
-        const phone = encodeURIComponent(document.getElementById("phone").value.trim());
-        const reason = encodeURIComponent(document.getElementById("reason").value);
-        const date = formatDateToDDMMYYYY(document.getElementById("date").value);
-        const time = formatDateToDDMMYYYY(document.getElementById("available-slots").value);
-        // const time = encodeURIComponent(getSelectedTimeSlot());
-        
-
-        return `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0APhone: ${phone}%0AReason: ${reason}%0ADate: ${date}%0ATime: ${time}`;
-    }
-
-    // Redirect to WhatsApp
-    function redirectToWhatsApp() {
-        const message = getMessage();
-        const url = `https://wa.me/9094852653?text=${message}`;
-        window.open(url, '_blank');
-    }
-
-    // Redirect to SMS
-    function redirectToSMS() {
-        const message = getMessage();
-        const url = `sms:9094852653?body=${message}`;
-        window.location.href = url; // Use window.location.href for SMS
-    }
-
-    // Redirect to Email
-    function redirectToEmail() {
-        const message = getMessage();
-        const subject = encodeURIComponent('Appointment Request');
-        const body = message;
-        const url = `mailto:balavarmaclinic@gmail.com?subject=${subject}&body=${body}`;
-        window.location.href = url; // Use window.location.href for mailto
-    }
-
-    // Redirect to Call
-    function redirectToCall() {
-        const name = encodeURIComponent(document.getElementById("name").value.trim());
-        const age = encodeURIComponent(document.getElementById("age").value.trim());
-        const gender = encodeURIComponent(document.getElementById("gender").value);
-        const phone = encodeURIComponent(document.getElementById("phone").value.trim());
-        const reason = encodeURIComponent(document.getElementById("reason").value);
-        const date = formatDateToDDMMYYYY(document.getElementById("date").value);
-        const time = encodeURIComponent(getSelectedTimeSlot());
-
-        const message = `Hi, I am ${name}, age ${age}, gender ${gender}. My phone number is ${phone}. I would like to book an appointment for ${reason} on ${date} at ${time}.`;
-        const url = `tel:9094852653`; // Tel links do not support body content
-        window.location.href = url; // Use window.location.href for tel
-    }
+    
+        function updateButtonStates() {
+            const bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
+            const dateInput = document.getElementById('date')?.value;
+    
+            if (dateInput) {
+                const formattedDate = formatDateToYYYYMMDD(dateInput);
+                const slots = document.querySelectorAll('#available-slots .slot button');
+                slots.forEach(button => {
+                    const buttonIdMatch = button.getAttribute('onclick')?.match(/(\d+)/);
+                    if (buttonIdMatch) {
+                        const slotId = parseInt(buttonIdMatch[1], 10);
+                        const slotTime = button.textContent.match(/\((.*?)\)/)?.[1] || ''; // Extract time
+                        const isBooked = bookedSlots[formattedDate] && bookedSlots[formattedDate].includes(slotId);
+                        button.disabled = isBooked;
+                        button.className = isBooked ? 'booked' : 'available';
+                        button.textContent = isBooked ? `Booked (${slotTime})` : `Available (${slotTime})`;
+                    }
+                });
+    
+                if (isFormComplete() && document.querySelector('#available-slots button:not([disabled])')) {
+                    enableCommunicationButtons();
+                } else {
+                    disableCommunicationButtons();
+                }
+            }
+        }
+    
+        function isFormComplete() {
+            const name = document.getElementById('name')?.value.trim();
+            const age = document.getElementById('age')?.value.trim();
+            const gender = document.getElementById('gender')?.value;
+            const phone = document.getElementById('phone')?.value.trim();
+            const reason = document.getElementById('reason')?.value;
+            const date = document.getElementById('date')?.value;
+            const selectedSlot = document.querySelector('#available-slots button:not([disabled])');
+    
+            return name && age && gender && phone && reason && date && selectedSlot;
+        }
+    
+        function saveFormData() {
+            const formData = {
+                name: document.getElementById('name')?.value.trim(),
+                age: document.getElementById('age')?.value.trim(),
+                gender: document.getElementById('gender')?.value,
+                phone: document.getElementById('phone')?.value.trim(),
+                reason: document.getElementById('reason')?.value,
+                date: document.getElementById('date')?.value // Save the raw date format
+            };
+            localStorage.setItem('formData', JSON.stringify(formData));
+        }
+    
+        function loadFormData() {
+            const formData = JSON.parse(localStorage.getItem('formData'));
+            if (formData) {
+                document.getElementById('name').value = formData.name;
+                document.getElementById('age').value = formData.age;
+                document.getElementById('gender').value = formData.gender;
+                document.getElementById('phone').value = formData.phone;
+                document.getElementById('reason').value = formData.reason;
+                document.getElementById('date').value = formData.date; // Load the raw date format
+            }
+        }
+    
+        function enableCommunicationButtons() {
+            const buttons = ['whatsappButton', 'smsButton', 'emailButton', 'callButton'];
+            buttons.forEach(id => {
+                const button = document.getElementById(id);
+                if (button) button.disabled = false;
+            });
+        }
+    
+        function disableCommunicationButtons() {
+            const buttons = ['whatsappButton', 'smsButton', 'emailButton', 'callButton'];
+            buttons.forEach(id => {
+                const button = document.getElementById(id);
+                if (button) button.disabled = true;
+            });
+        }
+    
+        function formatDateToYYYYMMDD(dateInput) {
+            const date = new Date(dateInput);
+            if (isNaN(date.getTime())) return 'Invalid Date';
+            const year = date.getFullYear();
+            const month = ('0' + (date.getMonth() + 1)).slice(-2);
+            const day = ('0' + date.getDate()).slice(-2);
+            return `${year}-${month}-${day}`;
+        }
+    
+        function formatDateToDDMMYYYY(dateInput) {
+            const date = new Date(dateInput);
+            if (isNaN(date.getTime())) return 'Invalid Date';
+            const day = ('0' + date.getDate()).slice(-2);
+            const month = ('0' + (date.getMonth() + 1)).slice(-2);
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+    
+        function getSelectedTimeSlot() {
+            const slotButton = document.querySelector('#available-slots button:not([disabled])');
+            return slotButton ? slotButton.textContent.match(/\((.*?)\)/)?.[1] || 'No time selected' : 'No time selected';
+        }
+    
+        function getFormattedMessage() {
+            const formData = JSON.parse(localStorage.getItem('formData'));
+            if (!formData) {
+                alert('Form data is missing.');
+                return '';
+            }
+    
+            const { name, age, gender, phone, reason, date } = formData;
+            const formattedDate = formatDateToDDMMYYYY(date);
+            const time = getSelectedTimeSlot();
+    
+            return `Name: ${name}%0AAge: ${age}%0AGender: ${gender}%0AMobile Number: ${phone}%0AReason For Appointment: ${reason}%0AAppointment Date: ${formattedDate}%0ATime Slot: ${time}`;
+        }
+    
+        function redirectToWhatsApp() {
+            const message = getFormattedMessage();
+            if (message) {
+                const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
+                window.open(url, '_blank');
+            }
+        }
+    
+        function redirectToSMS() {
+            const message = getFormattedMessage();
+            if (message) {
+                const phone = document.getElementById('phone').value.trim();
+                if (phone) {
+                    const url = `sms:${phone}?body=${encodeURIComponent(message)}`;
+                    window.location.href = url; // Use window.location.href for SMS
+                } else {
+                    alert('Phone number is missing.');
+                }
+            }
+        }
+    
+        function redirectToEmail() {
+            const message = getFormattedMessage();
+            if (message) {
+                const subject = 'Appointment Details';
+                const url = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+                window.location.href = url; // Use window.location.href for email
+            }
+        }
+    
+        function redirectToCall() {
+            const phone = document.getElementById('phone').value.trim();
+            if (phone) {
+                const url = `tel:${phone}`;
+                window.location.href = url; // Use window.location.href for phone call
+            } else {
+                alert('Phone number is missing.');
+            }
+        }
     </script>
-
-</body>
+    
+                   </body>
 </html>
