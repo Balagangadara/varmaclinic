@@ -11,6 +11,7 @@
             font-family: Arial, sans-serif;
             padding-top: 60px;
         }
+
         .navbar {
             background-color: rgb(2, 7, 55);
             color: white;
@@ -22,16 +23,21 @@
             z-index: 1000;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
         .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
         }
+
         .logo {
             font-size: 1.5em;
             color: white;
             text-decoration: none;
         }
+
         .nav-links {
             list-style: none;
             margin: 0;
@@ -39,9 +45,11 @@
             display: flex;
             align-items: center;
         }
+
         .nav-links li {
             margin: 0 15px;
         }
+
         .nav-links a {
             color: white;
             text-decoration: none;
@@ -49,24 +57,28 @@
             display: block;
             padding: 10px 15px;
         }
+
         .nav-links a:hover {
             background-color: #575757;
             border-radius: 5px;
         }
+
         .hamburger {
             display: none;
             flex-direction: column;
             cursor: pointer;
         }
+
         .hamburger .bar {
             width: 25px;
             height: 3px;
             background-color: white;
             margin: 3px 0;
         }
+
         @media (max-width: 768px) {
             .nav-links {
-                display: none;
+                display: none; /* Default state is hidden */
                 position: absolute;
                 top: 60px;
                 right: 20px;
@@ -75,29 +87,53 @@
                 width: 200px;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
                 border-radius: 5px;
+                z-index: 1000;
             }
+            
             .nav-links.active {
-                display: flex;
+                display: flex; /* Show when active */
             }
+            
             .hamburger {
                 display: flex;
             }
         }
+
+        /* Main content styles */
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            width: 100%;
+            margin: 0;
+            margin-bottom: 20px;
+        }
+
         #fileList {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
             list-style: none;
             padding: 0;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
+
         #fileList li {
             width: 250px;
             text-align: center;
             position: relative;
         }
+
         .file-thumbnail {
-            width: 100%; /* Use full width of container */
-            height: auto; /* Maintain aspect ratio */
+            width: 100%;
+            height: auto;
             object-fit: cover;
             border-radius: 5px;
             cursor: pointer;
@@ -106,9 +142,11 @@
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
         }
+
         .file-thumbnail:hover {
             transform: scale(1.05);
         }
+
         .modal {
             display: none;
             position: fixed;
@@ -122,6 +160,7 @@
             z-index: 1001;
             overflow: auto;
         }
+
         .modal-content {
             background-color: #fff;
             padding: 20px;
@@ -132,10 +171,12 @@
             overflow-y: auto;
             position: relative;
         }
+
         .modal-content canvas {
             display: block;
             margin: 0 auto;
         }
+
         .modal-close {
             position: absolute;
             top: 10px;
@@ -143,141 +184,65 @@
             cursor: pointer;
             font-size: 1.5em;
         }
+
         .modal-download {
             margin-top: 20px;
         }
-    </style>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            padding-top: 60px;
-        }
 
-        .navbar {
-            background-color: rgb(2, 7, 55);
-            color: white;
-            padding: 10px 20px;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5em;
-            color: white;
-            text-decoration: none;
-        }
-
-        .nav-links {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-links li {
-            margin: 0 15px;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 1em;
-            display: block;
-            padding: 10px 15px;
-        }
-
-        .nav-links a:hover {
-            background-color: #575757;
-            border-radius: 5px;
-        }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-        }
-
-        .hamburger .bar {
-            width: 25px;
-            height: 3px;
-            background-color: white;
-            margin: 3px 0;
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 60px;
-                right: 20px;
-                background-color: #333333;
-                flex-direction: column;
-                width: 200px;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                border-radius: 5px;
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .container {
+                padding: 0 20px;
             }
-            
-            .nav-links.active {
-                display: flex;
+            .navbar {
+                padding: 10px 20px;
             }
-            
-            .hamburger {
-                display: flex;
-            }
-        }
-
-        /* Center heading and align content to the right */
-        main {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            width: 100%;
-            margin: 0;
-            margin-bottom: 20px;
-        }
-
-        #fileList {
-            width: 100%;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        #fileList a {
-            display: block;
-            margin-top: 10px;
-            font-size: 1.2em;
-            text-decoration: none;
-            color: black;
         }
 
         @media (max-width: 1000px) {
             .navbar {
-                margin-left: -28px;
+                padding: 10px;
+            }
+            .logo {
+                font-size: 1.2em;
             }
         }
 
-        @media (max-width: 1400px) {
-            h1 {
-                margin-top: 50px;
-                margin-left: 10px;
+        @media (max-width: 1024px) {
+            #fileList li {
+                width: 24%; /* Four items per row for laptops */
+            }
+        }
+
+        @media (max-width: 768px) {
+            #fileList {
+                flex-direction: row;
+                gap: 10px;
+                padding: 0;
+            }
+
+            #fileList li {
+                width: 30%; /* Three items per row on tablets */
+                margin-bottom: 15px;
+            }
+
+            .modal-content {
+                width: 100%;
+                max-width: none;
+                padding: 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #fileList {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            #fileList li {
+                width: 30%; /* Three items per row on small screens */
+                margin-bottom: 10px;
             }
         }
     </style>
@@ -369,7 +334,7 @@
                     const loadingTask = pdfjsLib.getDocument(url);
                     const pdf = await loadingTask.promise;
                     const page = await pdf.getPage(1);
-                    const scale = 2; // Adjusted scale factor for better fitting
+                    const scale = 1.0; // Adjust scale for better resolution
                     const viewport = page.getViewport({ scale: scale });
                     const context = canvas.getContext('2d');
                     
@@ -387,60 +352,66 @@
             }
         }
 
-        async function showPDFInModal(fileUrl) {
+        function openModal(pdfUrl) {
+            const modal = document.getElementById('modal');
             const modalBody = document.getElementById('modal-body');
-            modalBody.innerHTML = ''; // Clear previous content
+            const downloadLink = document.getElementById('download-link');
+
+            modal.style.display = 'flex';
+            modalBody.innerHTML = '<div id="pdf-viewer"></div>';
+            downloadLink.href = pdfUrl;
+            downloadLink.download = pdfUrl.split('/').pop();
             
-            try {
-                const loadingTask = pdfjsLib.getDocument(fileUrl);
-                const pdf = await loadingTask.promise;
-                const totalPages = pdf.numPages;
+            pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
+                const pdfViewer = document.getElementById('pdf-viewer');
+                pdfViewer.innerHTML = ''; // Clear previous content
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    pdf.getPage(pageNum).then(page => {
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        const scale = 1.0; // Scale for better quality in modal
+                        const viewport = page.getViewport({ scale: scale });
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+                        pdfViewer.appendChild(canvas);
 
-                for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
-                    const page = await pdf.getPage(pageNumber);
-                    const scale = 1.5; // Increased scale factor for better resolution
-                    const viewport = page.getViewport({ scale: scale });
-
-                    const canvas = document.createElement('canvas');
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-                    const context = canvas.getContext('2d');
-                    const renderContext = {
-                        canvasContext: context,
-                        viewport: viewport
-                    };
-                    await page.render(renderContext).promise;
-                    
-                    modalBody.appendChild(canvas);
+                        page.render({ canvasContext: context, viewport: viewport });
+                    });
                 }
-            } catch (error) {
-                console.error('Error rendering PDF:', error);
-            }
+            }).catch(error => {
+                console.error('Error loading PDF:', error);
+                document.getElementById('modal-body').innerHTML = 'Error loading PDF.';
+            });
         }
 
-        document.addEventListener('click', function(event) {
-            const fileUrl = event.target.getAttribute('data-file-url');
-            if (event.target.classList.contains('view-link') || event.target.classList.contains('file-thumbnail')) {
-                event.preventDefault();
-                showPDFInModal(fileUrl);
+        document.addEventListener('DOMContentLoaded', fetchAllFiles);
 
-                const downloadLink = document.getElementById('download-link');
-                downloadLink.href = fileUrl;
-                downloadLink.download = event.target.getAttribute('data-file-name');
-                
-                document.getElementById('modal').style.display = 'flex';
+        document.getElementById('fileList').addEventListener('click', event => {
+            const target = event.target;
+            if (target.classList.contains('file-thumbnail') || target.classList.contains('view-link')) {
+                const fileUrl = target.getAttribute('data-file-url');
+                openModal(fileUrl);
             }
         });
 
-        document.querySelector('.modal-close').addEventListener('click', function() {
+        document.querySelector('.modal-close').addEventListener('click', () => {
             document.getElementById('modal').style.display = 'none';
         });
 
-        window.onload = fetchAllFiles;
+        window.addEventListener('click', (event) => {
+            if (event.target === document.getElementById('modal')) {
+                document.getElementById('modal').style.display = 'none';
+            }
+        });
 
-        document.getElementById('hamburger').addEventListener('click', function() {
+        // JavaScript to handle hamburger menu toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger');
             const navLinks = document.querySelector('.nav-links');
-            navLinks.classList.toggle('active');
+            
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
         });
     </script>
 </body>
