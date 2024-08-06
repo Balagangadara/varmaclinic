@@ -615,13 +615,13 @@ button:focus {
     
     /* Style for booked slots */
     .slot button.booked {
-        background-color: #dc3545; /* Red */
+        background-color: #beb4b5; /* Red */
         cursor: not-allowed;
     }
     
     /* Disabled class for booked slots */
     .slot button.disabled {
-        background-color: #dc3545; /* Red */
+        background-color: #959192; /* Red */
         cursor: not-allowed;
     }
     </style>
@@ -673,8 +673,8 @@ button:focus {
                     slotDiv.appendChild(slotButton);
                     container.appendChild(slotDiv);
     
+                    // Automatically select the first available slot if none is selected
                     if (!selectedSlotId && !bookedSlots.includes(slot.id)) {
-                        // Automatically select the first available slot if none is selected
                         selectedSlotId = slot.id;
                         localStorage.setItem('selectedSlotId', selectedSlotId);
                         updateSlotButtons(formattedDate, selectedSlotId, slot.time);
@@ -730,6 +730,7 @@ button:focus {
                 localStorage.setItem('selectedSlotId', slotId);
                 updateSlotButtons(formattedDate, slotId, slotTime);
                 saveFormData(); // Save form data whenever a slot is booked
+                updateButtonStates(); // Update button states after slot selection
             }
         }
     
@@ -749,32 +750,6 @@ button:focus {
             });
         }
     
-        // function updateButtonStates() {
-        //     const bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
-        //     const dateInput = document.getElementById('date')?.value;
-    
-        //     if (dateInput) {
-        //         const formattedDate = formatDateToYYYYMMDD(dateInput);
-        //         const slots = document.querySelectorAll('#available-slots .slot button');
-        //         const dateBookedSlots = bookedSlots[formattedDate] || [];
-    
-        //         slots.forEach(button => {
-        //             const slotId = button.dataset.slotId;
-        //             const slotTime = button.dataset.slotTime;
-        //             const isBooked = dateBookedSlots.includes(slotId);
-        //             button.disabled = isBooked;
-        //             button.className = isBooked ? 'booked' : 'available';
-        //             button.textContent = isBooked ? `Booked (${slotTime})` : `Available (${slotTime})`;
-        //         });
-    
-        //         if (isFormComplete() && document.querySelector('#available-slots button:not([disabled])')) {
-        //             enableCommunicationButtons();
-        //         } else {
-        //             disableCommunicationButtons();
-        //         }
-        //     }
-        // }
-    
         function updateButtonStates() {
             const bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
             const dateInput = document.getElementById('date')?.value;
@@ -783,26 +758,29 @@ button:focus {
                 const formattedDate = formatDateToYYYYMMDD(dateInput);
                 const slots = document.querySelectorAll('#available-slots .slot button');
                 const dateBookedSlots = bookedSlots[formattedDate] || [];
-                
+                const selectedSlotId = localStorage.getItem('selectedSlotId');
+    
                 slots.forEach(button => {
                     const buttonIdMatch = button.getAttribute('onclick')?.match(/(\d+)/);
                     if (buttonIdMatch) {
                         const slotId = parseInt(buttonIdMatch[1], 10);
-                         const slotTime = button.textContent.match(/\((.*?)\)/)?.[1] || ''; // Extract time
-                 const isBooked = bookedSlots[formattedDate] && bookedSlots[formattedDate].includes(slotId);
-                         button.disabled = isBooked;
+                        const slotTime = button.textContent.match(/\((.*?)\)/)?.[1] || ''; // Extract time
+                        const isBooked = bookedSlots[formattedDate] && bookedSlots[formattedDate].includes(slotId);
+                        button.disabled = isBooked;
                         button.className = isBooked ? 'booked' : 'available';
                         button.textContent = isBooked ? `Booked (${slotTime})` : `Available (${slotTime})`;
                     }
                 });
     
-                if (isFormComplete() && document.querySelector('#available-slots button:not([disabled])')) {
+                // Enable or disable communication buttons based on form and slot selection
+                if (isFormComplete() && selectedSlotId) {
                     enableCommunicationButtons();
                 } else {
                     disableCommunicationButtons();
                 }
             }
         }
+    
         function isFormComplete() {
             const name = document.getElementById('name')?.value.trim();
             const age = document.getElementById('age')?.value.trim();
@@ -810,7 +788,7 @@ button:focus {
             const phone = document.getElementById('phone')?.value.trim();
             const reason = document.getElementById('reason')?.value;
             const date = document.getElementById('date')?.value;
-            const selectedSlot = document.querySelector('#available-slots button:not([disabled])');
+            const selectedSlot = localStorage.getItem('selectedSlotId');
     
             return name && age && gender && phone && reason && date && selectedSlot;
         }
@@ -837,6 +815,7 @@ button:focus {
                 document.getElementById('reason').value = formData.reason;
                 document.getElementById('date').value = formData.date; // Load the raw date format
             }
+            updateButtonStates(); // Check button states when loading form data
         }
     
         function enableCommunicationButtons() {
@@ -872,67 +851,58 @@ button:focus {
         }
     
         function getSelectedTimeSlot() {
-        const slotId = localStorage.getItem('selectedSlotId');
-        if (slotId) {
-            const slots = document.querySelectorAll('#available-slots .slot button');
-            for (let button of slots) {
-                if (button.dataset.slotId === slotId) {
-                    return button.dataset.slotTime;
+            const slotId = localStorage.getItem('selectedSlotId');
+            if (slotId) {
+                const slots = document.querySelectorAll('#available-slots .slot button');
+                for (let button of slots) {
+                    if (button.dataset.slotId === slotId) {
+                        return button.dataset.slotTime;
+                    }
                 }
             }
+            return 'No time selected';
         }
-        return 'No time selected';
-    }
-
-    function getFormattedMessage() {
-        const formData = JSON.parse(localStorage.getItem('formData'));
-        if (!formData) {
-            alert('Form data is missing.');
-            return '';
+    
+        function getFormattedMessage() {
+            const formData = JSON.parse(localStorage.getItem('formData'));
+            if (!formData) {
+                alert('Form data is missing.');
+                return '';
+            }
+    
+            const { name, age, gender, phone, reason, date } = formData;
+            const formattedDate = formatDateToDDMMYYYY(date);
+            const time = getSelectedTimeSlot();
+    
+            return `Name: ${name}\nAge: ${age}\nGender: ${gender}\nMobile Number: ${phone}\nReason For Appointment: ${reason}\nAppointment Date: ${formattedDate}\nTime Slot: ${time}`;
         }
-
-        const { name, age, gender, phone, reason, date } = formData;
-        const formattedDate = formatDateToDDMMYYYY(date);
-        const time = getSelectedTimeSlot();
-
-        // Formatting message with new line separators
-        return `Name: ${name}\nAge: ${age}\nGender: ${gender}\nMobile Number: ${phone}\nReason For Appointment: ${reason}\nAppointment Date: ${formattedDate}\nTime Slot: ${time}`;
-    }
-
-    function redirectToWhatsApp() {
-        const formData = JSON.parse(localStorage.getItem('formData'));
-        const time = getSelectedTimeSlot();
-        const message = getFormattedMessage();
-        const url = `https://wa.me/9094852653?text=${encodeURIComponent(message)}`;
-        window.open(url, '_blank');
-    }
-
-    function redirectToSMS() {
-        const formData = JSON.parse(localStorage.getItem('formData'));
-        const time = getSelectedTimeSlot();
-        const message = getFormattedMessage();
-        const url = `sms:9094852653?body=${encodeURIComponent(message)}`;
-        window.open(url, '_blank');
-    }
-
-    function redirectToEmail() {
-        const formData = JSON.parse(localStorage.getItem('formData'));
-        const time = getSelectedTimeSlot();
-        const subject = 'Appointment Details';
-        const body = getFormattedMessage();
-        const url = `mailto:balavarmaclinic@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        // window.location.href = url;
-        window.open(url, '_blank');
-    }
-
-    function redirectToCall() {
-        const formData = JSON.parse(localStorage.getItem('formData'));
-        const phoneNumber = formData.phone;
-        const url = `tel:9094852653${encodeURIComponent(phoneNumber)}`;
-        window.open(url, '_blank');
-    }
-</script>
-
+    
+        function redirectToWhatsApp() {
+            const message = getFormattedMessage();
+            const url = `https://wa.me/9094852653?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+    
+        function redirectToSMS() {
+            const message = getFormattedMessage();
+            const url = `sms:9094852653?body=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+    
+        function redirectToEmail() {
+            const subject = 'Appointment Details';
+            const body = getFormattedMessage();
+            const url = `mailto:balavarmaclinic@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.open(url, '_blank');
+        }
+    
+        function redirectToCall() {
+            const phoneNumber = '9094852653'; // Hardcoded phone number
+            const url = `tel:${encodeURIComponent(phoneNumber)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+    
     
 <script>
     document.addEventListener('DOMContentLoaded', () => {
