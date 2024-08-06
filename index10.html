@@ -625,75 +625,7 @@ button:focus {
         cursor: not-allowed;
     }
     </style>
-    <style>
-        .slot button {
-            background-color: red; /* Default color for available slots */
-            color: white;
-            border: none;
-            padding: 10px;
-            margin: 5px;
-            cursor: pointer;
-        }
-    
-        .slot button.booked {
-            background-color: gray; /* Color for booked slots */
-            cursor: not-allowed;
-        }
-    </style>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            setDateInputMinDate();
-            fetchUnavailableDates();
-        });
-    
-        function setDateInputMinDate() {
-            const dateInput = document.getElementById('date');
-            if (!dateInput) return;
-    
-            // Get today's date in YYYY-MM-DD format
-            const today = new Date().toISOString().split('T')[0];
-            dateInput.setAttribute('min', today);
-        }
-    
-        async function fetchUnavailableDates() {
-            try {
-                // Fetch the JSON file containing unavailable dates
-                const response = await fetch('https://github.com/Balagangadara/calender/blob/main/unavailable-dates.json');
-    
-                if (!response.ok) {
-                    throw new Error(`Network response was not ok: ${response.statusText}`);
-                }
-    
-                const data = await response.json();
-                const unavailableDates = new Set(data.dates);
-                handleDateInput(unavailableDates);
-            } catch (error) {
-                console.error('Error fetching unavailable dates:', error);
-            }
-        }
-    
-        function handleDateInput(unavailableDates) {
-            const dateInput = document.getElementById('date');
-    
-            if (!dateInput) return;
-    
-            dateInput.addEventListener('input', function() {
-                // Check if the selected date is unavailable
-                if (unavailableDates.has(this.value)) {
-                    alert('The selected date is unavailable. Please choose another date.');
-                    this.value = ''; // Clear the selection
-                }
-            });
-    
-            dateInput.addEventListener('change', function() {
-                // Check if the selected date is unavailable
-                if (unavailableDates.has(this.value)) {
-                    alert('The selected date is unavailable. Please choose another date.');
-                    this.value = ''; // Clear the selection
-                }
-            });
-        }
-    
         async function loadSlots() {
             const dateInput = document.getElementById('date').value;
             if (!dateInput) {
@@ -726,6 +658,8 @@ button:focus {
                 let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
                 bookedSlots = bookedSlots[formattedDate] || [];
     
+                let selectedSlotId = localStorage.getItem('selectedSlotId');
+    
                 dayData.forEach(slot => {
                     if (!slot || typeof slot !== 'object') {
                         console.warn('Invalid slot data:', slot);
@@ -735,9 +669,16 @@ button:focus {
                     const slotDiv = document.createElement('div');
                     slotDiv.className = 'slot';
     
-                    const slotButton = createSlotButton(slot);
+                    const slotButton = createSlotButton(slot, bookedSlots, selectedSlotId);
                     slotDiv.appendChild(slotButton);
                     container.appendChild(slotDiv);
+    
+                    if (!selectedSlotId && !bookedSlots.includes(slot.id)) {
+                        // Automatically select the first available slot if none is selected
+                        selectedSlotId = slot.id;
+                        localStorage.setItem('selectedSlotId', selectedSlotId);
+                        updateSlotButtons(formattedDate, selectedSlotId, slot.time);
+                    }
                 });
     
                 loadFormData();
@@ -749,65 +690,90 @@ button:focus {
             }
         }
     
-        function createSlotButton(slot) {
+        function createSlotButton(slot, bookedSlots, selectedSlotId) {
             const slotButton = document.createElement('button');
-            slotButton.dataset.clicks = '0'; // Initialize click count
-    
-            const formattedDate = formatDateToYYYYMMDD(document.getElementById('date').value);
-            const isBooked = slot.booked || JSON.parse(localStorage.getItem('bookedSlots') || '{}')[formattedDate]?.includes(slot.id);
+            const isBooked = slot.booked || bookedSlots.includes(slot.id);
             const buttonClass = isBooked ? 'booked' : 'available';
     
             slotButton.className = buttonClass;
             slotButton.disabled = isBooked;
             slotButton.textContent = isBooked ? `Booked (${slot.time})` : `Available (${slot.time})`;
-    
-            // Remove the hover effect by setting it in CSS
-            slotButton.style.cursor = 'pointer'; // Ensure the pointer cursor shows on hover
+            slotButton.dataset.slotId = slot.id;
+            slotButton.dataset.slotTime = slot.time;
     
             slotButton.addEventListener('click', function (event) {
                 event.preventDefault(); // Prevent default behavior
                 event.stopPropagation(); // Prevent event bubbling
     
-                // Only process if not already booked
                 if (!isBooked) {
-                    const clickCount = parseInt(slotButton.dataset.clicks, 10);
-                    if (clickCount === 0) {
-                        // First click: book the slot and change color to red
-                        slotButton.className = 'booked'; // Change class to reflect booked status
-                        slotButton.textContent = `Booked (${slot.time})`;
-    
-                        // Update booked slots in localStorage
-                        let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
-                        bookedSlots = bookedSlots[formattedDate] || [];
-                        if (!bookedSlots.includes(slot.id)) {
-                            bookedSlots.push(slot.id);
-                            localStorage.setItem('bookedSlots', JSON.stringify({ ...JSON.parse(localStorage.getItem('bookedSlots') || '{}'), [formattedDate]: bookedSlots }));
-                            updateSlotButtons(formattedDate, slot.id, slot.time);
-                            saveFormData(); // Save form data whenever a slot is booked
-                        }
-    
-                        slotButton.dataset.clicks = '1'; // Update click count to prevent further clicks
-                    }
+                    handleSlotClick(slot.id, slot.time);
                 }
             });
     
             return slotButton;
         }
     
+        function handleSlotClick(slotId, slotTime) {
+            const dateInput = document.getElementById('date').value;
+            if (!dateInput) {
+                alert('Please select a date.');
+                return;
+            }
+    
+            const formattedDate = formatDateToYYYYMMDD(dateInput);
+            let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
+            bookedSlots = bookedSlots[formattedDate] || [];
+    
+            if (!bookedSlots.includes(slotId)) {
+                bookedSlots.push(slotId);
+                localStorage.setItem('bookedSlots', JSON.stringify({ ...bookedSlots, [formattedDate]: bookedSlots }));
+                localStorage.setItem('selectedSlotId', slotId);
+                updateSlotButtons(formattedDate, slotId, slotTime);
+                saveFormData(); // Save form data whenever a slot is booked
+            }
+        }
+    
         function updateSlotButtons(date, slotId, slotTime) {
             const slots = document.querySelectorAll('#available-slots .slot button');
             slots.forEach(button => {
-                const buttonIdMatch = button.textContent.match(/\((\d+)\)/);
-                if (buttonIdMatch) {
-                    const currentSlotId = parseInt(buttonIdMatch[1], 10);
-                    if (currentSlotId === slotId) {
-                        button.disabled = true;
-                        button.className = 'booked'; // Apply booked class
-                        button.textContent = `Booked (${slotTime})`;
-                    }
+                const buttonId = button.dataset.slotId;
+                if (buttonId === slotId.toString()) {
+                    button.disabled = true;
+                    button.className = 'booked'; // Apply booked class
+                    button.textContent = `Booked (${slotTime})`;
+                } else {
+                    button.className = 'available'; // Ensure other buttons are available
+                    button.disabled = false;
+                    button.textContent = `Available (${button.dataset.slotTime})`;
                 }
             });
         }
+    
+        // function updateButtonStates() {
+        //     const bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
+        //     const dateInput = document.getElementById('date')?.value;
+    
+        //     if (dateInput) {
+        //         const formattedDate = formatDateToYYYYMMDD(dateInput);
+        //         const slots = document.querySelectorAll('#available-slots .slot button');
+        //         const dateBookedSlots = bookedSlots[formattedDate] || [];
+    
+        //         slots.forEach(button => {
+        //             const slotId = button.dataset.slotId;
+        //             const slotTime = button.dataset.slotTime;
+        //             const isBooked = dateBookedSlots.includes(slotId);
+        //             button.disabled = isBooked;
+        //             button.className = isBooked ? 'booked' : 'available';
+        //             button.textContent = isBooked ? `Booked (${slotTime})` : `Available (${slotTime})`;
+        //         });
+    
+        //         if (isFormComplete() && document.querySelector('#available-slots button:not([disabled])')) {
+        //             enableCommunicationButtons();
+        //         } else {
+        //             disableCommunicationButtons();
+        //         }
+        //     }
+        // }
     
         function updateButtonStates() {
             const bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
@@ -816,13 +782,15 @@ button:focus {
             if (dateInput) {
                 const formattedDate = formatDateToYYYYMMDD(dateInput);
                 const slots = document.querySelectorAll('#available-slots .slot button');
+                const dateBookedSlots = bookedSlots[formattedDate] || [];
+                
                 slots.forEach(button => {
-                    const buttonIdMatch = button.textContent.match(/\((\d+)\)/);
+                    const buttonIdMatch = button.getAttribute('onclick')?.match(/(\d+)/);
                     if (buttonIdMatch) {
                         const slotId = parseInt(buttonIdMatch[1], 10);
-                        const slotTime = button.textContent.match(/\((.*?)\)/)?.[1] || ''; // Extract time
-                        const isBooked = bookedSlots[formattedDate] && bookedSlots[formattedDate].includes(slotId);
-                        button.disabled = isBooked;
+                         const slotTime = button.textContent.match(/\((.*?)\)/)?.[1] || ''; // Extract time
+                 const isBooked = bookedSlots[formattedDate] && bookedSlots[formattedDate].includes(slotId);
+                         button.disabled = isBooked;
                         button.className = isBooked ? 'booked' : 'available';
                         button.textContent = isBooked ? `Booked (${slotTime})` : `Available (${slotTime})`;
                     }
@@ -835,7 +803,6 @@ button:focus {
                 }
             }
         }
-    
         function isFormComplete() {
             const name = document.getElementById('name')?.value.trim();
             const age = document.getElementById('age')?.value.trim();
@@ -873,19 +840,17 @@ button:focus {
         }
     
         function enableCommunicationButtons() {
-            const buttons = ['whatsappButton', 'smsButton', 'emailButton', 'callButton'];
-            buttons.forEach(id => {
-                const button = document.getElementById(id);
-                if (button) button.disabled = false;
-            });
+            document.getElementById('whatsappButton').disabled = false;
+            document.getElementById('smsButton').disabled = false;
+            document.getElementById('emailButton').disabled = false;
+            document.getElementById('callButton').disabled = false;
         }
     
         function disableCommunicationButtons() {
-            const buttons = ['whatsappButton', 'smsButton', 'emailButton', 'callButton'];
-            buttons.forEach(id => {
-                const button = document.getElementById(id);
-                if (button) button.disabled = true;
-            });
+            document.getElementById('whatsappButton').disabled = true;
+            document.getElementById('smsButton').disabled = true;
+            document.getElementById('emailButton').disabled = true;
+            document.getElementById('callButton').disabled = true;
         }
     
         function formatDateToYYYYMMDD(dateInput) {
@@ -907,71 +872,69 @@ button:focus {
         }
     
         function getSelectedTimeSlot() {
-            const slotButton = document.querySelector('#available-slots button:not([disabled])');
-            return slotButton ? slotButton.textContent.match(/\((.*?)\)/)?.[1] || 'No time selected' : 'No time selected';
-        }
-    
-        function getFormattedMessage() {
-            const formData = JSON.parse(localStorage.getItem('formData'));
-            if (!formData) {
-                alert('Form data is missing.');
-                return '';
-            }
-    
-            const { name, age, gender, phone, reason, date } = formData;
-            const formattedDate = formatDateToDDMMYYYY(date);
-            const time = getSelectedTimeSlot();
-    
-            // Formatting message horizontally with new line separators
-            return `Name: ${name}\nAge: ${age}\nGender: ${gender}\nMobile Number: ${phone}\nReason For Appointment: ${reason}\nAppointment Date: ${formattedDate}\nTime Slot: ${time}`;
-        }
-    
-        function redirectToWhatsApp() {
-            const message = getFormattedMessage();
-            if (message) {
-                const url = `https://wa.me/8148086997?text=${encodeURIComponent(message)}`;
-                window.open(url, '_blank'); // Open WhatsApp in a new tab
+        const slotId = localStorage.getItem('selectedSlotId');
+        if (slotId) {
+            const slots = document.querySelectorAll('#available-slots .slot button');
+            for (let button of slots) {
+                if (button.dataset.slotId === slotId) {
+                    return button.dataset.slotTime;
+                }
             }
         }
-    
-        function redirectToSMS() {
-            const message = getFormattedMessage();
-            const defaultPhoneNumber = '8148086997'; // Replace with your default phone number
-    
-            if (message) {
-                const url = `sms:${defaultPhoneNumber}?body=${encodeURIComponent(message)}`;
-                window.open(url, '_blank'); // Open SMS app in a new tab or window
-            }
+        return 'No time selected';
+    }
+
+    function getFormattedMessage() {
+        const formData = JSON.parse(localStorage.getItem('formData'));
+        if (!formData) {
+            alert('Form data is missing.');
+            return '';
         }
+
+        const { name, age, gender, phone, reason, date } = formData;
+        const formattedDate = formatDateToDDMMYYYY(date);
+        const time = getSelectedTimeSlot();
+
+        // Formatting message with new line separators
+        return `Name: ${name}\nAge: ${age}\nGender: ${gender}\nMobile Number: ${phone}\nReason For Appointment: ${reason}\nAppointment Date: ${formattedDate}\nTime Slot: ${time}`;
+    }
+
+    function redirectToWhatsApp() {
+        const formData = JSON.parse(localStorage.getItem('formData'));
+        const time = getSelectedTimeSlot();
+        const message = getFormattedMessage();
+        const url = `https://wa.me/9094852653?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+    }
+
+    function redirectToSMS() {
+        const formData = JSON.parse(localStorage.getItem('formData'));
+        const time = getSelectedTimeSlot();
+        const message = getFormattedMessage();
+        const url = `sms:9094852653?body=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+    }
+
+    function redirectToEmail() {
+        const formData = JSON.parse(localStorage.getItem('formData'));
+        const time = getSelectedTimeSlot();
+        const subject = 'Appointment Details';
+        const body = getFormattedMessage();
+        const url = `mailto:balavarmaclinic@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        // window.location.href = url;
+        window.open(url, '_blank');
+    }
+
+    function redirectToCall() {
+        const formData = JSON.parse(localStorage.getItem('formData'));
+        const phoneNumber = formData.phone;
+        const url = `tel:9094852653${encodeURIComponent(phoneNumber)}`;
+        window.open(url, '_blank');
+    }
+</script>
+
     
-        function redirectToEmail() {
-            const message = getFormattedMessage();
-            if (message) {
-                const subject = 'Appointment Details';
-                const url = `mailto:balavarmaclinic@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
-                window.open(url, '_blank'); // Open Email client in a new tab
-            }
-        }
-    
-        function redirectToCall() {
-            const phoneInput = document.getElementById('phone').value.trim(); // Retrieve phone number from input field
-            const defaultPhoneNumber = '8148086997'; // Replace with your default phone number
-    
-            // Use the phone input if available, otherwise use the default phone number
-            const phone = phoneInput || defaultPhoneNumber;
-    
-            if (phone) {
-                // Format the URL with the phone number
-                const url = `tel:${phone}`;
-                // Attempt to open in a new tab (this will generally not work for `tel:` URLs)
-                window.open(url, '_blank');
-            } else {
-                alert('Phone number is missing. Please enter a valid phone number.');
-            }
-        }
-    </script>
-    
-    <script>
+<script>
     document.addEventListener('DOMContentLoaded', () => {
         setDateInputMinDate();
     });
