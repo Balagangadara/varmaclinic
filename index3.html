@@ -74,11 +74,12 @@
             height: 3px;
             background-color: white;
             margin: 3px 0;
+            transition: background-color 0.3s ease;
         }
 
         @media (max-width: 768px) {
             .nav-links {
-                display: none; /* Default state is hidden */
+                display: none;
                 position: absolute;
                 top: 60px;
                 right: 20px;
@@ -88,10 +89,14 @@
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
                 border-radius: 5px;
                 z-index: 1000;
+                transition: max-height 0.3s ease-out;
+                max-height: 0;
+                overflow: hidden;
             }
             
             .nav-links.active {
-                display: flex; /* Show when active */
+                display: flex;
+                max-height: 500px; /* Adjust based on the number of items */
             }
             
             .hamburger {
@@ -99,7 +104,6 @@
             }
         }
 
-        /* Main content styles */
         main {
             display: flex;
             flex-direction: column;
@@ -108,10 +112,9 @@
         }
 
         h1 {
+            margin: 30px 0;
             text-align: center;
             width: 100%;
-            margin: 0;
-            margin-bottom: 20px;
         }
 
         #fileList {
@@ -139,8 +142,6 @@
             cursor: pointer;
             transition: transform 0.2s;
             display: block;
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
         }
 
         .file-thumbnail:hover {
@@ -154,7 +155,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.7); /* Slightly darker for better contrast */
             justify-content: center;
             align-items: center;
             z-index: 1001;
@@ -163,13 +164,14 @@
 
         .modal-content {
             background-color: #fff;
-            padding: 10px; /* Reduced padding for better fit */
+            padding: 20px;
             border-radius: 8px;
-            width: 80%; /* Reduced width for smaller view */
-            max-width: 1000px; /* Adjust max-width as needed */
+            width: 90%; /* Default width for larger screens */
+            max-width: 1000px;
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Added shadow for better separation */
         }
 
         .modal-content canvas {
@@ -189,7 +191,6 @@
             margin-top: 20px;
         }
 
-        /* Responsive adjustments */
         @media (max-width: 1200px) {
             .container {
                 padding: 0 20px;
@@ -210,7 +211,7 @@
 
         @media (max-width: 1024px) {
             #fileList li {
-                width: 24%; /* Four items per row for laptops */
+                width: 24%;
             }
         }
 
@@ -222,14 +223,13 @@
             }
 
             #fileList li {
-                width: 30%; /* Three items per row on tablets */
+                width: 30%;
                 margin-bottom: 15px;
             }
 
             .modal-content {
-                width: 100%;
-                max-width: none;
-                padding: 5px;
+                width: 95%; /* Increased for better readability on mobile */
+                padding: 15px; /* Added padding for better spacing */
             }
         }
 
@@ -241,8 +241,12 @@
             }
 
             #fileList li {
-                width: 30%; /* Three items per row on small screens */
+                width: 45%;
                 margin-bottom: 10px;
+            }
+
+            .modal-content {
+                width: 90%; /* Reduced width for mobile devices */
             }
         }
     </style>
@@ -252,7 +256,7 @@
         <nav class="navbar">
             <div class="container">
                 <a href="#" class="logo">
-                    <img src="images/logo1.jpeg" alt="MyLogo" style="height: 60px; width: 250px;">
+                    <img src="images/logo1.jpeg" alt="MyLogo" style="height: 60px; width: auto;">
                 </a>
                 <ul class="nav-links">
                     <li><a href="index.html">Appointment Form</a></li>
@@ -277,7 +281,7 @@
         </nav>
     </header>
     <main>
-        <h1 style="margin-top: 30px;margin-bottom: 30px;">All Articles</h1>
+        <h1>All Articles</h1>
         <ul id="fileList">Loading...</ul>
     </main>
 
@@ -315,6 +319,7 @@
                                 <br><a href="#" data-file-url="${fileUrl}" data-file-name="${file.name}" class="view-link">${file.name}</a>
                             </li>`;
                         }
+                        return ''; // Avoid rendering non-PDF files
                     }).join('');
                     renderPDFThumbnails();
                 } else {
@@ -334,8 +339,8 @@
                     const loadingTask = pdfjsLib.getDocument(url);
                     const pdf = await loadingTask.promise;
                     const page = await pdf.getPage(1);
-                    const scale = 0.5; // Reduced scale for smaller thumbnails
-                    const viewport = page.getViewport({ scale: scale });
+                    const scale = window.innerWidth <= 480 ? 0.5 : 0.8; // Reduced scale for better fit on mobile
+                    const viewport = page.getViewport({ scale });
                     const context = canvas.getContext('2d');
                     
                     canvas.height = viewport.height;
@@ -364,13 +369,13 @@
             
             pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
                 const pdfViewer = document.getElementById('pdf-viewer');
-                pdfViewer.innerHTML = ''; // Clear previous content
+                pdfViewer.innerHTML = '';
                 for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
                     pdf.getPage(pageNum).then(page => {
                         const canvas = document.createElement('canvas');
                         const context = canvas.getContext('2d');
-                        const scale = 0.5; // Reduced scale for smaller PDF view
-                        const viewport = page.getViewport({ scale: scale });
+                        const scale = window.innerWidth <= 480 ? 0.5 : 1.2; // Reduced scale for mobile devices
+                        const viewport = page.getViewport({ scale });
                         canvas.height = viewport.height;
                         canvas.width = viewport.width;
                         pdfViewer.appendChild(canvas);
@@ -398,13 +403,12 @@
             document.getElementById('modal').style.display = 'none';
         });
 
-        window.addEventListener('click', (event) => {
+        window.addEventListener('click', event => {
             if (event.target === document.getElementById('modal')) {
                 document.getElementById('modal').style.display = 'none';
             }
         });
 
-        // JavaScript to handle hamburger menu toggle
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.getElementById('hamburger');
             const navLinks = document.querySelector('.nav-links');
