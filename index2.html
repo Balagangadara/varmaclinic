@@ -259,7 +259,9 @@
                     const loadingTask = pdfjsLib.getDocument(url);
                     const pdf = await loadingTask.promise;
                     const page = await pdf.getPage(1);
-                    const scale = 1.5; // Adjust scale for better fitting
+                    
+                    // Adjust scale for high quality thumbnail
+                    const scale = 2.0;
                     const viewport = page.getViewport({ scale: scale });
                     const context = canvas.getContext('2d');
                     
@@ -272,7 +274,7 @@
                     };
                     await page.render(renderContext).promise;
                 } catch (error) {
-                    console.error('Error rendering PDF:', error);
+                    console.error('Error rendering PDF thumbnail:', error);
                 }
             }
         }
@@ -286,8 +288,9 @@
                 const pdf = await loadingTask.promise;
                 const totalPages = pdf.numPages;
 
-                const scale = window.innerWidth <= 768 ? 1.0 : 1.5; // Adjust scale for mobile view
-                const viewportScale = window.devicePixelRatio || 1; // Use devicePixelRatio for high-res displays
+                // Adjust scale for better quality
+                const scale = window.innerWidth <= 768 ? 1.5 : 2.0;
+                const viewportScale = window.devicePixelRatio || 1;
 
                 for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
                     const page = await pdf.getPage(pageNumber);
@@ -311,7 +314,7 @@
                     modalBody.appendChild(canvas);
                 }
             } catch (error) {
-                console.error('Error rendering PDF:', error);
+                console.error('Error rendering PDF in modal:', error);
             }
         }
 
