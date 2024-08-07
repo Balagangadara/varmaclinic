@@ -134,9 +134,8 @@
         .modal-content canvas {
             display: block;
             margin: 0 auto;
-            max-width: 100%;
+            width: 100%; /* Ensures that canvas fits within the modal width */
             height: auto;
-            image-rendering: -webkit-optimize-contrast;
         }
         .modal-close {
             position: absolute;
@@ -260,12 +259,10 @@
                     const pdf = await loadingTask.promise;
                     const page = await pdf.getPage(1);
                     
-                    // No scaling for thumbnails, original size
-                    const scale = 1.0;
-                    const viewport = page.getViewport({ scale: scale });
+                    // Fit to the thumbnail size
+                    const viewport = page.getViewport({ scale: 0.3 }); // Adjust scale as needed
                     const context = canvas.getContext('2d');
                     
-                    // Set canvas size to match PDF page size
                     canvas.height = viewport.height;
                     canvas.width = viewport.width;
                     
@@ -289,8 +286,8 @@
                 const pdf = await loadingTask.promise;
                 const totalPages = pdf.numPages;
 
-                // No scaling, display at original size
-                const scale = 1.0;
+                // Adjust scale based on viewport size
+                const scale = window.innerWidth <= 768 ? 0.7 : 1.0; // Adjust scale for smaller screens
                 const viewportScale = window.devicePixelRatio || 1; // Use devicePixelRatio for high-res displays
 
                 for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
@@ -298,11 +295,10 @@
                     const viewport = page.getViewport({ scale: scale });
                     const canvas = document.createElement('canvas');
 
-                    // Set canvas size to match PDF page size
                     canvas.height = viewport.height * viewportScale;
                     canvas.width = viewport.width * viewportScale;
-                    canvas.style.width = `${viewport.width}px`; // Set width to prevent distortion
-                    canvas.style.height = `${viewport.height}px`; // Set height to prevent distortion
+                    canvas.style.width = `100%`; // Ensure canvas fits within modal width
+                    canvas.style.height = `auto`; // Maintain aspect ratio
 
                     const context = canvas.getContext('2d');
                     context.scale(viewportScale, viewportScale); // Scale context for high-res displays
