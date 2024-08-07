@@ -260,11 +260,12 @@
                     const pdf = await loadingTask.promise;
                     const page = await pdf.getPage(1);
                     
-                    // Adjust scale for high quality thumbnail
-                    const scale = 2.0;
+                    // Scale for better quality thumbnail
+                    const scale = 2.0; // Higher scale for better quality
                     const viewport = page.getViewport({ scale: scale });
                     const context = canvas.getContext('2d');
                     
+                    // Set canvas size to match PDF page size
                     canvas.height = viewport.height;
                     canvas.width = viewport.width;
                     
@@ -288,15 +289,16 @@
                 const pdf = await loadingTask.promise;
                 const totalPages = pdf.numPages;
 
-                // Adjust scale for better quality
-                const scale = window.innerWidth <= 768 ? 1.5 : 2.0;
-                const viewportScale = window.devicePixelRatio || 1;
+                // Adjust scale for better quality in modal
+                const scale = window.innerWidth <= 768 ? 1.5 : 2.0; // Higher scale for better quality
+                const viewportScale = window.devicePixelRatio || 1; // Use devicePixelRatio for high-res displays
 
                 for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
                     const page = await pdf.getPage(pageNumber);
                     const viewport = page.getViewport({ scale: scale });
                     const canvas = document.createElement('canvas');
 
+                    // Set canvas size and scale
                     canvas.height = viewport.height * viewportScale;
                     canvas.width = viewport.width * viewportScale;
                     canvas.style.width = `${viewport.width}px`; // Set width to prevent distortion
