@@ -219,7 +219,7 @@ button.enabled-button {
 
 /* Hover Effect */
 button:not(.disabled-button):hover {
-    background-color:rgb(157, 149, 149); /* Darker green on hover */
+    background-color: #063151; /* Darker green on hover */
     transform: scale(1.05); /* Slightly increase size */
 }
 
@@ -234,94 +234,83 @@ button:focus {
             gap: 10px; /* Space between slots */
         }
 
-
-
-  /* Container for available slots */
-#available-slots {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr); /* 7 columns in a row */
-    gap: 2px; /* Reduced space between slots */
-    padding: 2px; /* Reduced padding around the container */
-    max-width: 100%; /* Ensure it fits the container width */
-    max-height: 100vh; /* Limit height to 100% of viewport height */
-    box-sizing: border-box; /* Include padding in width and height calculation */
-    overflow-y: auto; /* Enable vertical scrolling if needed */
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-    position: relative; /* Relative positioning for layout purposes */
-}
-
-/* Individual slot styling */
-.slot {
-    position: relative; /* Allows absolute positioning of the button */
-    width: 100%; /* Make slot fill the grid cell */
-    padding-top: 100%; /* Aspect ratio of 1:1 (square) */
-    box-sizing: border-box; /* Include padding in width and height calculation */
-    overflow: hidden; /* Ensure content doesn't overflow */
-}
-
-/* Button styling */
-.slot button {
-    position: absolute; /* Position button absolutely within the slot */
-    top: 0;
-    left: 0;
-    width: 100%; /* Make button fill the slot */
-    height: 100%; /* Make button fill the slot */
-    padding: 0; /* Remove internal padding */
-    border: 1px solid #ccc; /* Border to define button boundaries */
-    border-radius: 2px; /* Reduced border radius */
-    background-color: #908a8a; /* Default background color */
-    cursor: pointer; /* Pointer cursor for clickable buttons */
-    font-size: 4px; /* Reduced font size for time text */
-    display: flex; /* Use flexbox for alignment */
-    align-items: center; /* Vertically center text */
-    justify-content: center; /* Horizontally center text */
-    text-align: center; /* Center text alignment */
-    box-sizing: border-box; /* Include padding and border in button size */
-    transition: background-color 0.3s, opacity 0.3s; /* Smooth transition for background color and opacity */
-}
-
-/* Style for available slots */
-.slot button.available {
-    background-color: rgb(2, 7, 55);/* Dark blue for available slots */
-    color: white;
-}
-
-/* Style for booked slots */
-.slot button.booked {
-    background-color: #6c757d; /* Grey for booked slots */
-    color: white;
-    cursor: not-allowed; /* Not-allowed cursor for booked slots */
-    opacity: 0.6; /* Slightly transparent */
-}
-
-/* Style for past slots */
-.slot button.unavailable {
-    background-color: #6c757d; /* Grey for past slots */
-    color: white;
-    cursor: not-allowed; /* Not-allowed cursor for past slots */
-}
-
-/* Optional: Style for action buttons (WhatsApp, SMS, Email, Call) */
-button.action-button {
-    padding: 4px 6px; /* Smaller padding */
-    font-size: 8px; /* Smaller font size */
-}
-
-/* Page styling */
-html, body {
-    margin: 0;
-    padding: 0;
-    overflow: auto; /* Allow page to scroll if needed */
-    width: 100vw; /* Ensure the body width fits the viewport */
-    height: 100vh; /* Ensure the body height fits the viewport */
-}
-
-
-</style>
-
     
-   
-   <style>
+    /* Container for slots */
+    .slots-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px; /* Reduced space between slots */
+        padding: 8px; /* Reduced padding around the container */
+    }
+
+    /* Individual slot styling */
+    .slot {
+        flex: 1 1 calc(25% - 8px); /* 4 slots in a row minus the gap */
+        box-sizing: border-box;
+        padding: 8px; /* Reduced padding inside slots */
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        text-align: center;
+        font-size: 12px; /* Reduced font size */
+        /* Optional: Add a background color for better visibility */
+        background-color: #f8f9fa;
+    }
+
+    /* Button styling */
+    .slot button {
+        width: 100%;
+        padding: 4px; /* Reduced padding inside button */
+        font-size: 10px; /* Reduced font size */
+        box-sizing: border-box; /* Include padding in button's width */
+    }
+
+    /* Media queries for responsive design */
+    @media (max-width: 1200px) {
+        .slot {
+            flex: 1 1 calc(25% - 8px); /* 4 slots in a row */
+        }
+    }
+
+    @media (max-width: 900px) {
+        .slot {
+            flex: 1 1 calc(25% - 8px); /* 4 slots in a row */
+        }
+    }
+
+    @media (max-width: 600px) {
+        .slot {
+            flex: 1 1 calc(25% - 8px); /* 4 slots in a row */
+        }
+    }
+
+    @media (max-width: 400px) {
+        .slot {
+            flex: 1 1 calc(50% - 8px); /* 2 slots in a row */
+        }
+    }
+
+    /* Style for available slots */
+    .slot button.available {
+        background-color: #28a745; /* Green */
+        color: white;
+    }
+
+    /* Style for booked slots */
+    .slot button.booked {
+        background-color: #dc3545; /* Red */
+        color: white;
+        cursor: not-allowed;
+    }
+
+    /* Style for unavailable slots */
+    .slot button.unavailable {
+        background-color: #6c757d; /* Grey */
+        color: white;
+        cursor: not-allowed;
+    }
+
+
+
     /* General button style */
     .slot button {
         padding: 10px 20px;
@@ -335,12 +324,12 @@ html, body {
     
     /* Style for available slots */
     .slot button.available {
-        background-color: rgb(2, 7, 55); /* Green */
+        background-color: #28a745; /* Green */
     }
     
     /* Style for booked slots */
     .slot button.booked {
-        background-color: #a1a1a1; /* Red */
+        background-color: #beb4b5; /* Red */
         cursor: not-allowed;
     }
     
@@ -349,7 +338,170 @@ html, body {
         background-color: #959192; /* Red */
         cursor: not-allowed;
     }
-    </style>
+    /* Container for the slots */
+.slots-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between slots */
+    justify-content: center; /* Center align slots */
+}
+
+/* Individual slot */
+.slot {
+    flex: 1 1 calc(33.333% - 20px); /* Adjust width to fit three slots per row */
+    min-width: 150px; /* Minimum width to avoid too small boxes */
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* Style for slot buttons */
+.slot button {
+    width: 100%; /* Fill the container width */
+    padding: 10px;
+    font-size: 14px; /* Adjusted font size */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+/* Style for available and booked slots */
+.slot button.available {
+    background-color: #4CAF50; /* Green for available */
+    color: white;
+}
+
+.slot button.booked {
+    background-color: #f44336; /* Red for booked */
+    color: white;
+    cursor: not-allowed;
+}
+@media (max-width: 800px) {
+    .slot {
+        flex: 1 1 calc(50% - 20px); /* Two slots per row on medium screens */
+    }
+}
+
+@media (max-width: 500px) {
+    .slot {
+        flex: 1 1 calc(100% - 20px); /* One slot per row on small screens */
+    }
+}
+/* Container for available slots */
+.slots-container {
+    margin-top: 10px; /* Space above the container */
+    display: flex;
+    flex-wrap: wrap; /* Allows slots to wrap to the next line if they overflow */
+    gap: 1px; /* Reduce space between slots */
+    max-height: calc(5 * (30px + 1px)); /* Ensure container fits 5 rows */
+    overflow-y: auto; /* Allow scrolling if slots exceed the container height */
+}
+
+/* Adjust the container for each time slot */
+.slot {
+    flex: 1 1 calc(12.5% - 1px); /* Adjust width to fit 8 slots per row (100% / 8 ≈ 12.5%, minus gap) */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+    min-height: 30px; /* Minimum height to ensure visibility */
+}
+
+/* Button style within each slot */
+.slot button {
+    display: block;
+    width: 100%; /* Full width of the slot container */
+    height: 100%; /* Full height of the slot container */
+    padding: 2px; /* Adjusted padding inside the button */
+    font-size: 8px; /* Smaller font size */
+    background-color: #f0f0f0; /* Background color of the button */
+    border: none; /* Remove default button border */
+    border-radius: 0; /* No border radius for a flat appearance */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s, opacity 0.3s; /* Smooth transition for background color and opacity */
+}
+
+/* Styles for available slots */
+.slot button.available {
+    background-color: #dff0d8; /* Light green for available slots */
+}
+
+/* Styles for booked slots */
+.slot button.booked {
+    background-color: #f2dede; /* Light red for booked slots */
+    cursor: not-allowed; /* Not-allowed cursor for booked slots */
+    opacity: 0.6; /* Slightly transparent */
+}
+
+  /* Container for the available slots */
+#available-slots {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr); /* 7 columns in a row */
+    gap: 5px; /* Space between slots */
+    padding: 10px; /* Add padding around the container */
+    max-width: 100%; /* Ensure it fits the container width */
+    max-height: 80vh; /* Limit height to 80% of viewport height */
+    box-sizing: border-box; /* Include padding in width and height calculation */
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    position: relative; /* Relative positioning to help with aspect ratio */
+}
+
+/* Individual slot styling */
+.slot {
+    position: relative; /* Allows absolute positioning of the button */
+    width: 100%; /* Make slot fill the grid cell */
+    padding-top: 100%; /* Aspect ratio of 1:1 (square) */
+    box-sizing: border-box; /* Include padding in width and height calculation */
+    
+}
+
+/* Button styling */
+.slot button {
+    position: absolute; /* Position button absolutely within the slot */
+    top: 0;
+    left: 0;
+    width: 100%; /* Make button fill the slot */
+    height: 100%; /* Make button fill the slot */
+    padding: 0; /* Remove internal padding */
+    border: 1px solid #ccc; /* Border to define button boundaries */
+    border-radius: 8px; /* Rounded corners, adjust as needed */
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-size: 12px; /* Smaller font size */
+    text-align: center; /* Center text in the button */
+    box-sizing: border-box; /* Include padding and border in button size */
+}
+
+/* Available and booked slot styles */
+.slot button.available {
+    background-color: #4caf50; /* Green for available slots */
+    color: white;
+}
+
+.slot button.booked {
+    background-color: #f44336; /* Red for booked slots */
+    color: white;
+    cursor: not-allowed; /* Indicate that the slot cannot be clicked */
+}
+
+/* Optional: Style for action buttons (WhatsApp, SMS, Email, Call) */
+button {
+    padding: 8px 12px; /* Smaller padding */
+    font-size: 14px; /* Adjust font size for action buttons */
+
+}
+
+/* Page styling */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: auto; /* Allow page to scroll if needed */
+    width: 100vw; /* Ensure the body width fits the viewport */
+    height: 100vh; /* Ensure the body height fits the viewport */
+}
+
+</style>   
+    
 
 </head>
 <body>
@@ -400,10 +552,11 @@ html, body {
             <div class="form-group">
                 <label for="date">Select Date:</label>
                 <input type="date" id="date" onchange="loadSlots()">
-                <div id="available-slots">
+                <div id="available-slots" class="slots-container">
                     <!-- Available slots will be dynamically loaded here -->
                 </div>
             </div>
+            
             
           
 <!-- Communication Options -->
@@ -448,52 +601,8 @@ html, body {
     </div>
 </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            async function fetchBlockedDates() {
-                try {
-                    const response = await fetch('https://raw.githubusercontent.com/Balagangadara/calender/main/unavailable-dates.json');
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok.');
-                    }
-                    const data = await response.json();
-                    return data.dates; // Ensure this matches the JSON structure
-                } catch (error) {
-                    console.error('Error fetching blocked dates:', error);
-                    return [];
-                }
-            }
-
-            function formatDate(date) {
-                return date.toISOString().split('T')[0];
-            }
-
-            async function initializeDatePicker() {
-                const blockedDates = await fetchBlockedDates();
-                const today = new Date();
-                const nextSevenDays = new Date(today);
-                nextSevenDays.setDate(today.getDate() + 7);
-
-                const datePicker = flatpickr("#appointment_date", {
-                    dateFormat: "Y-m-d",
-                    minDate: formatDate(today),
-                    maxDate: formatDate(nextSevenDays),
-                    disable: blockedDates,
-                    onChange: function(selectedDates) {
-                        validateForm();
-                    },
-                });
-
-                document.getElementById('calendar-icon').addEventListener('click', () => {
-                    datePicker.open();
-                });
-            }
-
-            initializeDatePicker();
-        });
-
-        function validatePhoneNumber() {
+   <script>
+           function validatePhoneNumber() {
             const phoneInput = document.getElementById("phone");
             const phoneError = document.getElementById("phoneError");
             const phoneValue = phoneInput.value;
@@ -587,78 +696,79 @@ html, body {
         document.getElementById("time_slot").addEventListener("change", validateForm);
 
     </script>
-       <script>
-        async function loadSlots() {
-            const dateInput = document.getElementById('date').value;
-            if (!dateInput) {
-                alert('Please select a date.');
+    <script>
+    // Main function to load available time slots for a selected date
+    async function loadSlots() {
+        const dateInput = document.getElementById('date').value;
+        if (!dateInput) {
+            alert('Please select a date.');
+            return;
+        }
+
+        const formattedDate = formatDateToYYYYMMDD(dateInput);
+        console.log(`Fetching slots for date: ${formattedDate}`); // Debug log
+
+        try {
+            const response = await fetch('https://raw.githubusercontent.com/Balagangadara/timeblock/main/time.json');
+
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log('Data fetched:', data); // Debug log
+
+            const dayData = data[formattedDate];
+            if (!dayData || !Array.isArray(dayData)) {
+                document.getElementById('available-slots').innerHTML = '<p>No time slots available for this date.</p>';
                 return;
             }
-    
-            const formattedDate = formatDateToYYYYMMDD(dateInput);
-            console.log(`Fetching slots for date: ${formattedDate}`); // Debug log
-    
-            try {
-                const response = await fetch('https://raw.githubusercontent.com/Balagangadara/timeblock/main/time.json');
-    
-                if (!response.ok) {
-                    throw new Error(`Network response was not ok: ${response.statusText}`);
-                }
-    
-                const data = await response.json();
-                console.log('Data fetched:', data); // Debug log
-    
-                const dayData = data[formattedDate];
-                if (!dayData || !Array.isArray(dayData)) {
-                    document.getElementById('available-slots').innerHTML = '<p>No time slots available for this date.</p>';
-                    return;
-                }
-    
-                const container = document.getElementById('available-slots');
-                container.innerHTML = '';
-    
-                let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
-                bookedSlots = bookedSlots[formattedDate] || [];
-    
-                let selectedSlotId = localStorage.getItem('selectedSlotId');
-                 // Get current date and time
-                const now = new Date();
+
+            const container = document.getElementById('available-slots');
+            container.innerHTML = ''; // Clear existing slots
+
+            let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
+            bookedSlots = bookedSlots[formattedDate] || [];
+
+            let selectedSlotId = localStorage.getItem('selectedSlotId');
+
+            // Get current date and time
+            const now = new Date();
             const currentTime = now.getHours() * 100 + now.getMinutes(); // Current time in HHMM format
             const today = formatDateToYYYYMMDD(now);
-    
-                dayData.forEach(slot => {
-                    if (!slot || typeof slot !== 'object') {
-                        console.warn('Invalid slot data:', slot);
-                        return;
-                    }
-                    const slotTime = parseInt(slot.time.replace(':', ''), 10); // Convert slot time to HHMM format
+
+            dayData.forEach(slot => {
+                if (!slot || typeof slot !== 'object') {
+                    console.warn('Invalid slot data:', slot);
+                    return;
+                }
+
+                const slotTime = parseInt(slot.time.replace(':', ''), 10); // Convert slot time to HHMM format
                 const isPastSlot = (formattedDate === today && slotTime < currentTime) || (formattedDate !== today && formattedDate < today);
 
-                    const slotDiv = document.createElement('div');
-                    slotDiv.className = 'slot';
-    
-                    const slotButton = createSlotButton(slot, bookedSlots, selectedSlotId,isPastSlot);
-                    slotDiv.appendChild(slotButton);
-                    container.appendChild(slotDiv);
-    
-                    // Automatically select the first available slot if none is selected
-                    if (!selectedSlotId && !bookedSlots.includes(slot.id)) {
-                        selectedSlotId = slot.id;
-                        localStorage.setItem('selectedSlotId', selectedSlotId);
-                        updateSlotButtons(formattedDate, selectedSlotId, slot.time);
-                    }
-                });
-    
-                loadFormData();
-                updateButtonStates();
-    
-            } catch (error) {
-                console.error('Error loading slots:', error);
-                document.getElementById('available-slots').innerHTML = `<p>Error loading slots: ${error.message}. Please try again later.</p>`;
-            }
+                // Create and configure slot button
+                const slotButton = createSlotButton(slot, bookedSlots, selectedSlotId, isPastSlot);
+                container.appendChild(slotButton);
+
+                // Automatically select the first available slot if none is selected
+                if (!selectedSlotId && !bookedSlots.includes(slot.id) && !isPastSlot) {
+                    selectedSlotId = slot.id;
+                    localStorage.setItem('selectedSlotId', selectedSlotId);
+                    updateSlotButtons(formattedDate, selectedSlotId, slot.time);
+                }
+            });
+
+            loadFormData();
+            updateButtonStates();
+
+        } catch (error) {
+            console.error('Error loading slots:', error);
+            document.getElementById('available-slots').innerHTML = `<p>Error loading slots: ${error.message}. Please try again later.</p>`;
         }
-    
-        function createSlotButton(slot, bookedSlots, selectedSlotId, isPastSlot) {
+    }
+
+       // Function to create slot buttons
+    function createSlotButton(slot, bookedSlots, selectedSlotId, isPastSlot) {
         const slotButton = document.createElement('button');
         const isBooked = slot.booked || bookedSlots.includes(slot.id) || isPastSlot;
 
@@ -683,28 +793,20 @@ html, body {
         return slotButton;
     }
     
+        // Function to handle slot click
         function handleSlotClick(slotId, slotTime) {
-            const dateInput = document.getElementById('date').value;
-            if (!dateInput) {
-                alert('Please select a date.');
-                return;
-            }
+            // Save the selected slot ID to local storage
+            localStorage.setItem('selectedSlotId', slotId);
     
-            const formattedDate = formatDateToYYYYMMDD(dateInput);
-            let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
-            bookedSlots = bookedSlots[formattedDate] || [];
+            // Update the UI to reflect the selection
+            updateSlotButtons(formatDateToYYYYMMDD(document.getElementById('date').value), slotId, slotTime);
     
-            if (!bookedSlots.includes(slotId)) {
-                bookedSlots.push(slotId);
-                localStorage.setItem('bookedSlots', JSON.stringify({ ...bookedSlots, [formattedDate]: bookedSlots }));
-                localStorage.setItem('selectedSlotId', slotId);
-                updateSlotButtons(formattedDate, slotId, slotTime);
-                saveFormData(); // Save form data whenever a slot is booked
-                updateButtonStates(); // Update button states after slot selection
-            }
+            // Enable or disable communication buttons based on form and slot selection
+            updateButtonStates();
         }
     
-        function updateSlotButtons(date, slotId, slotTime) {
+       // Function to update slot buttons based on selection
+    function updateSlotButtons(date, slotId, slotTime) {
         const slots = document.querySelectorAll('#available-slots .slot button');
         slots.forEach(button => {
             const buttonId = button.dataset.slotId;
@@ -719,7 +821,6 @@ html, body {
             }
         });
     }
-    
     function updateButtonStates() {
             const bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
             const dateInput = document.getElementById('date')?.value;
@@ -751,6 +852,7 @@ html, body {
             }
         }
     
+        // Function to check if the form is complete
         function isFormComplete() {
             const name = document.getElementById('name')?.value.trim();
             const age = document.getElementById('age')?.value.trim();
@@ -763,6 +865,26 @@ html, body {
             return name && age && gender && phone && reason && date && selectedSlot;
         }
     
+    
+        // Function to setup event listeners
+        function setupEventListeners() {
+            const inputs = document.querySelectorAll('#name, #age, #gender, #phone, #reason, #date');
+            inputs.forEach(input => {
+                input.addEventListener('input', function () {
+                    saveFormData(); // Save form data on every input change
+                    updateButtonStates(); // Update button states on every input change
+                });
+            });
+    
+            document.getElementById('date')?.addEventListener('change', function () {
+                loadSlots(); // Reload slots when the date changes
+            });
+        }
+    
+        // Call setupEventListeners to initialize event listeners
+        setupEventListeners();
+    
+        // Function to save form data to localStorage
         function saveFormData() {
             const formData = {
                 name: document.getElementById('name')?.value.trim(),
@@ -896,7 +1018,80 @@ html, body {
     </script>
     
     
+    </script>
     
+<style>
+    /* Container for the available slots */
+    #available-slots {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr); /* 6 columns in a row */
+      gap: 5px; /* Space between slots */
+      padding: 10px; /* Add padding around the container */
+      max-width: 100%; /* Ensure it fits the container width */
+      max-height: 80vh; /* Limit height to 80% of viewport height */
+      box-sizing: border-box; /* Include padding in width and height calculation */
+      overflow-y: auto; /* Enable vertical scrolling if needed */
+      overflow-x: hidden; /* Prevent horizontal scrolling */
+      position: relative; /* Relative positioning to help with aspect ratio */
+    }
+  
+    /* Individual slot styling */
+    .slot {
+      position: relative; /* Allows absolute positioning of the button */
+      width: 100%; /* Make slot fill the grid cell */
+      padding-top: 100%; /* Aspect ratio of 1:1 (square) */
+      box-sizing: border-box; /* Include padding in width and height calculation */
+    }
+  
+    /* Button styling */
+    .slot button {
+      position: absolute; /* Position button absolutely within the slot */
+      top: 0;
+      left: 0;
+      width: 100%; /* Make button fill the slot */
+      height: 100%; /* Make button fill the slot */
+      padding: 0; /* Remove internal padding */
+      border: 1px solid #ccc; /* Border to define button boundaries */
+      border-radius: 8px; /* Rounded corners, adjust as needed */
+      background-color: #f0f0f0;
+      cursor: pointer;
+      font-size: 12px; /* Smaller font size */
+      text-align: center; /* Center text in the button */
+      box-sizing: border-box; /* Include padding and border in button size */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    /* Available and booked slot styles */
+    .slot button.available {
+      background-color: #4caf50; /* Green for available slots */
+      color: white;
+    }
+  
+    .slot button.booked {
+      background-color: #f44336; /* Red for booked slots */
+      color: white;
+      cursor: not-allowed; /* Indicate that the slot cannot be clicked */
+    }
+  
+    /* Optional: Style for action buttons (WhatsApp, SMS, Email, Call) */
+    button {
+      padding: 8px 12px; /* Smaller padding */
+      font-size: 14px; /* Adjust font size for action buttons */
+    }
+  
+    /* Page styling */
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: auto; /* Allow page to scroll if needed */
+      width: 100vw; /* Ensure the body width fits the viewport */
+      height: 100vh; /* Ensure the body height fits the viewport */
+    }
+  </style>
+  
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         setDateInputMinDate();
