@@ -5,369 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link href="floatingicon.css" rel="stylesheet"> 
     <link href="index.css" rel="stylesheet">
-    <!-- <script type="text/javascript" src="script.js" async></script> -->
+    <link href="style.css" rel="stylesheet">
+    <script type="text/javascript" src="time.js" ></script>
+      <script type="text/javascript" src="time.js" ></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Varma Clinic</title>
-    <style>
-
-.form-group {
-            margin-top: 20px;
-        }
-        .date-picker-container {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-        #appointment_date {
-            padding-right: 30px;
-            width: 100%;
-        }
-        #calendar-icon {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #061053;
-            font-size: 1.2em;
-        }
-        #calendar-icon:hover {
-            color: #132074;
-        }
-        .flatpickr-calendar {
-            z-index: 9999; /* Ensure it's on top of other content */
-        }
-        .flatpickr-calendar .flatpickr-day.flatpickr-disabled {
-            background-color: #e0e0e0 !important;
-            color: #9e9e9e !important;
-            cursor: not-allowed;
-        }
-        .flatpickr-calendar .flatpickr-day.flatpickr-disabled:hover {
-            background-color: #d5d5d5 !important;
-        }
-        .flatpickr-calendar .flatpickr-day {
-            color: #4caf50;
-        }
-        .flatpickr-calendar .flatpickr-day:hover {
-            background-color: #388e3c !important;
-            color: black !important;
-        }
-        .flatpickr-calendar .flatpickr-day.selected {
-            background-color: #4caf50 !important;
-            color: black !important;
-        }
-        .flatpickr-calendar .flatpickr-day.today {
-            border: 2px solid #4caf50;
-        }
-        .flatpickr-calendar .flatpickr-day:not(.flatpickr-disabled) {
-            background-color: #c8e6c9 !important;
-        }
-        .form-container {
-            padding: 20px;
-            max-width: 800px;
-            margin: auto;
-        }
-        .next-button {
-            display: block;
-            margin-bottom: 20px;
-            color: #061053;
-            text-decoration: none;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        /* .floating-contact {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-        .floating-contact img {
-            width: 40px;
-            height: 40px;
-            margin: 0 5px;
-        }
-        .floating-contact a {
-            display: inline-block;
-        } */
-        .error-message {
-            color: red;
-            display: none; /* Hide by default */
-            font-size: 0.875em;
-        }
-        .disabled-button {
-            background-color: #e0e0e0;
-            cursor: not-allowed;
-        }
-        .enabled-button {
-            background-color: #081a54;
-            color: white;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
-        input[type="date"] {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-        .slot {
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        button {
-            padding: 10px 15px;
-            font-size: 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:disabled {
-            background-color: #ccc;
-        }
-        #available-slots {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Space between buttons */
-}
-
-.slot {
-    flex: 1 1 calc(20% - 10px); /* 5 items per row, adjust the percentage as needed */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.slot button {
-    font-size: 12px; /* Adjust font size as needed */
-    padding: 8px 12px; /* Adjust button size as needed */
-    margin: 0; /* Remove default margin */
-}
-
-    </style>
-      <style>
-        /* Button Container */
-.button-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Space between buttons */
-    margin-top: 20px; /* Space above the button container */
-}
-
-/* General Button Styles */
-button {
-    padding: 10px 20px; /* Vertical and Horizontal padding */
-    border: none;
-    border-radius: 5px; /* Rounded corners */
-    font-size: 16px; /* Font size */
-    font-weight: bold; /* Bold text */
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    width: 100%; /* Full width of the container */
-}
-#error-message {
-    color: red;
-    display: none;
-}
-
-input[type="radio"] {
-    margin-right: 10px;
-}
-
-/* Default Button Style */
-button.disabled-button {
-    background-color: #e0e0e0;
-    color: #9e9e9e;
-    cursor: not-allowed;
-}
-
-/* Enabled Button Style */
-button.enabled-button {
-    background-color: #0c1d46; /* Green background */
-    color: white;
-}
-
-/* Hover Effect */
-button:not(.disabled-button):hover {
-    background-color: #063151; /* Darker green on hover */
-    transform: scale(1.05); /* Slightly increase size */
-}
-
-/* Focus Effect */
-button:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(11, 27, 89, 0.5); /* Green outline for focus */
-}
-#available-slots {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px; /* Space between slots */
-        }
-
-    
-    /* Container for slots */
-    .slots-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px; /* Reduced space between slots */
-        padding: 8px; /* Reduced padding around the container */
-    }
-
-    /* Individual slot styling */
-    .slot {
-        flex: 1 1 calc(25% - 8px); /* 4 slots in a row minus the gap */
-        box-sizing: border-box;
-        padding: 8px; /* Reduced padding inside slots */
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        text-align: center;
-        font-size: 12px; /* Reduced font size */
-        /* Optional: Add a background color for better visibility */
-        background-color: #f8f9fa;
-    }
-
-    /* Button styling */
-    .slot button {
-        width: 100%;
-        padding: 4px; /* Reduced padding inside button */
-        font-size: 10px; /* Reduced font size */
-        box-sizing: border-box; /* Include padding in button's width */
-    }
-
-    /* Media queries for responsive design */
-    @media (max-width: 1200px) {
-        .slot {
-            flex: 1 1 calc(25% - 8px); /* 4 slots in a row */
-        }
-    }
-
-    @media (max-width: 900px) {
-        .slot {
-            flex: 1 1 calc(25% - 8px); /* 4 slots in a row */
-        }
-    }
-
-    @media (max-width: 600px) {
-        .slot {
-            flex: 1 1 calc(25% - 8px); /* 4 slots in a row */
-        }
-    }
-
-    @media (max-width: 400px) {
-        .slot {
-            flex: 1 1 calc(50% - 8px); /* 2 slots in a row */
-        }
-    }
-
-    /* Style for available slots */
-    .slot button.available {
-        background-color: #28a745; /* Green */
-        color: white;
-    }
-
-    /* Style for booked slots */
-    .slot button.booked {
-        background-color: #dc3545; /* Red */
-        color: white;
-        cursor: not-allowed;
-    }
-
-    /* Style for unavailable slots */
-    .slot button.unavailable {
-        background-color: #6c757d; /* Grey */
-        color: white;
-        cursor: not-allowed;
-    }
-</style>
-
-    
    
-   <style>
-    /* General button style */
-    .slot button {
-        padding: 10px 20px;
-        border: none;
-        color: white;
-        cursor: pointer;
-        border-radius: 5px;
-        font-size: 16px;
-        margin: 5px;
-    }
-    
-    /* Style for available slots */
-    .slot button.available {
-        background-color: #28a745; /* Green */
-    }
-    
-    /* Style for booked slots */
-    .slot button.booked {
-        background-color: #beb4b5; /* Red */
-        cursor: not-allowed;
-    }
-    
-    /* Disabled class for booked slots */
-    .slot button.disabled {
-        background-color: #959192; /* Red */
-        cursor: not-allowed;
-    }
-    .reason-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Space between checkboxes */
-    max-width: 300px; /* Adjust width as needed */
-    padding: 10px;
-    border: 1px solid #ddd; /* Light border for the container */
-    border-radius: 5px; /* Rounded corners */
-    background-color: #f9f9f9; /* Light background color */
-}
-
-.reason-container label {
-    display: flex;
-    align-items: center;
-    font-size: 14px; /* Smaller font size */
-}
-
-.reason-container input[type="checkbox"] {
-    margin-right: 8px; /* Space between checkbox and label text */
-}
-
-    </style>
 
 </head>
 <body>
     
     <div class="form-container">
-        <a href="index1.html" class="next-button">Calendely</a>
+        <a href="index1.html" class="next-button" style="background-color:  rgb(2, 7, 55); color: whitesmoke;">Next</a>
         <img src="images/logo.png" width="620" height="100" alt="Form Logo" />
         <h1>Book Your Appointment</h1>
         <form id="appointmentForm">
@@ -397,39 +47,54 @@ button:focus {
                 <small id="phoneError" class="error-message">Phone number must start with 6-9 and be 10 digits long.</small>
             </div>
             <div class="form-group">
-                <label style="margin-top: 20px;">Reason For Your Appointment:</label>
+                <label style="margin-top: 20px; padding-bottom: 15px;">Reason For Your Appointment:</label>
                 <div class="reason-container">
-                    <label>
-                        <input type="checkbox" name="reason" value="Fever" onchange="validateForm()"> Fever
-                    </label>
-                    <br>
-                    <label>
-                        <input type="checkbox" name="reason" value="Vomiting" onchange="validateForm()"> Vomiting
-                    </label>
-                    <br>
-                    <label>
-                        <input type="checkbox" name="reason" value="Head Ache" onchange="validateForm()"> Head Ache
-                    </label>
-                    <br>
-                    <label>
-                        <input type="checkbox" name="reason" value="Diarrhoea/Dysentery" onchange="validateForm()"> Diarrhoea/Dysentery
-                    </label>
-                    <br>
-                    <label>
-                        <input type="checkbox" name="reason" value="Stomach Pain" onchange="validateForm()"> Stomach Pain
-                    </label>
-                    <br>
-                    <label>
-                        <input type="checkbox" name="reason" value="Body pain/Joint pain" onchange="validateForm()"> Body pain/Joint pain
-                    </label>
-                    <br>
-                    <label>
-                        <input type="checkbox" name="reason" value="Others" onchange="validateForm()"> Others
-                    </label>
+                    <!-- Existing checkbox items -->
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Fever" onchange="validateForm()"> Fever
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Cold/Cough" onchange="validateForm()"> Cold/Cough
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Vomiting" onchange="validateForm()"> Vomiting
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Head Ache" onchange="validateForm()"> Head Ache
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Diarrhoea/Dysentery" onchange="validateForm()"> Diarrhoea/Dysentery
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Stomach Pain" onchange="validateForm()"> Stomach Pain
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Body pain/Joint pain" onchange="validateForm()"> Body pain/Joint pain
+                        </label>
+                    </div>
+                    <div class="checkbox-item others-input-container">
+                        <label>
+                            <input type="checkbox" name="reason" value="Others" onchange="toggleOthersInput()"> Others
+                        </label>
+                        <input type="text" id="othersInput" maxlength="20" oninput="validateOthersInput()" style="display:none;" placeholder="Type here...">
+                    </div>
                 </div> 
             </div>
             
-            
+        
             <div class="form-group">
                 <label for="date">Select Date:</label>
                 <input type="date" id="date" onchange="loadSlots()">
@@ -437,34 +102,34 @@ button:focus {
                     <!-- Available slots will be dynamically loaded here -->
                 </div>
             </div>
-            
-          
-<!-- Communication Options -->
-<form id="submit_form_whatsapp">
-    <div class="form-group">
-        <button type="button" id="whatsappButton" style="margin-top: 20px;" onclick="redirectToWhatsApp()" disabled>Book an Appointment via WhatsApp</button>
-    </div>
-</form>
-
-<form id="submit_form_sms">
-    <div class="form-group">
-        <button type="button" id="smsButton" style="margin-top: 20px;" onclick="redirectToSMS()" disabled>Book an Appointment via SMS</button>
-    </div>
-</form>
-
-<form id="submit_form_email">
-    <div class="form-group">
-        <button type="button" id="emailButton" style="margin-top: 20px;" onclick="redirectToEmail()" disabled>Book an Appointment via Email</button>
-    </div>
-</form>
-
-<form id="submit_form_call">
-    <div class="form-group">
-        <button type="button" id="callButton" style="margin-top: 20px;" onclick="redirectToCall()" disabled>Book an Appointment via Phone Call</button>
-    </div>
-</form>
-
-<div class="container">
+            <div class="form-group">
+                <label for="paymentQR" style="margin-top: 20px;margin-left: 54px;">Scan Me To Complete Your Payment</label>
+                <img src="images/webQR.jpg" alt="Payment QR Code" id="paymentQR" style="width: 150px; height: 150px; margin-top: 10px;">
+            </div>
+         
+            <div class="appointment-container">
+                <div class="appointment-heading">Book your appointment via</div>
+                <div class="appointment-buttons">
+                    <button type="button" id="whatsappButton" onclick="redirectToWhatsApp()" disabled>
+                        <i class="fab fa-whatsapp" style="color: #25D366;"></i> <!-- WhatsApp Green -->
+                    </button>
+                    <button type="button" id="smsButton" onclick="redirectToSMS()" disabled>
+                        <i class="fas fa-sms" style="color: #007BFF;"></i> <!-- SMS Blue -->
+                    </button>
+                    <button type="button" id="emailButton" onclick="redirectToEmail()" disabled>
+                        <i class="fas fa-envelope" style="color: #FF5722;"></i> <!-- Email Orange -->
+                    </button>
+                    <button type="button" id="callButton" onclick="redirectToCall()" enabled>
+                        <i class="fas fa-phone" style="color: #4CAF50;"></i> <!-- Phone Green -->
+                    </button>
+                </div>
+                <!-- <div class="form-group">
+                    <label for="paymentQR" style="margin-top: 20px;">Scan Me To Complete Your Payment</label>
+                    <img src="images/webQR.jpg" alt="Payment QR Code" id="paymentQR" style="width: 150px; height: 150px; margin-top: 10px;">
+                </div> -->
+            </div>
+            </form>
+<!-- <div class="container">
     <div class="floating-contact right">
         <a href="https://wa.me/9094852653" target="_blank">
             <img src="images/whats.png" alt="WhatsApp Icon">
@@ -479,9 +144,10 @@ button:focus {
             <img src="images/call.png" alt="Call Icon">
         </a>
     </div>
-</div>
+</div> -->
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             async function fetchBlockedDates() {
@@ -619,306 +285,24 @@ button:focus {
         document.getElementById("appointment_date").addEventListener("change", validateForm);
         document.getElementById("time_slot").addEventListener("change", validateForm);
 
-    </script>
-    <script>
- async function loadSlots() {
-    const dateInput = document.getElementById('date').value;
-    if (!dateInput) {
-        alert('Please select a date.');
-        return;
-    }
 
-    const formattedDate = formatDateToYYYYMMDD(dateInput);
-    console.log(`Fetching slots for date: ${formattedDate}`); // Debug log
+        function validateOthersInput() {
+    const othersInput = document.getElementById('othersInput');
+    const value = othersInput.value;
 
-    try {
-        const response = await fetch('https://raw.githubusercontent.com/Balagangadara/timeblock/main/time.json');
-
-        if (!response.ok) {
-            throw new Error(`Network response was not ok: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        console.log('Data fetched:', data); // Debug log
-
-        const dayData = data[formattedDate];
-        if (!Array.isArray(dayData)) {
-            console.warn(`Data for ${formattedDate} is not an array. Received data:`, dayData);
-            document.getElementById('available-slots').innerHTML = '<p>No time slots available for this date.</p>';
-            return;
-        }
-
-        const container = document.getElementById('available-slots');
-        container.innerHTML = '';
-
-        let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
-        bookedSlots = bookedSlots[formattedDate] || [];
-
-        let selectedSlotId = localStorage.getItem('selectedSlotId');
-
-        dayData.forEach(slot => {
-            if (!slot || typeof slot !== 'object' || !slot.id || !slot.time) {
-                console.warn('Invalid slot data:', slot);
-                return;
-            }
-
-            const slotDiv = document.createElement('div');
-            slotDiv.className = 'slot';
-
-            const slotButton = createSlotButton(slot, bookedSlots, selectedSlotId);
-            slotDiv.appendChild(slotButton);
-            container.appendChild(slotDiv);
-
-            // Automatically select the first available slot if none is selected
-            if (!selectedSlotId && !bookedSlots.includes(slot.id)) {
-                selectedSlotId = slot.id;
-                localStorage.setItem('selectedSlotId', selectedSlotId);
-                updateSlotButtons(formattedDate, selectedSlotId, slot.time);
-            }
-        });
-
-        loadFormData();
-        updateButtonStates();
-
-    } catch (error) {
-        console.error('Error loading slots:', error);
-        document.getElementById('available-slots').innerHTML = `<p>Error loading slots: ${error.message}. Please try again later.</p>`;
-    }
-}
-
-function createSlotButton(slot, bookedSlots, selectedSlotId) {
-    const slotButton = document.createElement('button');
-    const isBooked = slot.booked || bookedSlots.includes(slot.id);
-    const buttonClass = isBooked ? 'booked' : 'available';
-
-    slotButton.className = buttonClass;
-    slotButton.disabled = isBooked;
-    slotButton.textContent = isBooked ? `Booked (${slot.time})` : `Available (${slot.time})`;
-    slotButton.dataset.slotId = slot.id;
-    slotButton.dataset.slotTime = slot.time;
-
-    slotButton.addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent default behavior
-        event.stopPropagation(); // Prevent event bubbling
-
-        if (!isBooked) {
-            handleSlotClick(slot.id, slot.time);
-        }
-    });
-
-    return slotButton;
-}
-
-function handleSlotClick(slotId, slotTime) {
-    const dateInput = document.getElementById('date').value;
-    if (!dateInput) {
-        alert('Please select a date.');
-        return;
-    }
-
-    const formattedDate = formatDateToYYYYMMDD(dateInput);
-    let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
-    bookedSlots = bookedSlots[formattedDate] || [];
-
-    if (!bookedSlots.includes(slotId)) {
-        bookedSlots.push(slotId);
-        localStorage.setItem('bookedSlots', JSON.stringify({ ...bookedSlots, [formattedDate]: bookedSlots }));
-        localStorage.setItem('selectedSlotId', slotId);
-        updateSlotButtons(formattedDate, slotId, slotTime);
-        saveFormData(); // Save form data whenever a slot is booked
-        updateButtonStates(); // Update button states after slot selection
-    }
-}
-
-function updateSlotButtons(date, slotId, slotTime) {
-    const slots = document.querySelectorAll('#available-slots .slot button');
-    slots.forEach(button => {
-        const buttonId = button.dataset.slotId;
-        if (buttonId === slotId.toString()) {
-            button.disabled = true;
-            button.className = 'booked';
-            button.textContent = `Booked (${slotTime})`;
-        }
-    });
-}
-
-function updateButtonStates() {
-    const isFormComplete = checkFormCompletion();
-    const selectedSlotId = localStorage.getItem('selectedSlotId');
-
-    if (isFormComplete && selectedSlotId) {
-        enableCommunicationButtons();
+    // Remove all non-letter and non-space characters
+    const sanitizedValue = value.replace(/[^a-zA-Z\s]/g, '');
+    
+    // Limit the length to 20 characters
+    if (sanitizedValue.length > 20) {
+        othersInput.value = sanitizedValue.substring(0, 20);
     } else {
-        disableCommunicationButtons();
+        othersInput.value = sanitizedValue;
     }
 }
 
-function checkFormCompletion() {
-    const name = document.getElementById('name')?.value.trim();
-    const age = document.getElementById('age')?.value.trim();
-    const gender = document.getElementById('gender')?.value;
-    const phone = document.getElementById('phone')?.value.trim();
-    const reason = Array.from(document.querySelectorAll('input[name="reason"]:checked')).length > 0;
-    const date = document.getElementById('date')?.value;
-    const selectedSlot = localStorage.getItem('selectedSlotId');
 
-    return name && age && gender && phone && reason && date && selectedSlot;
-}
-
-function saveFormData() {
-    const formData = {
-        name: document.getElementById('name')?.value.trim(),
-        age: document.getElementById('age')?.value.trim(),
-        gender: document.getElementById('gender')?.value,
-        phone: document.getElementById('phone')?.value.trim(),
-        reason: Array.from(document.querySelectorAll('input[name="reason"]:checked')).map(el => el.value),
-        date: document.getElementById('date')?.value // Save the raw date format
-    };
-    localStorage.setItem('formData', JSON.stringify(formData));
-}
-
-function loadFormData() {
-    const formData = JSON.parse(localStorage.getItem('formData'));
-    if (formData) {
-        document.getElementById('name').value = formData.name;
-        document.getElementById('age').value = formData.age;
-        document.getElementById('gender').value = formData.gender;
-        document.getElementById('phone').value = formData.phone;
-        document.getElementById('date').value = formData.date; // Load the raw date format
-
-        formData.reason.forEach(reason => {
-            const checkbox = document.querySelector(`input[name="reason"][value="${reason}"]`);
-            if (checkbox) checkbox.checked = true;
-        });
-    }
-    updateButtonStates(); // Check button states when loading form data
-}
-
-function enableCommunicationButtons() {
-    document.getElementById('whatsappButton').disabled = false;
-    document.getElementById('smsButton').disabled = false;
-    document.getElementById('emailButton').disabled = false;
-    document.getElementById('callButton').disabled = false;
-}
-
-function disableCommunicationButtons() {
-    document.getElementById('whatsappButton').disabled = true;
-    document.getElementById('smsButton').disabled = true;
-    document.getElementById('emailButton').disabled = true;
-    document.getElementById('callButton').disabled = true;
-}
-
-function formatDateToYYYYMMDD(dateInput) {
-    const date = new Date(dateInput);
-    if (isNaN(date.getTime())) return 'Invalid Date';
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const day = ('0' + date.getDate()).slice(-2);
-    return `${year}-${month}-${day}`;
-}
-
-function formatDateToDDMMYYYY(dateInput) {
-    const date = new Date(dateInput);
-    if (isNaN(date.getTime())) return 'Invalid Date';
-    const day = ('0' + date.getDate()).slice(-2);
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-}
-
-function getSelectedTimeSlot() {
-    const slotId = localStorage.getItem('selectedSlotId');
-    if (slotId) {
-        const slots = document.querySelectorAll('#available-slots .slot button');
-        for (let button of slots) {
-            if (button.dataset.slotId === slotId) {
-                return button.dataset.slotTime;
-            }
-        }
-    }
-    return 'No time selected';
-}
-
-function getFormattedMessage() {
-    const formData = JSON.parse(localStorage.getItem('formData'));
-    if (!formData) {
-        alert('Form data is missing.');
-        return '';
-    }
-
-    const { name, age, gender, phone, reason, date } = formData;
-    const formattedDate = formatDateToDDMMYYYY(date);
-    const time = getSelectedTimeSlot();
-
-    return `Name: ${name}\nAge: ${age}\nGender: ${gender}\nMobile Number: ${phone}\nReason For Appointment: ${reason.join(', ')}\nAppointment Date: ${formattedDate}\nTime Slot: ${time}`;
-}
-
-function redirectToWhatsApp() {
-    const message = getFormattedMessage();
-    const url = `https://wa.me/9094852653?text=${encodeURIComponent(message)}`;
-    clearFormData(); // Clear form data after redirect
-    window.open(url, '_blank');
-}
-
-function redirectToSMS() {
-    const message = getFormattedMessage();
-    const url = `sms:9094852653?body=${encodeURIComponent(message)}`;
-    clearFormData(); // Clear form data after redirect
-    window.open(url, '_blank');
-}
-
-function redirectToEmail() {
-    const subject = 'Appointment Details';
-    const body = getFormattedMessage();
-    const url = `mailto:balavarmaclinic@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    clearFormData(); // Clear form data after redirect
-    window.open(url, '_blank');
-}
-
-function redirectToCall() {
-    const phoneNumber = '9094852653'; // Hardcoded phone number
-    const url = `tel:${encodeURIComponent(phoneNumber)}`;
-    clearFormData(); // Clear form data after redirect
-    window.open(url, '_blank');
-}
-
-function clearFormData() {
-    // Clear localStorage data
-    localStorage.removeItem('formData');
-    localStorage.removeItem('selectedSlotId');
-    localStorage.removeItem('bookedSlots');
+    </script>
     
-    // Clear form fields
-    document.getElementById('name').value = '';
-    document.getElementById('age').value = '';
-    document.getElementById('gender').value = '';
-    document.getElementById('phone').value = '';
-    document.getElementById('reason').querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-    document.getElementById('date').value = '';
-    
-    // Disable communication buttons
-    disableCommunicationButtons();
-}
-
-// Initial setup
-loadFormData();
-</script>
-    
-    
-    
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        setDateInputMinDate();
-    });
-
-    function setDateInputMinDate() {
-        const dateInput = document.getElementById('date');
-        if (!dateInput) return;
-
-        // Get today's date in YYYY-MM-DD format
-        const today = new Date().toISOString().split('T')[0];
-        dateInput.setAttribute('min', today);
-    }
-</script>
 </body>
 </html>

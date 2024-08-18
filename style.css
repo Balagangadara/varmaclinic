@@ -1,0 +1,312 @@
+.form-group {
+            margin-top: 20px;
+        }
+        .date-picker-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        #appointment_date {
+            padding-right: 30px;
+            width: 100%;
+        }
+        #calendar-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #061053;
+            font-size: 1.2em;
+        }
+        #calendar-icon:hover {
+            color: #132074;
+        }
+        .flatpickr-calendar {
+            z-index: 9999; /* Ensure it's on top of other content */
+        }
+       
+        .form-container {
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+        .next-button {
+            display: block;
+            margin-bottom: 20px;
+            color: #061053;
+            text-decoration: none;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        .error-message {
+            color: red;
+            display: none; /* Hide by default */
+            font-size: 0.875em;
+        }
+        .disabled-button {
+            background-color: #e0e0e0;
+            cursor: not-allowed;
+        }
+        .enabled-button {
+            background-color: #081a54;
+            color: white;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .slot {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #ccc;
+        }
+        #available-slots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between buttons */
+}
+
+.slot {
+    flex: 1 1 calc(20% - 10px); /* 5 items per row, adjust the percentage as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slot button {
+    font-size: 12px; /* Adjust font size as needed */
+    padding: 8px 12px; /* Adjust button size as needed */
+    margin: 0; /* Remove default margin */
+}
+
+    
+        /* Button Container */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between buttons */
+    margin-top: 20px; /* Space above the button container */
+}
+
+/* General Button Styles */
+button {
+    padding: 10px 20px; /* Vertical and Horizontal padding */
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    font-weight: bold; /* Bold text */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    width: 100%; /* Full width of the container */
+}
+#error-message {
+    color: red;
+    display: none;
+}
+
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+/* Default Button Style */
+button.disabled-button {
+    background-color: #e0e0e0;
+    color: #9e9e9e;
+    cursor: not-allowed;
+}
+
+/* Enabled Button Style */
+button.enabled-button {
+    background-color: #0c1d46; /* Green background */
+    color: white;
+}
+
+/* Hover Effect */
+button:not(.disabled-button):hover {
+    background-color:rgb(157, 149, 149); /* Darker green on hover */
+    transform: scale(1.05); /* Slightly increase size */
+}
+
+/* Focus Effect */
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(11, 27, 89, 0.5); /* Green outline for focus */
+}
+
+
+     /* Container for available slots */
+     #available-slots {
+            display: flex;
+            flex-wrap: wrap; /* Allows slots to wrap to new lines */
+            gap: 10px; /* Space between slots */
+        }
+
+        .slot {
+            /* Style each slot div */
+            display: inline; /* Inline or flex depending on layout needs */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+        }
+
+        .slot button.available {
+            background-color: rgb(2, 7, 55); /* Dark blue for available slots */
+            color: white;
+        }
+
+        .slot button {
+            /* Style the buttons inside slot divs */
+            border: none; /* Remove default button border */
+            border-radius: 4px; /* Rounded corners */
+            background-color: gray; /* Transparent background */
+            color: white; /* Text color */
+            padding: 8px 16px; /* Button padding */
+            font-size: 14px; /* Font size */
+            cursor: pointer; /* Pointer cursor on hover */
+            outline: none; /* Remove default focus outline */
+            box-shadow: none; /* Remove any shadow */
+            transition: background-color 0.3s, color 0.3s; /* Smooth transitions */
+        }
+
+        .slot button:hover {
+            background-color: #797777; /* Light background on hover */
+        }
+
+        .slot button:disabled {
+            background-color: #938b8b; /* Gray background for disabled buttons */
+            color: white; /* Light text color for disabled buttons */
+            cursor: not-allowed; /* Not-allowed cursor for disabled buttons */
+        }
+    
+
+
+/* Optional: Style for action buttons (WhatsApp, SMS, Email, Call) */
+button.action-button {
+    padding: 4px 6px; /* Smaller padding */
+    font-size: 8px; /* Smaller font size */
+}
+#available-slots p {
+    margin: 0; /* Removes default margins */
+    padding: 0; /* Removes default padding */
+    white-space: nowrap; /* Prevents text from wrapping to the next line */
+}
+
+
+    .reason-container input[type="checkbox"] {
+            width: 12px; /* Adjust size as needed */
+            height: 12px; /* Adjust size as needed */
+            margin-right: 6px; /* Adjust space between checkbox and text */
+        }
+
+        /* Make font size smaller */
+        .reason-container label {
+            font-size: 12px; /* Smaller font size */
+            display: flex; /* Flexbox to align checkbox and text */
+            align-items: center; /* Align items vertically */
+            margin-bottom: 10px; /* Space between rows */
+        }
+
+        /* Flexbox setup for three columns */
+        .reason-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px; /* Space between items */
+        }
+
+        /* Ensure items take up equal space and fit three per row */
+        .reason-container .checkbox-item {
+            flex: 1 1 calc(33.333% - 10px); /* Three items per row, accounting for gap */
+            box-sizing: border-box;
+        }
+
+        /* Responsive design: stack items on smaller screens */
+        @media (max-width: 1400px) {
+            .reason-container .checkbox-item {
+            flex: 1 1 calc(33.333% - 10px); /* Three items per row, accounting for gap */
+            box-sizing: border-box;
+        }
+        }
+        .others-input-container {
+            display: flex;
+            align-items: center;
+        }
+        .others-input-container input {
+            margin-left: 10px;
+            max-width: 200px;
+        }
+
+        .appointment-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .appointment-heading {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        .appointment-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .appointment-buttons button {
+            background: none;
+            border: none;
+            font-size: 2em;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .appointment-buttons button:disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }    
+    
+
+ 
