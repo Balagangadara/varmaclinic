@@ -315,6 +315,55 @@
             padding: 15px; /* Adjust padding for smaller screens */
         }
     }
+    /* Responsive design: stack items on smaller screens */
+@media (max-width: 1400px) {
+    .reason-container .checkbox-item {
+        flex: 1 1 calc(33.333% - 10px); /* Three items per row, accounting for gap */
+        box-sizing: border-box;
+    }
+}
+
+.others-input-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    align-items: center;
+}
+
+.others-input-container input {
+    margin-left: 10px;
+    max-width: 100%; /* Allow input to take full width if necessary */
+    box-sizing: border-box; /* Ensure padding/margin does not affect width */
+}
+
+.appointment-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.appointment-heading {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.appointment-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.appointment-buttons button {
+    background: none;
+    border: none;
+    font-size: 2em;
+    cursor: pointer;
+    color: #333;
+}
+
+.appointment-buttons button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
 </style>
  
     
