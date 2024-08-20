@@ -6,8 +6,8 @@
      <link href="floatingicon.css" rel="stylesheet"> 
     <link href="index.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
-    <script type="text/javascript" src="time.js" ></script>
-      <script type="text/javascript" src="time.js" ></script>
+     <script type="text/javascript" src="time.js" ></script>
+      
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Varma Clinic</title>
@@ -225,19 +225,24 @@
         }
 
         function restrictNameInput() {
-            const nameInput = document.getElementById("name");
-            const nameError = document.getElementById("nameError");
-            let value = nameInput.value;
+    const nameInput = document.getElementById("name");
+    const nameError = document.getElementById("nameError");
+    let value = nameInput.value;
 
-            value = value.replace(/[^a-zA-Z\s]/g, '');
-            nameInput.value = value;
+    // Remove any non-letter characters and extra spaces
+    value = value.replace(/[^a-zA-Z\s]/g, '');
+    nameInput.value = value;
 
-            if (value === "") {
-                nameError.style.display = "block";
-            } else {
-                nameError.style.display = "none";
-            }
-        }
+    // Check the length of the cleaned value
+    const letterOnlyValue = value.replace(/\s/g, ''); // Remove spaces for length check
+    if (letterOnlyValue.length < 3) {
+        nameError.style.display = "block";
+        nameError.textContent = "Name must be at least 3 letters.";
+    } else {
+        nameError.style.display = "none";
+    }
+}
+
 
         function validateForm() {
             const name = document.getElementById("name").value.trim();
@@ -303,7 +308,8 @@
 
 
     </script>
-    <style>   .form-container {
+
+       <style>   .form-container {
         width: 80%; /* Adjust this percentage as needed */
         max-width: 400px; /* You can set a maximum width if desired */
         margin: 0 auto; /* Centers the container */
