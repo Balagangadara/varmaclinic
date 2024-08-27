@@ -1,4 +1,4 @@
-   async function loadSlots() {
+async function loadSlots() {
     const dateInput = document.getElementById('date').value;
     if (!dateInput) {
         alert('Please select a date.');
@@ -93,7 +93,6 @@ function createSlotButton(slot, bookedSlots, selectedSlotId, isPastSlot) {
 
     return slotButton;
 }
-
 function handleSlotClick(slotId, slotTime) {
     const dateInput = document.getElementById('date').value;
     if (!dateInput) {
@@ -105,31 +104,37 @@ function handleSlotClick(slotId, slotTime) {
     let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
     bookedSlots = bookedSlots[formattedDate] || [];
 
+    // Check if the slot is already booked
     if (!bookedSlots.includes(slotId)) {
         bookedSlots.push(slotId);
         localStorage.setItem('bookedSlots', JSON.stringify({ ...bookedSlots, [formattedDate]: bookedSlots }));
         localStorage.setItem('selectedSlotId', slotId);
-        updateSlotButtons(formattedDate, slotId, slotTime);
+        updateSlotButtons(formattedDate, slotId, slotTime); // Update button states
         saveFormData(); // Save form data whenever a slot is booked
         updateButtonStates(); // Update button states after slot selection
     }
 }
 
-function updateSlotButtons(date, slotId, slotTime) {
+function updateSlotButtons(date, selectedSlotId, slotTime) {
     const slots = document.querySelectorAll('#available-slots .slot button');
     slots.forEach(button => {
         const buttonId = button.dataset.slotId;
-        if (buttonId === slotId.toString()) {
-            button.disabled = false; // Always enable selected slot
-            button.className = 'selected'; // Apply selected class
-            button.textContent = slotTime; // Show only time for selected slot
+        const isBooked = localStorage.getItem('bookedSlots') && JSON.parse(localStorage.getItem('bookedSlots'))[date] && JSON.parse(localStorage.getItem('bookedSlots'))[date].includes(parseInt(buttonId, 10));
+        
+        if (buttonId === selectedSlotId.toString()) {
+            // Selected slot
+            button.className = 'selected';
+        } else if (isBooked) {
+            // Previously booked slot
+            button.className = 'dark-grey';
         } else {
-            button.className = 'available'; // Ensure other buttons are available
-            button.disabled = false;
-            button.textContent = button.dataset.slotTime; // Show available slot time
+            // Available slot
+            button.className = 'dark-grey'; // Change to dark grey for non-selected slots
         }
     });
 }
+
+
 
 function updateButtonStates() {
     const bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
@@ -137,6 +142,7 @@ function updateButtonStates() {
     const name = document.getElementById('name')?.value.trim();
     const phone = document.getElementById('phone')?.value.trim();
     const selectedSlotId = localStorage.getItem('selectedSlotId');
+    
 
 
     if (dateInput) {
@@ -171,6 +177,17 @@ function updateButtonStates() {
 }
 
 // Modify the isFormComplete function if necessary to handle these validations
+// function isFormComplete() {
+//     const name = document.getElementById('name')?.value.trim();
+//     const age = document.getElementById('age')?.value.trim();
+//     const gender = document.getElementById('gender')?.value;
+//     const phone = document.getElementById('phone')?.value.trim();
+//     const reasons = Array.from(document.querySelectorAll('input[name="reason"]:checked')).map(cb => cb.value);
+//     const date = document.getElementById('date')?.value;
+//     const selectedSlot = localStorage.getItem('selectedSlotId');
+
+//     return name && name.length >= 3 && age && gender && phone && phone.length >= 10 && reasons.length > 0 && date && selectedSlot;
+// }
 function isFormComplete() {
     const name = document.getElementById('name')?.value.trim();
     const age = document.getElementById('age')?.value.trim();
@@ -180,8 +197,9 @@ function isFormComplete() {
     const date = document.getElementById('date')?.value;
     const selectedSlot = localStorage.getItem('selectedSlotId');
 
-    return name && name.length >= 3 && age && gender && phone && phone.length >= 10 && reasons.length > 0 && date && selectedSlot;
+    return name.length >= 3 && age && gender && phone.length >= 10 && reasons.length > 0 && date && selectedSlot;
 }
+
 function saveFormData() {
     const formData = {
         name: document.getElementById('name')?.value.trim(),
@@ -371,5 +389,3 @@ function setDateInputMinDate() {
     const today = new Date().toISOString().split('T')[0];
     dateInput.setAttribute('min', today);
 }
-
-

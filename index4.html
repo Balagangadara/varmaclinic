@@ -7,7 +7,7 @@
     <link href="index.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
      <script type="text/javascript" src="time.js" ></script>
-
+      
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Varma Clinic</title>
@@ -195,33 +195,7 @@
 
             initializeDatePicker();
         });
-//         function validatePhoneNumber() {
-//     const phoneInput = document.getElementById("phone");
-//     const phoneError = document.getElementById("phoneError");
-
-//     // Get the input value and remove all non-numeric characters
-//     let phoneValue = phoneInput.value;
-//     phoneValue = phoneValue.replace(/\D/g, ''); // Keep only digits
-
-//     // Validate the cleaned value
-//     const phonePattern = /^[6-9][0-9]{9}$/;
-
-//     if (phonePattern.test(phoneValue)) {
-//         phoneInput.value = phoneValue; // Update input value to cleaned value
-//         phoneError.style.display = "none"; // Hide error message if valid
-//     } else {
-//         phoneError.style.display = "block"; // Show error message if invalid
-//         phoneError.textContent = "Phone number must be 10 digits long and start with a digit between 6-9.";
-//     }
-// }
-
-// // Add event listener for real-time validation
-// document.getElementById("phone").addEventListener("input", function() {
-//     // Enforce numeric input only
-//     this.value = this.value.replace(/\D/g, '');
-//     validatePhoneNumber();
-// });
-function validatePhoneNumber() {
+        function validatePhoneNumber() {
     const phoneInput = document.getElementById("phone");
     const phoneError = document.getElementById("phoneError");
 
@@ -230,7 +204,7 @@ function validatePhoneNumber() {
     phoneValue = phoneValue.replace(/\D/g, ''); // Keep only digits
 
     // Validate the cleaned value
-    const phonePattern = /^[6-9][0-9]{9}$/; // Start with 6-9
+    const phonePattern = /^[6-9][0-9]{9}$/;
 
     if (phonePattern.test(phoneValue)) {
         phoneInput.value = phoneValue; // Update input value to cleaned value
@@ -241,20 +215,12 @@ function validatePhoneNumber() {
     }
 }
 
-// Add event listener for real-time validation and restriction
+// Add event listener for real-time validation
 document.getElementById("phone").addEventListener("input", function() {
     // Enforce numeric input only
-    let value = this.value.replace(/\D/g, '');
-
-    // Restrict starting digit to be between 6 and 9
-    if (value.length > 0 && value[0] >= '0' && value[0] <= '5') {
-        value = ''; // Clear input if starting digit is between 0-5
-    }
-
-    this.value = value; // Update input value to cleaned and restricted value
+    this.value = this.value.replace(/\D/g, '');
     validatePhoneNumber();
 });
-
 
        
         function restrictAgeInput() {
@@ -295,55 +261,31 @@ document.getElementById("phone").addEventListener("input", function() {
 }
 
 
-        // function validateForm() {
-        //     const name = document.getElementById("name").value.trim();
-        //     const age = document.getElementById("age").value.trim();
-        //     const gender = document.getElementById("gender").value;
-        //     const phone = document.getElementById("phone").value.trim();
-        //     const reason = document.getElementById("reason").value;
-        //     const appointmentDate = document.getElementById("appointment_date").value;
-        //     const timeSlot = document.getElementById("time_slot").value;
-
-        //     const nameValid = name !== "" && /^[a-zA-Z\s]+$/.test(name);
-        //     const ageValid = age !== "" && /^[1-9][0-9]?$|^1[0-1][0-9]$/.test(age);
-        //     const phoneValid = /^[6-9][0-9]{9}$/.test(phone);
-        //     const genderValid = gender !== "";
-        //     const reasonValid = reason !== "";
-        //     const appointmentDateValid = appointmentDate !== "";
-        //     const timeSlotValid = timeSlot !== "";
-
-        //     const allValid = nameValid && ageValid && phoneValid && genderValid && reasonValid && appointmentDateValid && timeSlotValid;
-
-        //     document.getElementById("whatsappButton").disabled = !allValid;
-        //     document.getElementById("smsButton").disabled = !allValid;
-        //     document.getElementById("emailButton").disabled = !allValid;
-        //     document.getElementById("callButton").disabled = !allValid;
-        //     document.getElementById("formspreeButton").disabled = !allValid;
-        // }
         function validateForm() {
-    const name = document.getElementById("name").value.trim();
-    const age = document.getElementById("age").value.trim();
-    const gender = document.getElementById("gender").value;
-    const phone = document.getElementById("phone").value.trim();
-    const reason = Array.from(document.querySelectorAll('input[name="reason"]:checked')).map(cb => cb.value);
-    const appointmentDate = document.getElementById("date").value;
-    const timeSlot = localStorage.getItem('selectedSlotId');
+            const name = document.getElementById("name").value.trim();
+            const age = document.getElementById("age").value.trim();
+            const gender = document.getElementById("gender").value;
+            const phone = document.getElementById("phone").value.trim();
+            const reason = document.getElementById("reason").value;
+            const appointmentDate = document.getElementById("appointment_date").value;
+            const timeSlot = document.getElementById("time_slot").value;
 
-    const nameValid = name !== "" && /^[a-zA-Z\s]+$/.test(name);
-    const ageValid = age !== "" && /^[1-9][0-9]?$|^1[0-1][0-9]$/.test(age);
-    const phoneValid = /^[6-9][0-9]{9}$/.test(phone);
-    const genderValid = gender !== "";
-    const reasonValid = reason.length > 0;
-    const appointmentDateValid = appointmentDate !== "";
-    const timeSlotValid = !!timeSlot;
+            const nameValid = name !== "" && /^[a-zA-Z\s]+$/.test(name);
+            const ageValid = age !== "" && /^[1-9][0-9]?$|^1[0-1][0-9]$/.test(age);
+            const phoneValid = /^[6-9][0-9]{9}$/.test(phone);
+            const genderValid = gender !== "";
+            const reasonValid = reason !== "";
+            const appointmentDateValid = appointmentDate !== "";
+            const timeSlotValid = timeSlot !== "";
 
-    const allValid = nameValid && ageValid && phoneValid && genderValid && reasonValid && appointmentDateValid && timeSlotValid;
+            const allValid = nameValid && ageValid && phoneValid && genderValid && reasonValid && appointmentDateValid && timeSlotValid;
 
-    document.getElementById("whatsappButton").disabled = !allValid;
-    document.getElementById("smsButton").disabled = !allValid;
-    document.getElementById("emailButton").disabled = !allValid;
-    document.getElementById("callButton").disabled = !allValid;
-}
+            document.getElementById("whatsappButton").disabled = !allValid;
+            document.getElementById("smsButton").disabled = !allValid;
+            document.getElementById("emailButton").disabled = !allValid;
+            document.getElementById("callButton").disabled = !allValid;
+            document.getElementById("formspreeButton").disabled = !allValid;
+        }
 
         document.getElementById("name").addEventListener("input", function() {
             restrictNameInput();
@@ -360,16 +302,10 @@ document.getElementById("phone").addEventListener("input", function() {
             validateForm();
         });
 
-        // document.getElementById("gender").addEventListener("change", validateForm);
-        // document.getElementById("reason").addEventListener("change", validateForm);
-        // document.getElementById("appointment_date").addEventListener("change", validateForm);
-        // document.getElementById("time_slot").addEventListener("change", validateForm);
-document.getElementById("name").addEventListener("input", validateForm);
-document.getElementById("age").addEventListener("input", validateForm);
-document.getElementById("phone").addEventListener("input", validateForm);
-document.getElementById("gender").addEventListener("change", validateForm);
-document.getElementById("date").addEventListener("change", loadSlots);
-document.getElementById("appointment_date").addEventListener("change", validateForm);
+        document.getElementById("gender").addEventListener("change", validateForm);
+        document.getElementById("reason").addEventListener("change", validateForm);
+        document.getElementById("appointment_date").addEventListener("change", validateForm);
+        document.getElementById("time_slot").addEventListener("change", validateForm);
 
 
         function validateOthersInput() {
@@ -402,15 +338,9 @@ document.getElementById("appointment_date").addEventListener("change", validateF
             padding: 15px; /* Adjust padding for smaller screens */
         }
     }
-    .slot button.dark-grey {
-    background-color: darkgrey; /* Previously blocked slots */
-}
-
 </style>
  
-  
-<script>  
-
-</script> 
+    
+    
 </body>
 </html>
