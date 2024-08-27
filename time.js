@@ -73,11 +73,14 @@ function createSlotButton(slot, bookedSlots, selectedSlotId, isPastSlot) {
     const slotButton = document.createElement('button');
     const isBooked = slot.booked || bookedSlots.includes(slot.id) || isPastSlot;
 
-    // Set the button class and disable state based on whether the slot is booked or not
-    slotButton.className = isBooked ? 'booked' : 'available';
+    // Set the button class based on whether the slot is booked, selected, or available
+    if (slot.id === selectedSlotId) {
+        slotButton.className = 'selected'; // For selected slot
+    } else {
+        slotButton.className = isBooked ? 'booked' : 'available';
+    }
     slotButton.disabled = isBooked;
 
-    // Only display the time on the button
     slotButton.textContent = slot.time;
     slotButton.dataset.slotId = slot.id;
     slotButton.dataset.slotTime = slot.time;
@@ -115,21 +118,18 @@ function handleSlotClick(slotId, slotTime) {
     }
 }
 
-function updateSlotButtons(date, selectedSlotId, slotTime) {
+function updateSlotButtons(date, slotId, slotTime) {
     const slots = document.querySelectorAll('#available-slots .slot button');
     slots.forEach(button => {
         const buttonId = button.dataset.slotId;
-        const isBooked = localStorage.getItem('bookedSlots') && JSON.parse(localStorage.getItem('bookedSlots'))[date] && JSON.parse(localStorage.getItem('bookedSlots'))[date].includes(parseInt(buttonId, 10));
-        
-        if (buttonId === selectedSlotId.toString()) {
-            // Selected slot
-            button.className = 'selected';
-        } else if (isBooked) {
-            // Previously booked slot
-            button.className = 'dark-grey';
+        if (buttonId === slotId.toString()) {
+            button.disabled = false; // Always enable the selected slot
+            button.className = 'selected'; // Apply selected class
+            button.textContent = slotTime; // Show only time for the selected slot
         } else {
-            // Available slot
-            button.className = 'dark-grey'; // Change to dark grey for non-selected slots
+            // Restore the button to its available state if it’s not selected
+            button.className = button.disabled ? 'booked' : 'available';
+            button.textContent = button.dataset.slotTime; // Show available slot time
         }
     });
 }
@@ -176,18 +176,6 @@ function updateButtonStates() {
     }
 }
 
-// Modify the isFormComplete function if necessary to handle these validations
-// function isFormComplete() {
-//     const name = document.getElementById('name')?.value.trim();
-//     const age = document.getElementById('age')?.value.trim();
-//     const gender = document.getElementById('gender')?.value;
-//     const phone = document.getElementById('phone')?.value.trim();
-//     const reasons = Array.from(document.querySelectorAll('input[name="reason"]:checked')).map(cb => cb.value);
-//     const date = document.getElementById('date')?.value;
-//     const selectedSlot = localStorage.getItem('selectedSlotId');
-
-//     return name && name.length >= 3 && age && gender && phone && phone.length >= 10 && reasons.length > 0 && date && selectedSlot;
-// }
 function isFormComplete() {
     const name = document.getElementById('name')?.value.trim();
     const age = document.getElementById('age')?.value.trim();
