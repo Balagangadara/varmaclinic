@@ -6,8 +6,8 @@
      <link href="floatingicon.css" rel="stylesheet"> 
     <link href="index.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
-     <!-- <script type="text/javascript" src="time.js" ></script>
-       -->
+    <!-- <script type="text/javascript" src="time.js" ></script> -->
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Varma Clinic</title>
@@ -133,22 +133,7 @@
                 </div> 
             </div>
             </form>
-<!-- <div class="container">
-    <div class="floating-contact right">
-        <a href="https://wa.me/9094852653" target="_blank">
-            <img src="images/whats.png" alt="WhatsApp Icon">
-        </a>
-        <a href="mailto:balavarmaclinic@gmail.com?subject=Appointment%20Request" target="_blank">
-            <img src="images/mail.png" alt="Email Icon">
-        </a>
-        <a href="sms:9094852653?body=Hello%20there!" target="_blank">
-            <img src="images/message.png" alt="Message Icon">
-        </a>
-        <a href="tel:9094852653" target="_blank">
-            <img src="images/call.png" alt="Call Icon">
-        </a>
-    </div>
-</div> -->
+
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     
@@ -195,32 +180,7 @@
 
             initializeDatePicker();
         });
-//         function validatePhoneNumber() {
-//     const phoneInput = document.getElementById("phone");
-//     const phoneError = document.getElementById("phoneError");
 
-//     // Get the input value and remove all non-numeric characters
-//     let phoneValue = phoneInput.value;
-//     phoneValue = phoneValue.replace(/\D/g, ''); // Keep only digits
-
-//     // Validate the cleaned value
-//     const phonePattern = /^[6-9][0-9]{9}$/;
-
-//     if (phonePattern.test(phoneValue)) {
-//         phoneInput.value = phoneValue; // Update input value to cleaned value
-//         phoneError.style.display = "none"; // Hide error message if valid
-//     } else {
-//         phoneError.style.display = "block"; // Show error message if invalid
-//         phoneError.textContent = "Phone number must be 10 digits long and start with a digit between 6-9.";
-//     }
-// }
-
-// // Add event listener for real-time validation
-// document.getElementById("phone").addEventListener("input", function() {
-//     // Enforce numeric input only
-//     this.value = this.value.replace(/\D/g, '');
-//     validatePhoneNumber();
-// });
 function validatePhoneNumber() {
     const phoneInput = document.getElementById("phone");
     const phoneError = document.getElementById("phoneError");
@@ -425,9 +385,29 @@ document.getElementById("appointment_date").addEventListener("change", validateF
 
 </style>
  
+  <script>
   
-<script>  
-async function loadSlots() {
+// function handleSlotClick(slotId, slotTime) {
+//     const dateInput = document.getElementById('date').value;
+//     if (!dateInput) {
+//         alert('Please select a date.');
+//         return;
+//     }
+
+//     const formattedDate = formatDateToYYYYMMDD(dateInput);
+//     let selectedSlotId = localStorage.getItem('selectedSlotId');
+
+//     // Update localStorage with selected slot ID
+//     if (selectedSlotId !== slotId) {
+//         localStorage.setItem('selectedSlotId', slotId);
+//         updateSlotButtons(formattedDate, slotId, slotTime); // Update button states to reflect the selection
+//     }
+// }
+
+
+  </script>
+  <script>
+    async function loadSlots() {
     const dateInput = document.getElementById('date').value;
     if (!dateInput) {
         alert('Please select a date.');
@@ -533,6 +513,7 @@ function handleSlotClick(slotId, slotTime) {
     }
 
     const formattedDate = formatDateToYYYYMMDD(dateInput);
+    let selectedSlotId = localStorage.getItem('selectedSlotId');
     let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
     bookedSlots = bookedSlots[formattedDate] || [];
 
@@ -605,18 +586,6 @@ function updateButtonStates() {
     }
 }
 
-// Modify the isFormComplete function if necessary to handle these validations
-// function isFormComplete() {
-//     const name = document.getElementById('name')?.value.trim();
-//     const age = document.getElementById('age')?.value.trim();
-//     const gender = document.getElementById('gender')?.value;
-//     const phone = document.getElementById('phone')?.value.trim();
-//     const reasons = Array.from(document.querySelectorAll('input[name="reason"]:checked')).map(cb => cb.value);
-//     const date = document.getElementById('date')?.value;
-//     const selectedSlot = localStorage.getItem('selectedSlotId');
-
-//     return name && name.length >= 3 && age && gender && phone && phone.length >= 10 && reasons.length > 0 && date && selectedSlot;
-// }
 function isFormComplete() {
     const name = document.getElementById('name')?.value.trim();
     const age = document.getElementById('age')?.value.trim();
@@ -819,6 +788,7 @@ function setDateInputMinDate() {
     dateInput.setAttribute('min', today);
 }
 
-</script> 
+  </script> 
+
 </body>
 </html>
