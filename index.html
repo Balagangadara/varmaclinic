@@ -15,6 +15,123 @@
 
 </head>
 <body>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Dynamically load the main script with cache-busting
+        const script = document.createElement('script');
+        script.src = `path/to/your/script.js?v=${new Date().getTime()}`; // Append a timestamp to the script URL
+        document.head.appendChild(script);
+    });
+    
+    // Function to dynamically clear cache for local storage data
+    function clearLocalStorage() {
+        localStorage.removeItem('formData');
+        localStorage.removeItem('selectedSlotId');
+        localStorage.removeItem('bookedSlots');
+        localStorage.removeItem('selectedSlotIds');
+        // Additional local storage items can be cleared here
+    }
+    
+    // Function to handle slot loading and other actions
+    async function loadSlots() {
+        // Your existing code for loading slots
+        const dateInput = document.getElementById('date').value;
+        if (!dateInput) {
+            alert('Please select a date.');
+            return;
+        }
+    
+        const formattedDate = formatDateToYYYYMMDD(dateInput);
+        console.log(`Fetching slots for date: ${formattedDate}`); // Debug log
+    
+        try {
+            const response = await fetch('https://raw.githubusercontent.com/Balagangadara/timeblock/main/time.json');
+    
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+    
+            const data = await response.json();
+            console.log('Data fetched:', data); // Debug log
+    
+            const dayData = data[formattedDate];
+            if (!dayData || !Array.isArray(dayData)) {
+                document.getElementById('available-slots').innerHTML = '<p>No time slots available for this date.</p>';
+                return;
+            }
+    
+            const container = document.getElementById('available-slots');
+            container.innerHTML = '';
+    
+            let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
+            bookedSlots = bookedSlots[formattedDate] || [];
+    
+            let selectedSlotId = localStorage.getItem('selectedSlotId');
+    
+            // Get current date and time
+            const now = new Date();
+            const currentTime = now.getHours() * 100 + now.getMinutes(); // Current time in HHMM format
+            const today = formatDateToYYYYMMDD(now);
+    
+            dayData.forEach(slot => {
+                if (!slot || typeof slot !== 'object') {
+                    console.warn('Invalid slot data:', slot);
+                    return;
+                }
+                const slotTime = parseInt(slot.time.replace(':', ''), 10); // Convert slot time to HHMM format
+                const isPastSlot = (formattedDate === today && slotTime < currentTime) || (formattedDate !== today && formattedDate < today);
+    
+                const slotDiv = document.createElement('div');
+                slotDiv.className = 'slot';
+    
+                const slotButton = createSlotButton(slot, bookedSlots, selectedSlotId, isPastSlot);
+                slotDiv.appendChild(slotButton);
+                container.appendChild(slotDiv);
+    
+                // Automatically select the first available slot if none is selected
+                if (!selectedSlotId && !bookedSlots.includes(slot.id)) {
+                    selectedSlotId = slot.id;
+                    localStorage.setItem('selectedSlotId', selectedSlotId);
+                    updateSlotButtons(formattedDate, selectedSlotId, slot.time);
+                }
+            });
+    
+            loadFormData();
+            updateButtonStates();
+    
+        } catch (error) {
+            console.error('Error loading slots:', error);
+            document.getElementById('available-slots').innerHTML = `<p>Error loading slots: ${error.message}. Please try again later.</p>`;
+        }
+    }
+    
+    // Example of how to call clearLocalStorage function
+    clearLocalStorage();
+    
+    // Example event listener for date input change
+    document.getElementById('date').addEventListener('change', () => {
+        loadSlots(); // Reload slots when the date changes
+    });
+    
+    // Your existing helper functions such as formatDateToYYYYMMDD, formatDateToDDMMYYYY, etc.
+    function formatDateToYYYYMMDD(dateInput) {
+        const date = new Date(dateInput);
+        if (isNaN(date.getTime())) return 'Invalid Date';
+        const year = date.getFullYear();
+        const month = ('0' + (date.getMonth() + 1)).slice(-2);
+        const day = ('0' + date.getDate()).slice(-2);
+        return `${year}-${month}-${day}`;
+    }
+    
+    function formatDateToDDMMYYYY(dateInput) {
+        const date = new Date(dateInput);
+        if (isNaN(date.getTime())) return 'Invalid Date';
+        const day = ('0' + date.getDate()).slice(-2);
+        const month = ('0' + (date.getMonth() + 1)).slice(-2);
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+</script>    
     
     <div class="form-container">
         <a href="index1.html" class="next-button" style="background-color:  rgb(2, 7, 55); color: whitesmoke;">Next</a>
@@ -50,48 +167,52 @@
             </div>
             
             
-            <div class="checkbox-container">
-                <div class="checkbox-item">
-                    <label>
-                        <input type="checkbox" name="reason" value="Fever" onchange="validateForm()"> Fever
-                    </label>
-                </div>
-                <div class="checkbox-item">
-                    <label>
-                        <input type="checkbox" name="reason" value="Cold/Cough" onchange="validateForm()"> Cold/Cough
-                    </label>
-                </div>
-                <div class="checkbox-item">
-                    <label>
-                        <input type="checkbox" name="reason" value="Vomiting" onchange="validateForm()"> Vomiting
-                    </label>
-                </div>
-                <div class="checkbox-item">
-                    <label>
-                        <input type="checkbox" name="reason" value="Head Ache" onchange="validateForm()"> Head Ache
-                    </label>
-                </div>
-                <div class="checkbox-item">
-                    <label>
-                        <input type="checkbox" name="reason" value="Diarrhoea/Dysentery" onchange="validateForm()"> Diarrhoea/Dysentery
-                    </label>
-                </div>
-                <div class="checkbox-item">
-                    <label>
-                        <input type="checkbox" name="reason" value="Stomach Pain" onchange="validateForm()"> Stomach Pain
-                    </label>
-                </div>
-                <div class="checkbox-item">
-                    <label>
-                        <input type="checkbox" name="reason" value="Body pain/Joint pain" onchange="validateForm()"> Body pain/Joint pain
-                    </label>
-                </div>
-                <div class="checkbox-item others-input-container">
-                    <label>
-                        <input type="checkbox" name="reason" value="Others" onchange="toggleOthersInput()"> Others
-                    </label>
-                    <input type="text" id="othersInput" maxlength="20" oninput="validateOthersInput()" style="display:none;" placeholder="Type here...">
-                </div>
+            <div class="form-group">
+                <label style="margin-top: 20px; padding-bottom: 15px;">Reason For Your Appointment:</label>
+                <div class="reason-container">
+                    <!-- Existing checkbox items -->
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Fever" onchange="validateForm()"> Fever
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Cold/Cough" onchange="validateForm()"> Cold/Cough
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Vomiting" onchange="validateForm()"> Vomiting
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Head Ache" onchange="validateForm()"> Head Ache
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Diarrhoea/Dysentery" onchange="validateForm()"> Diarrhoea/Dysentery
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Stomach Pain" onchange="validateForm()"> Stomach Pain
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Body pain/Joint pain" onchange="validateForm()"> Body pain/Joint pain
+                        </label>
+                    </div>
+                    <div class="checkbox-item others-input-container">
+                        <label>
+                            <input type="checkbox" name="reason" value="Others" onchange="toggleOthersInput()"> Others
+                        </label>
+                        <input type="text" id="othersInput" maxlength="20" oninput="validateOthersInput()" style="display:none;" placeholder="Type here...">
+                    </div>
+                </div> 
             </div>
             
         
@@ -102,7 +223,11 @@
                     <!-- Available slots will be dynamically loaded here -->
                 </div>
             </div>
-           
+            <!-- <div class="form-group">
+                <label for="paymentQR" style="margin-top: 20px;margin-left: 54px;">Scan Me To Complete Your Payment</label>
+                <img src="images/webQR.jpg" alt="Payment QR Code" id="paymentQR" style="width: 150px; height: 150px; margin-top: 10px;">
+            </div> -->
+         
             <div class="appointment-container">
                 <div class="appointment-heading">Book your appointment via</div>
                 <div class="appointment-buttons">
@@ -247,7 +372,8 @@ document.getElementById("phone").addEventListener("input", function() {
 }
 
 
-                function validateForm() {
+      
+        function validateForm() {
     const name = document.getElementById("name").value.trim();
     const age = document.getElementById("age").value.trim();
     const gender = document.getElementById("gender").value;
@@ -349,44 +475,6 @@ document.getElementById("appointment_date").addEventListener("change", validateF
     background-color: #404040; /* Dark grey background for selected slots */
     color: #ffffff; /* White text */
 }
-/* General styling for the container holding the checkboxes */
-.checkbox-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Space between checkboxes */
-}
-
-/* Styling for each checkbox item */
-.checkbox-item {
-    display: flex;
-    align-items: center; /* Align checkbox and label vertically */
-    margin-bottom: 5px; /* Space below each checkbox item */
-    font-size: 12px; /* Small font size for checkbox items */
-}
-
-/* Styling for labels within checkbox items */
-.checkbox-item label {
-    display: flex;
-    align-items: center; /* Align checkbox and text vertically */
-    font-size: 12px; /* Small font size for labels */
-}
-
-/* Style for the "Others" input container */
-.others-input-container {
-    display: flex;
-    align-items: center;
-    margin-top: 10px; /* Space above the "Others" checkbox */
-    font-size: 12px; /* Small font size for the "Others" input container */
-}
-
-/* Style for the "Others" input field */
-#othersInput {
-    margin-left: 10px; /* Space between the checkbox and input field */
-    padding: 5px; /* Padding inside the input field */
-    border: 1px solid #ccc; /* Border around the input field */
-    border-radius: 4px; /* Rounded corners for the input field */
-    font-size: 12px; /* Small font size for the input text */
-}
 
 </style>
  
@@ -463,127 +551,44 @@ document.getElementById("appointment_date").addEventListener("change", validateF
 }
 
 
-let selectedSlot = null; // Store selected slot information temporarily
-
-// Handle slot selection and deselection
 function handleSlotClick(slotId, slotTime) {
     const dateInput = document.getElementById('date').value;
-    const otherField = document.getElementById('otherField').value; // Add other fields as necessary
-
-    // Validate if required fields are filled before allowing slot selection
     if (!dateInput) {
         alert('Please select a date.');
         return;
     }
 
-    // Format the date
     const formattedDate = formatDateToYYYYMMDD(dateInput);
-
-    // Retrieve booked slots and selected slot IDs from local storage
     let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
     bookedSlots = bookedSlots[formattedDate] || [];
+
     let selectedSlotIds = JSON.parse(localStorage.getItem('selectedSlotIds') || '[]');
 
     if (selectedSlotIds.includes(slotId)) {
         // Deselect slot
         selectedSlotIds = selectedSlotIds.filter(id => id !== slotId);
         localStorage.setItem('selectedSlotIds', JSON.stringify(selectedSlotIds));
-        selectedSlot = null; // Clear the selected slot
+        updateSlotButtons(formattedDate, null); // Update button states
     } else {
-        // Check if the slot is in the past
-        if (isPastSlot(slotTime, dateInput)) {
-            alert('This slot is in the past and cannot be selected.');
-            return;
-        }
-
         // Select slot
-        selectedSlot = { slotId, slotTime, formattedDate };
         selectedSlotIds.push(slotId);
         localStorage.setItem('selectedSlotIds', JSON.stringify(selectedSlotIds));
+        updateSlotButtons(formattedDate, slotId, slotTime); // Update button states
     }
 
     saveFormData(); // Save form data whenever a slot is selected
-    updateSlotButtons(formattedDate, selectedSlot ? slotId : null, slotTime); // Update button states
+    updateButtonStates(); // Update button states after slot selection
 }
 
-// Finalize the booking process
-function finalizeBooking() {
-    const dateInput = document.getElementById('date').value;
-    const otherField = document.getElementById('otherField').value; // Add other fields as necessary
 
-    // Validate if required fields are filled before finalizing the booking
-    if (!dateInput) {
-        alert('Please select a date.');
-        return;
-    }
 
-    if (!otherField) {
-        alert('Please fill out all required fields.');
-        return;
-    }
 
-    if (!selectedSlot) {
-        alert('Please select a slot before finalizing your booking.');
-        return;
-    }
-
-    // Finalize booking logic here
-    let bookedSlots = JSON.parse(localStorage.getItem('bookedSlots') || '{}');
-    bookedSlots[selectedSlot.formattedDate] = bookedSlots[selectedSlot.formattedDate] || [];
-    bookedSlots[selectedSlot.formattedDate].push(selectedSlot.slotId);
-    localStorage.setItem('bookedSlots', JSON.stringify(bookedSlots));
-
-    // Clear the selected slot and form data
-    selectedSlot = null;
-    clearFormData(); // Optionally clear form data if necessary
-
-    // Notify the user
-    alert('Your booking has been confirmed!');
-    
-    // Optionally, reset form or redirect to another page
-}
-
-// Format the date to YYYY-MM-DD
-function formatDateToYYYYMMDD(dateInput) {
-    const date = new Date(dateInput);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-}
-
-// Check if the slot is in the past
+// Helper function to check if a slot is in the past
 function isPastSlot(slotTime, dateInput) {
     const slotDateTime = new Date(`${dateInput} ${slotTime}`);
     const now = new Date();
     return slotDateTime < now;
 }
-
-// Update slot button states
-function updateSlotButtons(date, selectedSlotId, slotTime) {
-    // Implement button state updates
-    // For example, disable past slots or update the appearance of selected slot
-}
-
-// Save form data to local storage or another storage mechanism
-function saveFormData() {
-    // Example of saving form data to local storage
-    const dateInput = document.getElementById('date').value;
-    const otherField = document.getElementById('otherField').value;
-    const formData = { date: dateInput, otherField: otherField };
-    localStorage.setItem('formData', JSON.stringify(formData));
-}
-
-// Clear form data from local storage or other storage mechanisms
-function clearFormData() {
-    localStorage.removeItem('formData');
-}
-
-// Update button states for form elements
-function updateButtonStates() {
-    // Implement button state updates based on current form data and selection
-}
-
 
 function createSlotButton(slot, bookedSlots, selectedSlotId, dateInput) {
     const slotButton = document.createElement('button');
