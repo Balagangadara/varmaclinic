@@ -166,49 +166,56 @@
             </div>
             
             
-            <div class="checkbox-container">
-                <div class="checkbox-item">
-                    <label>
-                        <input type="checkbox" name="reason" value="Fever" onchange="validateForm()"> Fever
-                    </label>
+            <div class="form-group" style="margin-top: 20px;">
+                <label>Reason For Your Appointment:</label>
+                <div class="checkbox-container" style="margin-top: 10px;">
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Fever" onchange="validateForm()"> Fever
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Cold/Cough" onchange="validateForm()"> Cold/Cough
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Vomiting" onchange="validateForm()"> Vomiting
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Head Ache" onchange="validateForm()"> Head Ache
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Diarrhoea/Dysentery" onchange="validateForm()"> Diarrhoea/Dysentery
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Stomach Pain" onchange="validateForm()"> Stomach Pain
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <label>
+                            <input type="checkbox" name="reason" value="Body pain/Joint pain" onchange="validateForm()"> Body pain/Joint pain
+                        </label>
+                    </div>
+                    <div class="checkbox-item others-input-container">
+                        <label>
+                            <input type="checkbox" name="reason" value="Others" onchange="toggleOthersInput()"> Others
+                        </label>
+                        <input type="text" id="othersInput" maxlength="20" oninput="validateOthersInput()" style="display:none;" placeholder="Type here...">
+                    </div>
                 </div>
-                <div class="checkbox-item">
-                    <label>
-                        <input type="checkbox" name="reason" value="Cold/Cough" onchange="validateForm()"> Cold/Cough
-                    </label>
-                </div>
-                <div class="checkbox-item">
-                    <label>
-                        <input type="checkbox" name="reason" value="Vomiting" onchange="validateForm()"> Vomiting
-                    </label>
-                </div>
-                <div class="checkbox-item">
-                    <label>
-                        <input type="checkbox" name="reason" value="Head Ache" onchange="validateForm()"> Head Ache
-                    </label>
-                </div>
-                <div class="checkbox-item">
-                    <label>
-                        <input type="checkbox" name="reason" value="Diarrhoea/Dysentery" onchange="validateForm()"> Diarrhoea/Dysentery
-                    </label>
-                </div>
-                <div class="checkbox-item">
-                    <label>
-                        <input type="checkbox" name="reason" value="Stomach Pain" onchange="validateForm()"> Stomach Pain
-                    </label>
-                </div>
-                <div class="checkbox-item">
-                    <label>
-                        <input type="checkbox" name="reason" value="Body pain/Joint pain" onchange="validateForm()"> Body pain/Joint pain
-                    </label>
-                </div>
-                <div class="checkbox-item others-input-container">
-                    <label>
-                        <input type="checkbox" name="reason" value="Others" onchange="toggleOthersInput()"> Others
-                    </label>
-                    <input type="text" id="othersInput" maxlength="20" oninput="validateOthersInput()" style="display:none;" placeholder="Type here...">
-                </div>
+                <small id="symptomError" class="error-message" style="display:none; color: red;">
+                    Please select at least one symptom.
+                </small>
             </div>
+            
             
         
             <div class="form-group">
