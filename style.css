@@ -94,6 +94,7 @@
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
+           
         }
         button {
             padding: 10px 15px;
@@ -101,6 +102,7 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+
         }
         button:disabled {
             background-color: #ccc;
@@ -109,6 +111,8 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px; /* Space between buttons */
+    
+    
 }
 
 .slot {
@@ -122,6 +126,7 @@
     font-size: 12px; /* Adjust font size as needed */
     padding: 8px 12px; /* Adjust button size as needed */
     margin: 0; /* Remove default margin */
+
 }
 
     
@@ -184,6 +189,7 @@ button:focus {
             display: flex;
             flex-wrap: wrap; /* Allows slots to wrap to new lines */
             gap: 10px; /* Space between slots */
+           
         }
 
         .slot {
@@ -210,6 +216,8 @@ button:focus {
             outline: none; /* Remove default focus outline */
             box-shadow: none; /* Remove any shadow */
             transition: background-color 0.3s, color 0.3s; /* Smooth transitions */
+            
+           
         }
 
         .slot button:hover {
@@ -233,6 +241,8 @@ button.action-button {
     margin: 0; /* Removes default margins */
     padding: 0; /* Removes default padding */
     white-space: nowrap; /* Prevents text from wrapping to the next line */
+   margin-top: -30px;
+
 }
 
 
@@ -309,7 +319,8 @@ button.action-button {
 
 .appointment-buttons button:disabled {
     color: #ccc;
-    cursor: not-allowed;
-}
+    cursor: not-allowed; /* Shows the 'no' symbol */
+    }
+
 
       

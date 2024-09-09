@@ -1,0 +1,420 @@
+.appointment-container {
+    text-align: center;
+    margin: 20px;
+}
+
+.appointment-heading {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.appointment-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.appointment-buttons button {
+    background: none;
+    border: none;
+    padding: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 5px;
+    color: white;
+}
+
+#whatsappButton {
+    color: #25D366; /* WhatsApp Green */
+}
+
+#smsButton {
+    color: #007BFF; /* SMS Blue */
+}
+
+#emailButton {
+    color: #FF5722; /* Email Orange */
+}
+
+#callButton {
+    color: #4CAF50; /* Phone Green */
+}
+
+#whatsappButton:disabled,
+#smsButton:disabled,
+#emailButton:disabled,
+#callButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+/* Add this to your CSS file or <style> section */
+    .slot button {
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.slot button.available {
+    background-color: #4CAF50; /* Green for available slots */
+    color: white;
+}
+
+.slot button.selected {
+    background-color: #2196F3; /* Blue for selected slots */
+    color: white;
+}
+
+
+.slot button.grey {
+    background-color: #9E9E9E; /* Grey for booked or past slots */
+    color: white;
+}
+
+.slot button.past {
+    background-color: #f44336; /* Red for past slots */
+    color: white;
+}
+.checkbox-container {
+    display: flex;
+   
+    gap: 10px; /* Adjust as needed for spacing between items */
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    margin-top: 10px ;
+}
+
+.others-input-container {
+    display: flex;
+    align-items: center;
+}
+
+#othersInput {
+    margin-left: 10px; /* Adjust spacing between "Others" checkbox and input field */
+}
+/* Basic styles for the container */
+.slots-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    gap: 10px; /* Adjust the gap between slots as needed */
+    margin-top: 10px; /* Optional: Add some space above the slots */
+}
+.form-container{
+    margin-top: 100px;
+   
+}
+/* Style each slot item (button) */
+.slots-container .slot-item {
+    background: #f0f0f0; /* Background color for slot items */
+    padding: 5px 10px; /* Reduce padding inside each slot (top-bottom, left-right) */
+    text-align: center; /* Center text inside the slot */
+    border-radius: 4px; /* Optional: Rounded corners */
+    border: 1px solid #ddd; /* Optional: Border around each slot */
+    font-size: 14px; /* Reduce font size */
+    width: 100%; /* Ensure the slot takes up the full width of its grid cell */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+/* Responsive adjustments for mobile screens */
+@media (max-width: 960px) { /* Adjust the max-width value to suit your mobile breakpoint */
+    .slots-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for mobile */
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+    .form-container{
+    margin-top: 30px;
+    
+}
+}
+@media (max-width: 400px) { /* Adjust the max-width value to suit smaller mobile screens */
+    .slots-container {
+        grid-template-columns: 1fr; /* 1 column for very small screens */
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+}
+/* External CSS file */
+
+@media (max-width: 940px){
+#available-slots button {
+    padding: 5px 10px; 
+    font-size: 12px;  
+    width: auto;       
+    height: auto;  
+    margin-right: 72px;  
+    margin-left: 3px;  
+}
+
+}
+/* Styles for the navigation bar */
+.navbar {
+    background-color: rgb(2, 7, 55); /* Dark blue background */
+    color: white;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure the navbar stays on top */
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-logo {
+    font-size: 24px;
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-menu {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+.navbar-menu li {
+    margin: 0;
+    white-space: nowrap;
+    
+}
+
+.navbar-menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 5px 10px;
+}
+
+.navbar-menu a:hover {
+    background-color: #0056b3; /* Slightly lighter blue for hover effect */
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .navbar-menu {
+        flex-direction: column;
+        gap: 10px;
+        position: absolute;
+        top: 50px;
+        right: 10px;
+        background-color: #002b77;
+        width: 200px;
+        display: none; /* Hidden by default on small screens */
+    }
+
+    .navbar-menu.active {
+        display: flex; /* Show the menu when active */
+    }
+}
+
+.navbar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
+
+.navbar-toggle.li{
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .navbar-toggle {
+        display: block;
+    }
+}
+
+.nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1em;
+            display: block;
+            padding: 10px 15px;
+        }
+
+        .nav-links a:hover {
+            background-color: #575757;
+            border-radius: 5px;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger .bar {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 3px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                right: 20px;
+                background-color: #333333;
+                flex-direction: column;
+                width: 200px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+                z-index: 1000;
+                transition: max-height 0.3s ease-out;
+                max-height: 0;
+                overflow: hidden;
+            }
+            
+            .nav-links.active {
+                display: flex;
+                max-height: 500px; /* Adjust based on the number of items */
+            }
+            
+            .hamburger {
+                display: flex;
+                margin-right: 30px;
+            }
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            margin: 30px 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        @media (max-width: 1200px) {
+           
+            .navbar {
+                padding: 10px 20px;
+            }
+        }
+
+        @media (max-width: 1000px) {
+            .navbar {
+                padding: 10px;
+
+            }
+            .logo img {
+                height: 50px;
+            }
+        }
+        button {
+   
+   transition: background-color 0.3s;
+}
+
+/* Styling for error messages */
+.error {
+   color: #d9534f;
+   font-size: 14px;
+   display: none;
+}
+
+
+.disabled-slots {
+   pointer-events: none;
+   opacity: 0.5;
+}
+
+/* Optional: Specific styling for slot buttons if needed */
+#available-slots button {
+   height: 40px; /* Fixed height for consistency */
+  margin-right: 1px;
+   width: auto; /* Adjust width based on text */
+   margin-left: 2px;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 768px) {
+   #available-slots button {
+       height: 30px; /* Reduce height for smaller screens */
+       font-size: 14px; /* Adjust font size for better readability */
+       margin-right: 0.5px; /* Reduce margin for better fit */
+       margin-left: 1px; /* Reduce margin for better fit */
+   }
+}
+
+/* Extra small devices (phones, 576px and down) */
+@media (max-width: 576px) {
+   #available-slots button {
+       height: 25px; /* Further reduce height for very small screens */
+       font-size: 12px; /* Adjust font size to fit smaller buttons */
+       margin-right: 0; /* Remove margin to fit buttons better */
+       margin-left: 0; /* Remove margin to fit buttons better */
+   }
+}
+
+
+  /* Style for legend box */
+.legend-box {
+    margin-top: 20px;
+    padding: 10px;
+  
+    border-radius: 5px;
+  
+    display: flex; /* Use flexbox to arrange items */
+    flex-wrap: wrap; /* Allow wrapping for responsive layout */
+    gap: 10px; /* Space between items */
+}
+
+/* Style for legend items */
+.legend-box p {
+    display: flex; /* Use flexbox for inline layout */
+    align-items: center; /* Center items vertically */
+    margin: 0; /* Remove default margin */
+    font-size: 12px; /* Reduced font size */
+}
+
+/* Style for color indicator */
+.legend-color {
+    display: inline-block;
+    width: 15px; /* Reduced size */
+    height: 15px; /* Reduced size */
+    border-radius: 50%;
+    margin-right: 5px; /* Reduced margin */
+}
+
+/* Color classes */
+.legend-color.available {
+    background-color: rgb(2, 7, 55);
+}
+
+.legend-color.not-available {
+    background-color: #f44336;
+}
+
+.legend-color.current-booking {
+    background-color: #2196F3;
+}

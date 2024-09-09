@@ -60,7 +60,7 @@ body {
 }
 
 button:disabled {
-    background-color: grey;
+    background-color: rgb(85, 181, 219);
     cursor: not-allowed;
 }
 .next-button {
