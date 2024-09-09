@@ -337,5 +337,20 @@
             });
         });
 </script>
+<script>
+    function checkTimeSlots() {
+        const timeSlots = document.querySelectorAll('.available-slots p');
+        const formError = document.getElementById('formError');
+        
+        if (timeSlots.length === 0) {
+            formError.style.display = 'block'; // Show the error message
+        } else {
+            formError.style.display = 'none'; // Hide the error message
+        }
+    }
+
+    // Example: call this function when needed, e.g., on page load or after a specific action
+    checkTimeSlots();
+</script>
     </body>
 </html>

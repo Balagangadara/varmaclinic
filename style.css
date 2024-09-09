@@ -240,13 +240,11 @@ button.action-button {
 #available-slots p {
     margin: 0; /* Removes default margins */
     padding: 0; /* Removes default padding */
-    white-space: nowrap; /* Prevents text from wrapping to the next line */
-   margin-top: -30px;
+  
+    
 
 }
-
-
-    .reason-container input[type="checkbox"] {
+  .reason-container input[type="checkbox"] {
             width: 12px; /* Adjust size as needed */
             height: 12px; /* Adjust size as needed */
             margin-right: 6px; /* Adjust space between checkbox and text */
