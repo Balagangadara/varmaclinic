@@ -353,113 +353,50 @@
     checkTimeSlots();
 </script>
 <style>
+    @media only screen and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 2) {
     .checkbox-container {
-    display: flex;
-    flex-wrap: wrap;
-}
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%; /* Full width */
+    }
 
-.checkbox-item {
-    display: flex;
-    align-items: center;
-    margin-right: 15px;
-    margin-bottom: 10px;
-}
+    .checkbox-item {
+        flex: 1 1 45%; /* Each checkbox takes 45% of the width */
+        box-sizing: border-box;
+        padding-right: 10px;
+        margin-bottom: 10px;
+    }
 
-.checkbox-item label {
-    margin-left: 5px;
+    .checkbox-item label {
+        margin-left: 5px;
+        font-size: 0.9rem; /* Reduce font size */
+    }
+
+    .checkbox-item input {
+        transform: scale(1); /* Reduce checkbox size */
+    }
 }
-@media only screen and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 2) {
+@media only screen and (max-device-width: 375px) and (-webkit-min-device-pixel-ratio: 2) {
     .checkbox-container {
-    display: flex;
-    flex-wrap: wrap;
-}
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+    }
 
-.checkbox-item {
-    display: flex;
-    align-items: center;
-    margin-right: 15px;
-    margin-bottom: 10px;
-}
+    .checkbox-item {
+        flex: 1 1 100%; /* Ensure each checkbox takes full width */
+        box-sizing: border-box;
+        margin-bottom: 8px;
+    }
 
-.checkbox-item label {
-    margin-left: 5px;
-}
+    .checkbox-item label {
+        font-size: 0.8rem; /* Further reduce font size */
+    }
 
+    .checkbox-item input {
+        transform: scale(0.9); /* Slightly smaller checkboxes */
+    }
 }
-@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) {
-    /* Styles for iPhone X, 11 Pro, 12 mini, 13 mini */
-    .checkbox-container {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.checkbox-item {
-    display: flex;
-    align-items: center;
-    margin-right: 15px;
-    margin-bottom: 10px;
-}
-
-.checkbox-item label {
-    margin-left: 5px;
-}
-}
-@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) {
-    /* Styles for iPhone X, 11 Pro, 12 mini, 13 mini */
-    .checkbox-container {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.checkbox-item {
-    display: flex;
-    align-items: center;
-    margin-right: 15px;
-    margin-bottom: 10px;
-}
-
-.checkbox-item label {
-    margin-left: 5px;
-}
-}
-@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
-    /* Styles for iPhone 6/7/8 Plus */
-    .checkbox-container {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.checkbox-item {
-    display: flex;
-    align-items: center;
-    margin-right: 15px;
-    margin-bottom: 10px;
-}
-
-.checkbox-item label {
-    margin-left: 5px;
-}
-}
-@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
-    /* Styles for iPhone 6, 7, 8, SE */
-    .checkbox-container {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.checkbox-item {
-    display: flex;
-    align-items: center;
-    margin-right: 15px;
-    margin-bottom: 10px;
-}
-
-.checkbox-item label {
-    margin-left: 5px;
-}
-}
-
-
 
 </style>
 <script>
