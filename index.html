@@ -353,65 +353,59 @@
     checkTimeSlots();
 </script>
 <style>
-    @media only screen and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 2) {
-    .checkbox-container {
+   
+/* Target iPhones specifically with their screen sizes */
+@media only screen and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 2) {
+    
+    /* Adjust size and spacing of checkboxes */
+    .reason-container input[type="checkbox"] {
+        width: 12px;  /* Checkbox size */
+        height: 12px;
+        margin-right: 4px;  /* Space between checkbox and label */
+    }
+
+    /* Align checkbox label and reduce spacing */
+    .reason-container label {
+        font-size: 12px;  /* Smaller font size for mobile */
+        display: inline-flex;  /* Inline flex for proper alignment */
+        align-items: center;  /* Vertically center label and checkbox */
+        margin-bottom: 6px;  /* Reduced margin between items */
+        padding-right: 10px; /* Adjust padding between labels */
+    }
+
+    /* Adjust flexbox properties for better spacing */
+    .reason-container {
         display: flex;
-        flex-wrap: wrap;
-        width: 100%; /* Full width */
+        flex-wrap: wrap;  /* Allow items to wrap */
+        gap: 6px;  /* Reduce gap between checkboxes */
     }
 
-    .checkbox-item {
-        flex: 1 1 45%; /* Each checkbox takes 45% of the width */
+    /* Make sure each checkbox takes up the correct space */
+    .reason-container .checkbox-item {
+        flex: 1 1 calc(50% - 6px);  /* Adjust to fit two per row, reduce gap */
         box-sizing: border-box;
-        padding-right: 10px;
-        margin-bottom: 10px;
-    }
-
-    .checkbox-item label {
-        margin-left: 5px;
-        font-size: 0.9rem; /* Reduce font size */
-    }
-
-    .checkbox-item input {
-        transform: scale(1); /* Reduce checkbox size */
     }
 }
+
+/* Adjust layout further for smaller screens like iPhone SE */
 @media only screen and (max-device-width: 375px) and (-webkit-min-device-pixel-ratio: 2) {
-    .checkbox-container {
-        display: flex;
-        flex-wrap: wrap;
-        width: 100%;
+    .reason-container .checkbox-item {
+        flex: 1 1 calc(100% - 8px);  /* Stack checkboxes one per row */
+        margin-bottom: 6px;  /* Reduced margin for smaller screens */
     }
-
-    .checkbox-item {
-        flex: 1 1 100%; /* Ensure each checkbox takes full width */
-        box-sizing: border-box;
-        margin-bottom: 8px;
+    
+    /* Reduce margin and padding for the checkbox items */
+    .reason-container input[type="checkbox"] {
+        margin-right: 3px; /* Reduce space between checkbox and text */
     }
-
-    .checkbox-item label {
-        font-size: 0.8rem; /* Further reduce font size */
-    }
-
-    .checkbox-item input {
-        transform: scale(0.9); /* Slightly smaller checkboxes */
+    
+    .reason-container label {
+        font-size: 11px; /* Slightly smaller font for tight spaces */
+        padding-right: 5px; /* Adjust padding for smaller screen */
     }
 }
+
 
 </style>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-    var dateInput = document.querySelector('input[type="date"]');
-    var today = new Date().toISOString().split('T')[0];
-    dateInput.setAttribute('min', today);
-
-    var timeInput = document.querySelector('input[type="time"]');
-    var now = new Date();
-    var hours = now.getHours();
-    var minutes = now.getMinutes();
-    timeInput.setAttribute('min', `${hours}:${minutes}`);
-});
-
-</script>
     </body>
 </html>
