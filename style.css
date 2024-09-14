@@ -152,11 +152,6 @@ input[type="radio"], input[type="checkbox"] {
     cursor: pointer;
 }
 
-/* input[type="checkbox"]:checked {
-    background-color: skyblue; /* Checkbox check color */
-    /* border: none;
-} */
- /* General checkbox styling */
 
 
 /* Checkbox when checked */

@@ -336,14 +336,14 @@ function getFormattedMessage() {
 
 function redirectToWhatsApp() {
     const message = getFormattedMessage();
-    const url = `https://wa.me/9094852653?text=${encodeURIComponent(message)}`;
+    const url = `https://wa.me/9962060702?text=${encodeURIComponent(message)}`;
     clearFormData(); // Clear form data after redirect
     window.open(url, '_blank');
 }
 
 function redirectToSMS() {
     const message = getFormattedMessage();
-    const url = `sms:9094852653?body=${encodeURIComponent(message)}`;
+    const url = `sms:9962060702?body=${encodeURIComponent(message)}`;
     clearFormData(); // Clear form data after redirect
     window.open(url, '_blank');
 }
@@ -351,13 +351,13 @@ function redirectToSMS() {
 function redirectToEmail() {
     const subject = 'Appointment Details';
     const body = getFormattedMessage();
-    const url = `mailto:balavarmaclinic@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const url = `mailto:vnhdoctor@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     clearFormData(); // Clear form data after redirect
     window.open(url, '_blank');
 }
 
 function redirectToCall() {
-    const phoneNumber = '9094852653'; // Hardcoded phone number
+    const phoneNumber = '9962060702'; // Hardcoded phone number
     const url = `tel:${encodeURIComponent(phoneNumber)}`;
     clearFormData(); // Clear form data after redirect
     window.open(url, '_blank');
