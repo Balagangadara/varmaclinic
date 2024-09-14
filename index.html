@@ -352,5 +352,37 @@
     // Example: call this function when needed, e.g., on page load or after a specific action
     checkTimeSlots();
 </script>
+<style>
+    .checkbox-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    margin-bottom: 10px;
+}
+
+.checkbox-item label {
+    margin-left: 5px;
+}
+
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var dateInput = document.querySelector('input[type="date"]');
+    var today = new Date().toISOString().split('T')[0];
+    dateInput.setAttribute('min', today);
+
+    var timeInput = document.querySelector('input[type="time"]');
+    var now = new Date();
+    var hours = now.getHours();
+    var minutes = now.getMinutes();
+    timeInput.setAttribute('min', `${hours}:${minutes}`);
+});
+
+</script>
     </body>
 </html>

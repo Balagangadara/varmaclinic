@@ -272,7 +272,7 @@ button.action-button {
         }
 
       /* Responsive design: stack items on smaller screens */
-@media (max-width: 1400px) {
+@media (max-width: 900px) {
     .reason-container .checkbox-item {
         flex: 1 1 calc(33.333% - 10px); /* Three items per row, accounting for gap */
         box-sizing: border-box;
