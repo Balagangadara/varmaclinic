@@ -1,141 +1,126 @@
+/* General form container */
 .form-group {
-            margin-top: 20px;
-        }
-        .date-picker-container {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-        #appointment_date {
-            padding-right: 30px;
-            width: 100%;
-        }
-        #calendar-icon {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #061053;
-            font-size: 1.2em;
-        }
-        #calendar-icon:hover {
-            color: #132074;
-        }
-        .flatpickr-calendar {
-            z-index: 9999; /* Ensure it's on top of other content */
-        }
-       
-        .form-container {
-            padding: 20px;
-            max-width: 800px;
-            margin: auto;
-        }
-        .next-button {
-            display: block;
-            margin-bottom: 20px;
-            color: #061053;
-            text-decoration: none;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        
-        .error-message {
-            color: red;
-            display: none; /* Hide by default */
-            font-size: 0.875em;
-        }
-        .disabled-button {
-            background-color: #e0e0e0;
-            cursor: not-allowed;
-        }
-        .enabled-button {
-            background-color: #081a54;
-            color: white;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
-        input[type="date"] {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-        .slot {
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-           
-        }
-        button {
-            padding: 10px 15px;
-            font-size: 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+    margin-top: 20px;
+}
+.date-picker-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+#appointment_date {
+    padding-right: 30px;
+    width: 100%;
+}
+#calendar-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #061053;
+    font-size: 1.2em;
+}
+#calendar-icon:hover {
+    color: #132074;
+}
+.flatpickr-calendar {
+    z-index: 9999; /* Ensure it's on top of other content */
+}
+.form-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+}
+.next-button {
+    display: block;
+    margin-bottom: 20px;
+    color: #061053;
+    text-decoration: none;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.error-message {
+    color: red;
+    display: none; /* Hide by default */
+    font-size: 0.875em;
+}
+.disabled-button {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+}
+.enabled-button {
+    background-color: #081a54;
+    color: white;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+.slot {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+button:disabled {
+    background-color: #ccc;
+}
 
-        }
-        button:disabled {
-            background-color: #ccc;
-        }
-        #available-slots {
+/* Slot styling for available slots */
+#available-slots {
     display: flex;
     flex-wrap: wrap;
     gap: 10px; /* Space between buttons */
-    
-    
 }
-
 .slot {
     flex: 1 1 calc(20% - 10px); /* 5 items per row, adjust the percentage as needed */
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
 .slot button {
     font-size: 12px; /* Adjust font size as needed */
     padding: 8px 12px; /* Adjust button size as needed */
     margin: 0; /* Remove default margin */
-
-}
-
-    
-        /* Button Container */
-.button-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Space between buttons */
-    margin-top: 20px; /* Space above the button container */
 }
 
 /* General Button Styles */
@@ -154,171 +139,81 @@ button {
     display: none;
 }
 
-input[type="radio"] {
+input[type="radio"], input[type="checkbox"] {
     margin-right: 10px;
-}
-
-/* Default Button Style */
-button.disabled-button {
-    background-color: #e0e0e0;
-    color: #9e9e9e;
-    cursor: not-allowed;
-}
-
-/* Enabled Button Style */
-button.enabled-button {
-    background-color: #0c1d46; /* Green background */
-    color: white;
-}
-
-/* Hover Effect */
-button:not(.disabled-button):hover {
-    background-color:rgb(157, 149, 149); /* Darker green on hover */
-    transform: scale(1.05); /* Slightly increase size */
-}
-
-/* Focus Effect */
-button:focus {
+    -webkit-appearance: none; /* Ensures custom styling for Safari */
+    -moz-appearance: none; /* Ensures custom styling for Firefox */
+    appearance: none; /* Default */
+    width: 16px; /* Adjust checkbox size */
+    height: 16px;
+    border: 1px solid #ccc;
+    border-radius: 3px; /* Optional: rounded corners */
     outline: none;
-    box-shadow: 0 0 0 3px rgba(11, 27, 89, 0.5); /* Green outline for focus */
-}
-
-
-     /* Container for available slots */
-     #available-slots {
-            display: flex;
-            flex-wrap: wrap; /* Allows slots to wrap to new lines */
-            gap: 10px; /* Space between slots */
-           
-        }
-
-        .slot {
-            /* Style each slot div */
-            display: inline; /* Inline or flex depending on layout needs */
-            margin: 0; /* Remove default margin */
-            padding: 0; /* Remove default padding */
-        }
-
-        .slot button.available {
-            background-color: rgb(2, 7, 55); /* Dark blue for available slots */
-            color: white;
-        }
-
-        .slot button {
-            /* Style the buttons inside slot divs */
-            border: none; /* Remove default button border */
-            border-radius: 4px; /* Rounded corners */
-            background-color: gray; /* Transparent background */
-            color: white; /* Text color */
-            padding: 8px 16px; /* Button padding */
-            font-size: 14px; /* Font size */
-            cursor: pointer; /* Pointer cursor on hover */
-            outline: none; /* Remove default focus outline */
-            box-shadow: none; /* Remove any shadow */
-            transition: background-color 0.3s, color 0.3s; /* Smooth transitions */
-            
-           
-        }
-
-        .slot button:hover {
-            background-color: #797777; /* Light background on hover */
-        }
-
-        .slot button:disabled {
-            background-color: #938b8b; /* Gray background for disabled buttons */
-            color: white; /* Light text color for disabled buttons */
-            cursor: not-allowed; /* Not-allowed cursor for disabled buttons */
-        }
-    
-
-
-/* Optional: Style for action buttons (WhatsApp, SMS, Email, Call) */
-button.action-button {
-    padding: 4px 6px; /* Smaller padding */
-    font-size: 8px; /* Smaller font size */
-}
-#available-slots p {
-    margin: 0; /* Removes default margins */
-    padding: 0; /* Removes default padding */
-  
-    
-
-}
-  .reason-container input[type="checkbox"] {
-            width: 12px; /* Adjust size as needed */
-            height: 12px; /* Adjust size as needed */
-            margin-right: 6px; /* Adjust space between checkbox and text */
-        }
-
-        /* Make font size smaller */
-        .reason-container label {
-            font-size: 12px; /* Smaller font size */
-            display: flex; /* Flexbox to align checkbox and text */
-            align-items: center; /* Align items vertically */
-            margin-bottom: 10px; /* Space between rows */
-        }
-
-        /* Flexbox setup for three columns */
-        .reason-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px; /* Space between items */
-        }
-
-        /* Ensure items take up equal space and fit three per row */
-        .reason-container .checkbox-item {
-            flex: 1 1 calc(33.333% - 10px); /* Three items per row, accounting for gap */
-            box-sizing: border-box;
-        }
-
-      /* Responsive design: stack items on smaller screens */
-@media (max-width: 900px) {
-    .reason-container .checkbox-item {
-        flex: 1 1 calc(33.333% - 10px); /* Three items per row, accounting for gap */
-        box-sizing: border-box;
-    }
-}
-
-.others-input-container {
-    display: flex;
-    flex-wrap: wrap; /* Allow items to wrap to the next line */
-    align-items: center;
-}
-
-.others-input-container input {
-    margin-left: 10px;
-    max-width: 100%; /* Allow input to take full width if necessary */
-    box-sizing: border-box; /* Ensure padding/margin does not affect width */
-}
-
-.appointment-container {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.appointment-heading {
-    font-size: 1.5em;
-    margin-bottom: 20px;
-}
-
-.appointment-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.appointment-buttons button {
-    background: none;
-    border: none;
-    font-size: 2em;
     cursor: pointer;
-    color: #333;
 }
 
-.appointment-buttons button:disabled {
-    color: #ccc;
-    cursor: not-allowed; /* Shows the 'no' symbol */
+/* input[type="checkbox"]:checked {
+    background-color: skyblue; /* Checkbox check color */
+    /* border: none;
+} */
+ /* General checkbox styling */
+
+
+/* Checkbox when checked */
+input[type="checkbox"]:checked {
+    background-color: rgb(54, 22, 180); /* Blue background when checked */
+    border: none;
+    position: relative;
+}
+
+/* Custom white checkmark */
+input[type="checkbox"]:checked::after {
+    content: ''; /* Empty content for the checkmark */
+    position: absolute;
+    top: 2px; /* Adjust position of the tick */
+    left: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg); /* Creates the "tick" mark */
+}
+
+
+/* Adjust margin and padding */
+.reason-container input[type="checkbox"] {
+    margin-right: 8px; /* Larger margin for visual clarity */
+}
+
+.reason-container label {
+    font-size: 13px; /* Slightly bigger font size */
+    display: flex; /* Flexbox to align checkbox and text */
+    align-items: center; /* Vertically center */
+    white-space: nowrap; /* Prevent label text wrapping */
+    margin-bottom: 10px; /* Space between rows */
+}
+
+.reason-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between items */
+}
+
+/* Ensure items take up equal space and fit three per row */
+.reason-container .checkbox-item {
+    flex: 1 1 calc(33.333% - 10px); /* Three items per row */
+    box-sizing: border-box;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+    .reason-container .checkbox-item {
+        flex: 1 1 100%; /* Stack items vertically */
+        margin-bottom: 10px;
     }
 
-
-      
+    button {
+        padding: 8px 12px; /* Reduce padding for smaller screens */
+        margin-bottom: 6px; /* Reduce margin between buttons */
+    }
+}

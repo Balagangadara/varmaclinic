@@ -354,54 +354,64 @@
 </script>
 <style>
    
-/* Target iPhones specifically with their screen sizes */
+/* Target iPhones specifically */
 @media only screen and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 2) {
     
-    /* Adjust size and spacing of checkboxes */
+    /* Adjust checkbox and label alignment */
     .reason-container input[type="checkbox"] {
         width: 12px;  /* Checkbox size */
         height: 12px;
-        margin-right: 4px;  /* Space between checkbox and label */
+        margin-right: 4px;  /* Space between checkbox and text */
     }
 
-    /* Align checkbox label and reduce spacing */
+    /* Align checkbox and label properly */
     .reason-container label {
-        font-size: 12px;  /* Smaller font size for mobile */
+        font-size: 12px;  /* Font size */
         display: inline-flex;  /* Inline flex for proper alignment */
-        align-items: center;  /* Vertically center label and checkbox */
-        margin-bottom: 6px;  /* Reduced margin between items */
-        padding-right: 10px; /* Adjust padding between labels */
+        align-items: center;  /* Vertically align text with checkbox */
+        white-space: nowrap;  /* Prevent text from wrapping within label */
+        margin-bottom: 8px;  /* Space between items */
     }
 
-    /* Adjust flexbox properties for better spacing */
+    /* Adjust flexbox layout for better control */
     .reason-container {
         display: flex;
         flex-wrap: wrap;  /* Allow items to wrap */
-        gap: 6px;  /* Reduce gap between checkboxes */
+        gap: 8px;  /* Reduce gap between items */
     }
 
-    /* Make sure each checkbox takes up the correct space */
+    /* Ensure labels and checkboxes take up appropriate space */
     .reason-container .checkbox-item {
-        flex: 1 1 calc(50% - 6px);  /* Adjust to fit two per row, reduce gap */
+        flex: 1 1 45%;  /* Two items per row, reduce width slightly */
         box-sizing: border-box;
+        min-width: 130px; /* Minimum width to avoid overlapping text */
+    }
+
+    /* Further adjustments for smaller screens */
+    .reason-container .checkbox-item label {
+        flex-wrap: wrap;  /* Allow text to wrap on smaller screens */
+        padding-right: 6px;  /* Adjust padding between labels */
     }
 }
 
-/* Adjust layout further for smaller screens like iPhone SE */
+/* Adjust layout for even smaller screens, like iPhone SE */
 @media only screen and (max-device-width: 375px) and (-webkit-min-device-pixel-ratio: 2) {
+    
+    /* Stack items vertically */
     .reason-container .checkbox-item {
-        flex: 1 1 calc(100% - 8px);  /* Stack checkboxes one per row */
-        margin-bottom: 6px;  /* Reduced margin for smaller screens */
+        flex: 1 1 100%;  /* One item per row */
+        margin-bottom: 6px;  /* Reduced margin */
     }
-    
-    /* Reduce margin and padding for the checkbox items */
+
+    /* Reduce space between checkbox and text */
     .reason-container input[type="checkbox"] {
-        margin-right: 3px; /* Reduce space between checkbox and text */
+        margin-right: 3px;
     }
     
+    /* Smaller font and label adjustments */
     .reason-container label {
-        font-size: 11px; /* Slightly smaller font for tight spaces */
-        padding-right: 5px; /* Adjust padding for smaller screen */
+        font-size: 11px;  /* Slightly smaller font */
+        padding-right: 4px;  /* Adjust padding for smaller screen */
     }
 }
 
